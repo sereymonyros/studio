@@ -3,7 +3,6 @@ export interface Activity {
   title: string;
   date: string; // YYYY-MM-DD
   time: string; // HH:mm
-  address?: string;
   website?: string;
 }
 

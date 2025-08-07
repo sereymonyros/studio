@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -100,19 +99,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                   <Clock className="w-5 h-5 text-muted-foreground"/>
                   <span className="text-foreground">{format(activityDate, "h:mm a")}</span>
               </div>
-              {activity.address && (
-                <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-muted-foreground mt-1"/>
-                    <a 
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.address)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      {activity.address}
-                    </a>
-                </div>
-              )}
               {activity.website && (
                 <div className="flex items-start gap-3">
                     <Link className="w-5 h-5 text-muted-foreground mt-1"/>

@@ -18,7 +18,6 @@ const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters.").max(100),
   date: z.date({ required_error: "A date is required." }),
   time: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:mm)."),
-  address: z.string().max(200).optional(),
   website: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
 });
 
@@ -36,7 +35,6 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       title: activity?.title || "",
       date: activity?.date ? new Date(activity.date.replace(/-/g, '/')) : new Date(),
       time: activity?.time || "12:00",
-      address: activity?.address || "",
       website: activity?.website || "",
     },
   });
@@ -46,7 +44,6 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       title: values.title,
       date: format(values.date, "yyyy-MM-dd"),
       time: values.time,
-      address: values.address,
       website: values.website,
     };
     
@@ -69,19 +66,6 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
               <FormLabel>Activity / Landmark</FormLabel>
               <FormControl>
                 <Input placeholder="e.g., Hike Camelback Mountain" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., 123 N. Main St, Phoenix, AZ" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -80,27 +80,25 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                             <DialogHeader>
                             <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
                             </DialogHeader>
-                            {selectedDate && (
-                              <ItineraryForm
-                                activity={{id: '', title: '', date: format(selectedDate, 'yyyy-MM-dd'), time: '12:00', address: '', website: ''}}
+                            {selectedDate && <ItineraryForm
+                                activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00'}}
                                 onSubmit={handleAddSubmit}
                                 onCancel={() => setAddModalOpen(false)}
-                              />
-                            )}
+                            />}
                         </DialogContent>
                     </Dialog>
                  )}
               </div>
-              <div className="mt-2 space-y-2">
-                {dayActivities.map(activity => (
-                  <ItineraryItem
-                    key={activity.id}
-                    activity={activity}
-                    onUpdateActivity={onUpdateActivity}
-                    onDeleteActivity={onDeleteActivity}
-                    isReadOnly={isReadOnly}
-                  />
-                ))}
+              <div className="flex-grow space-y-2 mt-2">
+                  {dayActivities.map(activity => (
+                    <ItineraryItem 
+                      key={activity.id}
+                      activity={activity} 
+                      onUpdateActivity={onUpdateActivity}
+                      onDeleteActivity={onDeleteActivity}
+                      isReadOnly={isReadOnly}
+                    />
+                  ))}
               </div>
             </div>
           )

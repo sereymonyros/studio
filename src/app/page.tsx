@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, Suspense } from 'react';
@@ -10,12 +11,23 @@ import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast"
 import { Sunrise } from 'lucide-react';
 
+const defaultActivities: Activity[] = [
+  {
+    id: 'default-grand-canyon',
+    title: 'Visit South Rim Visitor Center',
+    date: `${new Date().getFullYear()}-08-17`,
+    time: '09:00',
+    address: 'S Entrance Rd, Grand Canyon Village, AZ 86023',
+    website: 'https://www.nps.gov/grca/planyourvisit/grand-canyon-visitor-center.htm'
+  }
+];
+
 function ItineraryPage() {
   const searchParams = useSearchParams();
   const isAdmin = searchParams.get('admin') === 'true';
   const isReadOnly = !isAdmin;
 
-  const [activities, setActivities] = useLocalStorage<Activity[]>('activities', []);
+  const [activities, setActivities] = useLocalStorage<Activity[]>('activities', defaultActivities);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const { toast } = useToast()

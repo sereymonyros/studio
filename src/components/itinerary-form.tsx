@@ -5,15 +5,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, PlusCircle } from "lucide-react";
+import type { Activity } from "@/lib/types";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import type { Activity } from "@/lib/types";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters.").max(100),
@@ -22,106 +21,111 @@ const formSchema = z.object({
 });
 
 type ItineraryFormProps = {
-  onAddActivity: (activity: Omit<Activity, 'id'>) => void;
+  activity?: Activity;
+  onSubmit: (activity: Omit<Activity, 'id'> | Activity) => void;
+  submitButtonText?: string;
+  onCancel?: () => void;
 };
 
-export default function ItineraryForm({ onAddActivity }: ItineraryFormProps) {
+export default function ItineraryForm({ activity, onSubmit, submitButtonText = "Add to Itinerary", onCancel }: ItineraryFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      time: "12:00",
+      title: activity?.title || "",
+      date: activity?.date ? new Date(activity.date.replace(/-/g, '/')) : new Date(),
+      time: activity?.time || "12:00",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    onAddActivity({
+  function handleFormSubmit(values: z.infer<typeof formSchema>) {
+    const activityData = {
       title: values.title,
       date: format(values.date, "yyyy-MM-dd"),
       time: values.time,
-    });
+    };
+    
+    if (activity?.id) {
+      onSubmit({ ...activityData, id: activity.id });
+    } else {
+      onSubmit(activityData);
+    }
     form.reset();
   }
 
   return (
-    <Card className="shadow-lg">
-      <CardHeader>
-        <CardTitle className="font-headline text-2xl">Add an Activity</CardTitle>
-        <CardDescription>What's next on your adventure?</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Activity / Landmark</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., Hike Camelback Mountain" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) => date < new Date("1900-01-01")}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="time"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Time</FormLabel>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Activity / Landmark</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g., Hike Camelback Mountain" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
                     <FormControl>
-                      <Input type="time" {...field} />
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => date < new Date("1900-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="time"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Time</FormLabel>
+                <FormControl>
+                  <Input type="time" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex gap-2">
+            {onCancel && <Button type="button" variant="outline" className="w-full" onClick={onCancel}>Cancel</Button>}
             <Button type="submit" className="w-full">
               <PlusCircle className="mr-2 h-4 w-4" />
-              Add to Itinerary
+              {submitButtonText}
             </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+        </div>
+      </form>
+    </Form>
   );
 }

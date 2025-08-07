@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { Activity, Suggestion } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import ItineraryForm from '@/components/itinerary-form';
-import ItineraryList from '@/components/itinerary-list';
+import ItineraryCalendar from '@/components/itinerary-calendar';
 import AiSuggestions from '@/components/ai-suggestions';
 import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast"
@@ -40,6 +39,12 @@ export default function Home() {
     }
   };
 
+  const handleUpdateActivity = (updatedActivity: Activity) => {
+    setActivities(activities.map((activity) =>
+      activity.id === updatedActivity.id ? updatedActivity : activity
+    ));
+  };
+
   const handleDeleteActivity = (id: string) => {
     setActivities(activities.filter((activity) => activity.id !== id));
   };
@@ -56,13 +61,17 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-grow container mx-auto p-4 md:p-8">
-        <div className="grid lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-2 flex flex-col gap-8">
-            <ItineraryForm onAddActivity={handleAddActivity} />
-            <AiSuggestions suggestions={suggestions} isLoading={isLoadingSuggestions} />
+        <div className="grid lg:grid-cols-5 gap-8 items-start">
+          <div className="lg:col-span-3 flex flex-col gap-8">
+             <ItineraryCalendar 
+                activities={activities}
+                onAddActivity={handleAddActivity}
+                onUpdateActivity={handleUpdateActivity}
+                onDeleteActivity={handleDeleteActivity}
+              />
           </div>
-          <div className="lg:col-span-3">
-            <ItineraryList activities={activities} onDeleteActivity={handleDeleteActivity} />
+          <div className="lg:col-span-2">
+            <AiSuggestions suggestions={suggestions} isLoading={isLoadingSuggestions} />
           </div>
         </div>
       </main>

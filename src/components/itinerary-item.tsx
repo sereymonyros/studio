@@ -6,9 +6,10 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Image as ImageIcon } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
+import Image from "next/image";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -32,12 +33,11 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [formattedDate, setFormattedDate] = useState("");
 
   useEffect(() => {
-    const [year, month, day] = activity.date.split('-').map(Number);
-    const [hours, minutes] = activity.time.split(':').map(Number);
-    const date = new Date(year, month - 1, day, hours, minutes);
-    
-    setFormattedTime(format(date, "h:mm a"));
-    setFormattedDate(format(date, "EEEE, MMMM d, yyyy"));
+    // This logic now runs only on the client, after hydration.
+    // The date string is parsed consistently using `new Date()` with a format it can handle.
+    const activityDate = new Date(activity.date.replace(/-/g, '/') + `T${activity.time}`);
+    setFormattedTime(format(activityDate, "h:mm a"));
+    setFormattedDate(format(activityDate, "EEEE, MMMM d, yyyy"));
   }, [activity.date, activity.time]);
 
 
@@ -100,6 +100,16 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
+              {activity.imageUrl && (
+                <div className="relative aspect-video w-full rounded-md overflow-hidden">
+                    <Image
+                      src={activity.imageUrl}
+                      alt={activity.title}
+                      fill
+                      className="object-cover"
+                    />
+                </div>
+              )}
               <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground"/>
                   <span className="text-foreground">{formattedDate}</span>

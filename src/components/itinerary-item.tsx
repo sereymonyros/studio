@@ -57,8 +57,8 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   return (
     <>
       <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
-        <div onClick={() => setDetailViewOpen(true)} className="cursor-pointer">
-          <Card className="transition-all hover:shadow-md bg-card/80">
+        <DialogTrigger asChild>
+          <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
             <CardContent className="p-3 flex items-center gap-3">
               <div className="p-2 bg-primary/10 rounded-lg">
                 {getIconForActivity(activity.title)}
@@ -93,7 +93,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}
             </CardContent>
           </Card>
-        </div>
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">

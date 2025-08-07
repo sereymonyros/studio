@@ -26,8 +26,9 @@ const getIconForActivity = (title: string) => {
 export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false }: ItineraryItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   
-  // Combine date and time for a full ISO-like string that the Date constructor understands
-  const activityDate = new Date(`${activity.date.replace(/-/g, '/')}T${activity.time}`);
+  const [year, month, day] = activity.date.split('-').map(Number);
+  const [hours, minutes] = activity.time.split(':').map(Number);
+  const activityDate = new Date(year, month - 1, day, hours, minutes);
 
   const handleUpdate = (updatedActivity: Activity) => {
     onUpdateActivity(updatedActivity);

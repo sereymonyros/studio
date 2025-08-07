@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, X } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
+import { cn } from "@/lib/utils";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -31,7 +33,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const activityDate = new Date(year, month - 1, day, hours, minutes);
 
   const handleUpdate = (updatedActivity: Activity) => {
-    onUpdateActivity(updatedActivity);
+    onUpdateActivity(updatedActivity as Activity);
     setIsEditing(false);
   }
 
@@ -41,7 +43,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
         <CardContent className="p-4">
           <ItineraryForm 
             activity={activity} 
-            onSubmit={(updatedActivity) => handleUpdate(updatedActivity as Activity)} 
+            onSubmit={handleUpdate} 
             submitButtonText="Save Changes"
             onCancel={() => setIsEditing(false)}
           />
@@ -51,40 +53,68 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   }
 
   return (
-    <Card className="transition-all hover:shadow-md bg-card/80">
-      <CardContent className="p-3 flex items-center gap-3">
-        <div className="p-2 bg-primary/10 rounded-lg">
-          {getIconForActivity(activity.title)}
-        </div>
-        <div className="flex-grow">
-          <p className="font-bold font-headline text-sm">{activity.title}</p>
-          <p className="text-xs text-muted-foreground">
-            {format(activityDate, "h:mm a")}
-          </p>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
+          <CardContent className="p-3 flex items-center gap-3">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              {getIconForActivity(activity.title)}
+            </div>
+            <div className="flex-grow">
+              <p className="font-bold font-headline text-sm">{activity.title}</p>
+              <p className="text-xs text-muted-foreground">
+                {format(activityDate, "h:mm a")}
+              </p>
+            </div>
+            {!isReadOnly && (
+                <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+                    <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
+                    onClick={() => setIsEditing(true)}
+                    aria-label={`Edit ${activity.title}`}
+                    >
+                    <Edit className="w-4 h-4" />
+                    </Button>
+                    <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
+                    onClick={() => onDeleteActivity(activity.id)}
+                    aria-label={`Delete ${activity.title}`}
+                    >
+                    <Trash2 className="w-4 h-4" />
+                    </Button>
+                </div>
+            )}
+          </CardContent>
+        </Card>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-3">
+             {getIconForActivity(activity.title)}
+            {activity.title}
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4 py-4">
+            <div className="flex items-center gap-3">
+                <Calendar className="w-5 h-5 text-muted-foreground"/>
+                <span className="text-foreground">{format(activityDate, "EEEE, MMMM d, yyyy")}</span>
+            </div>
+            <div className="flex items-center gap-3">
+                <Clock className="w-5 h-5 text-muted-foreground"/>
+                <span className="text-foreground">{format(activityDate, "h:mm a")}</span>
+            </div>
         </div>
         {!isReadOnly && (
-            <div className="flex items-center">
-                <Button
-                variant="ghost"
-                size="icon"
-                className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
-                onClick={() => setIsEditing(true)}
-                aria-label={`Edit ${activity.title}`}
-                >
-                <Edit className="w-4 h-4" />
-                </Button>
-                <Button
-                variant="ghost"
-                size="icon"
-                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
-                onClick={() => onDeleteActivity(activity.id)}
-                aria-label={`Delete ${activity.title}`}
-                >
-                <Trash2 className="w-4 h-4" />
-                </Button>
+            <div className="flex justify-end gap-2 pt-4">
+                <Button variant="outline" onClick={() => setIsEditing(true)}>Edit</Button>
+                <Button variant="destructive" onClick={() => onDeleteActivity(activity.id)}>Delete</Button>
             </div>
         )}
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   );
 }

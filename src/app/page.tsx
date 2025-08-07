@@ -8,7 +8,7 @@ import ItineraryList from '@/components/itinerary-list';
 import AiSuggestions from '@/components/ai-suggestions';
 import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast"
-import { Cactus } from 'lucide-react';
+import { Sunrise } from 'lucide-react';
 
 export default function Home() {
   const [activities, setActivities] = useLocalStorage<Activity[]>('activities', []);
@@ -49,7 +49,7 @@ export default function Home() {
       <header className="bg-primary/80 text-primary-foreground py-6 px-4 md:px-8 shadow-md">
         <div className="container mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
-            <Cactus className="w-8 h-8"/>
+            <Sunrise className="w-8 h-8"/>
             Arizona Adventure Planner
           </h1>
           <p className="mt-1 text-primary-foreground/90">Your personal guide to the Grand Canyon State.</p>

@@ -27,22 +27,16 @@ function ItineraryPage() {
   const isAdmin = searchParams.get('admin') === 'true';
   const isReadOnly = !isAdmin;
 
-  const [storedActivities, setStoredActivities] = useLocalStorage<Activity[]>('activities', defaultActivities);
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities, setActivities] = useLocalStorage<Activity[]>('activities', defaultActivities);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const { toast } = useToast()
-  
-  useEffect(() => {
-    setActivities(storedActivities);
-  }, [storedActivities]);
-
 
   const handleAddActivity = async (activity: Omit<Activity, 'id'>) => {
     if (isReadOnly) return;
     const newActivity = { ...activity, id: crypto.randomUUID() };
     const updatedActivities = [...activities, newActivity];
-    setStoredActivities(updatedActivities);
+    setActivities(updatedActivities);
 
     setIsLoadingSuggestions(true);
     setSuggestions([]);
@@ -68,13 +62,13 @@ function ItineraryPage() {
     const updatedActivities = activities.map((activity) =>
       activity.id === updatedActivity.id ? updatedActivity : activity
     );
-    setStoredActivities(updatedActivities);
+    setActivities(updatedActivities);
   };
 
   const handleDeleteActivity = (id: string) => {
     if (isReadOnly) return;
     const updatedActivities = activities.filter((activity) => activity.id !== id);
-    setStoredActivities(updatedActivities);
+    setActivities(updatedActivities);
   };
 
   return (

@@ -57,45 +57,43 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   return (
     <>
       <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
-        <DialogTrigger asChild>
-          <button className="w-full text-left">
-            <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
-              <CardContent className="p-3 flex items-center gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  {getIconForActivity(activity.title)}
-                </div>
-                <div className="flex-grow">
-                  <p className="font-bold font-headline text-sm">{activity.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {formattedTime}
-                  </p>
-                </div>
-                {!isReadOnly && (
-                    <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
-                        <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
-                        onClick={openEditDialog}
-                        aria-label={`Edit ${activity.title}`}
-                        >
-                        <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
-                        onClick={() => onDeleteActivity(activity.id)}
-                        aria-label={`Delete ${activity.title}`}
-                        >
-                        <Trash2 className="w-4 h-4" />
-                        </Button>
-                    </div>
-                )}
-              </CardContent>
-            </Card>
-          </button>
-        </DialogTrigger>
+        <div onClick={() => setDetailViewOpen(true)} className="cursor-pointer">
+          <Card className="transition-all hover:shadow-md bg-card/80">
+            <CardContent className="p-3 flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                {getIconForActivity(activity.title)}
+              </div>
+              <div className="flex-grow">
+                <p className="font-bold font-headline text-sm">{activity.title}</p>
+                <p className="text-xs text-muted-foreground">
+                  {formattedTime}
+                </p>
+              </div>
+              {!isReadOnly && (
+                  <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+                      <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
+                      onClick={openEditDialog}
+                      aria-label={`Edit ${activity.title}`}
+                      >
+                      <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
+                      onClick={() => onDeleteActivity(activity.id)}
+                      aria-label={`Delete ${activity.title}`}
+                      >
+                      <Trash2 className="w-4 h-4" />
+                      </Button>
+                  </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">

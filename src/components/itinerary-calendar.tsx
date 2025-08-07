@@ -15,9 +15,10 @@ type ItineraryCalendarProps = {
   onAddActivity: (activity: Omit<Activity, 'id'>) => void;
   onUpdateActivity: (activity: Activity) => void;
   onDeleteActivity: (id: string) => void;
+  isReadOnly?: boolean;
 };
 
-export default function ItineraryCalendar({ activities, onAddActivity, onUpdateActivity, onDeleteActivity }: ItineraryCalendarProps) {
+export default function ItineraryCalendar({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false }: ItineraryCalendarProps) {
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
@@ -67,25 +68,27 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                     <span className={cn("font-bold", isToday(day) && 'text-primary')}>{format(day, 'd')}</span>
                     <span className="text-xs text-muted-foreground">{format(day, 'EEEE')}</span>
                 </div>
-                 <Dialog open={isAddModalOpen && selectedDate && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
-                    <DialogTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => openAddModal(day)}>
-                        <PlusCircle className="h-4 w-4 text-muted-foreground"/>
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>
-                        <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
-                        </DialogHeader>
-                        {selectedDate && (
-                          <ItineraryForm
-                            activity={{id: '', title: '', date: format(selectedDate, 'yyyy-MM-dd'), time: '12:00'}}
-                            onSubmit={handleAddSubmit}
-                            onCancel={() => setAddModalOpen(false)}
-                          />
-                        )}
-                    </DialogContent>
-                </Dialog>
+                 {!isReadOnly && (
+                    <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => openAddModal(day)}>
+                            <PlusCircle className="h-4 w-4 text-muted-foreground"/>
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                            <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
+                            </DialogHeader>
+                            {selectedDate && (
+                              <ItineraryForm
+                                activity={{id: '', title: '', date: format(selectedDate, 'yyyy-MM-dd'), time: '12:00'}}
+                                onSubmit={handleAddSubmit}
+                                onCancel={() => setAddModalOpen(false)}
+                              />
+                            )}
+                        </DialogContent>
+                    </Dialog>
+                 )}
               </div>
               <div className="mt-2 space-y-2 overflow-y-auto">
                 {dayActivities.map(activity => (
@@ -94,6 +97,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                     activity={activity}
                     onUpdateActivity={onUpdateActivity}
                     onDeleteActivity={onDeleteActivity}
+                    isReadOnly={isReadOnly}
                   />
                 ))}
               </div>

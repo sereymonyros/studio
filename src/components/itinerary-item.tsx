@@ -12,6 +12,7 @@ type ItineraryItemProps = {
   activity: Activity;
   onUpdateActivity: (activity: Activity) => void;
   onDeleteActivity: (id: string) => void;
+  isReadOnly?: boolean;
 };
 
 const getIconForActivity = (title: string) => {
@@ -22,18 +23,18 @@ const getIconForActivity = (title: string) => {
   return <MapPin className="w-5 h-5 text-primary" />;
 };
 
-export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity }: ItineraryItemProps) {
+export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false }: ItineraryItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   
   // Combine date and time for a full ISO-like string that the Date constructor understands
-  const activityDate = new Date(`${activity.date}T${activity.time}`);
+  const activityDate = new Date(`${activity.date.replace(/-/g, '/')}T${activity.time}`);
 
   const handleUpdate = (updatedActivity: Activity) => {
     onUpdateActivity(updatedActivity);
     setIsEditing(false);
   }
 
-  if (isEditing) {
+  if (isEditing && !isReadOnly) {
     return (
       <Card className="bg-card/50">
         <CardContent className="p-4">
@@ -60,26 +61,28 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             {format(activityDate, "h:mm a")}
           </p>
         </div>
-        <div className="flex items-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
-              onClick={() => setIsEditing(true)}
-              aria-label={`Edit ${activity.title}`}
-            >
-              <Edit className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
-              onClick={() => onDeleteActivity(activity.id)}
-              aria-label={`Delete ${activity.title}`}
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
-        </div>
+        {!isReadOnly && (
+            <div className="flex items-center">
+                <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
+                onClick={() => setIsEditing(true)}
+                aria-label={`Edit ${activity.title}`}
+                >
+                <Edit className="w-4 h-4" />
+                </Button>
+                <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
+                onClick={() => onDeleteActivity(activity.id)}
+                aria-label={`Delete ${activity.title}`}
+                >
+                <Trash2 className="w-4 h-4" />
+                </Button>
+            </div>
+        )}
       </CardContent>
     </Card>
   );

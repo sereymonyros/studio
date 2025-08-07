@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import type { Activity, Suggestion } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import ItineraryCalendar from '@/components/itinerary-calendar';
@@ -9,13 +10,18 @@ import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast"
 import { Sunrise } from 'lucide-react';
 
-export default function Home() {
+function ItineraryPage() {
+  const searchParams = useSearchParams();
+  const isAdmin = searchParams.get('admin') === 'true';
+  const isReadOnly = !isAdmin;
+
   const [activities, setActivities] = useLocalStorage<Activity[]>('activities', []);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const { toast } = useToast()
 
   const handleAddActivity = async (activity: Omit<Activity, 'id'>) => {
+    if (isReadOnly) return;
     const newActivity = { ...activity, id: crypto.randomUUID() };
     const updatedActivities = [...activities, newActivity];
     setActivities(updatedActivities);
@@ -40,12 +46,14 @@ export default function Home() {
   };
 
   const handleUpdateActivity = (updatedActivity: Activity) => {
+    if (isReadOnly) return;
     setActivities(activities.map((activity) =>
       activity.id === updatedActivity.id ? updatedActivity : activity
     ));
   };
 
   const handleDeleteActivity = (id: string) => {
+    if (isReadOnly) return;
     setActivities(activities.filter((activity) => activity.id !== id));
   };
 
@@ -68,6 +76,7 @@ export default function Home() {
                 onAddActivity={handleAddActivity}
                 onUpdateActivity={handleUpdateActivity}
                 onDeleteActivity={handleDeleteActivity}
+                isReadOnly={isReadOnly}
               />
           </div>
           <div className="lg:col-span-2">
@@ -80,4 +89,12 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ItineraryPage />
+    </Suspense>
+  )
 }

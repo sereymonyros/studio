@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
-import Image from "next/image";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -60,18 +59,11 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     setIsEditing(true);
   }
 
-  const openDetails = () => {
-    if (!isEditing) {
-      setDetailViewOpen(true);
-    }
-  }
-
   return (
     <>
       <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
         <DialogTrigger asChild>
-          <div className="cursor-pointer">
-            <Card className="transition-all hover:shadow-md bg-card/80">
+            <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
               <CardContent className="p-3 flex items-center gap-3">
                 <div className="p-2 bg-primary/10 rounded-lg">
                   {getIconForActivity(activity.title)}
@@ -106,7 +98,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 )}
               </CardContent>
             </Card>
-          </div>
         </DialogTrigger>
 
         <DialogContent>
@@ -117,17 +108,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-              {activity.imageUrl && (
-                <div className="relative aspect-video rounded-md overflow-hidden">
-                    <Image 
-                      src={activity.imageUrl}
-                      alt={activity.title}
-                      fill
-                      className="object-cover"
-                      data-ai-hint="travel background"
-                    />
-                </div>
-              )}
               <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground"/>
                   <span className="text-foreground">{formattedDate}</span>

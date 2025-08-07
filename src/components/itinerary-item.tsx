@@ -31,13 +31,13 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [isEditing, setIsEditing] = useState(false);
   const [formattedTime, setFormattedTime] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
-  const [activityDate, setActivityDate] = useState<Date | null>(null);
 
   useEffect(() => {
+    // Correctly parsing date parts to avoid timezone issues.
     const [year, month, day] = activity.date.split('-').map(Number);
     const [hours, minutes] = activity.time.split(':').map(Number);
     const date = new Date(year, month - 1, day, hours, minutes);
-    setActivityDate(date);
+    
     setFormattedTime(format(date, "h:mm a"));
     setFormattedDate(format(date, "EEEE, MMMM d, yyyy"));
   }, [activity.date, activity.time]);
@@ -58,41 +58,43 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     <>
       <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
         <DialogTrigger asChild>
-          <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
-            <CardContent className="p-3 flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                {getIconForActivity(activity.title)}
-              </div>
-              <div className="flex-grow">
-                <p className="font-bold font-headline text-sm">{activity.title}</p>
-                <p className="text-xs text-muted-foreground">
-                  {formattedTime}
-                </p>
-              </div>
-              {!isReadOnly && (
-                  <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
-                      <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
-                      onClick={openEditDialog}
-                      aria-label={`Edit ${activity.title}`}
-                      >
-                      <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
-                      onClick={() => onDeleteActivity(activity.id)}
-                      aria-label={`Delete ${activity.title}`}
-                      >
-                      <Trash2 className="w-4 h-4" />
-                      </Button>
-                  </div>
-              )}
-            </CardContent>
-          </Card>
+          <button className="w-full text-left">
+            <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
+              <CardContent className="p-3 flex items-center gap-3">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  {getIconForActivity(activity.title)}
+                </div>
+                <div className="flex-grow">
+                  <p className="font-bold font-headline text-sm">{activity.title}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {formattedTime}
+                  </p>
+                </div>
+                {!isReadOnly && (
+                    <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+                        <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
+                        onClick={openEditDialog}
+                        aria-label={`Edit ${activity.title}`}
+                        >
+                        <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
+                        onClick={() => onDeleteActivity(activity.id)}
+                        aria-label={`Delete ${activity.title}`}
+                        >
+                        <Trash2 className="w-4 h-4" />
+                        </Button>
+                    </div>
+                )}
+              </CardContent>
+            </Card>
+          </button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

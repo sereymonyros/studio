@@ -19,6 +19,7 @@ const formSchema = z.object({
   date: z.date({ required_error: "A date is required." }),
   time: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:mm)."),
   address: z.string().max(200).optional(),
+  website: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
 });
 
 type ItineraryFormProps = {
@@ -36,6 +37,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       date: activity?.date ? new Date(activity.date.replace(/-/g, '/')) : new Date(),
       time: activity?.time || "12:00",
       address: activity?.address || "",
+      website: activity?.website || "",
     },
   });
 
@@ -45,6 +47,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       date: format(values.date, "yyyy-MM-dd"),
       time: values.time,
       address: values.address,
+      website: values.website,
     };
     
     if (activity?.id) {
@@ -79,6 +82,19 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
               <FormLabel>Address</FormLabel>
               <FormControl>
                 <Input placeholder="e.g., 123 N. Main St, Phoenix, AZ" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="website"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Website</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g., https://example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

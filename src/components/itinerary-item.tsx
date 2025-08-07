@@ -6,7 +6,7 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
 
@@ -110,6 +110,19 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       className="text-primary hover:underline"
                     >
                       {activity.address}
+                    </a>
+                </div>
+              )}
+              {activity.website && (
+                <div className="flex items-start gap-3">
+                    <Link className="w-5 h-5 text-muted-foreground mt-1"/>
+                    <a 
+                      href={activity.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      {activity.website}
                     </a>
                 </div>
               )}

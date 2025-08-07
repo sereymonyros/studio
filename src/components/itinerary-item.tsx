@@ -56,17 +56,11 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     onDeleteActivity(activity.id)
   }
 
-  const openDetails = () => {
-    if (!isEditing) {
-      setDetailViewOpen(true);
-    }
-  }
-
   return (
     <>
-      <DialogTrigger asChild>
-        <div onClick={openDetails} className="cursor-pointer">
-          <Card className="transition-all hover:shadow-md bg-card/80">
+      <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
+        <DialogTrigger asChild>
+          <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
             <CardContent className="p-3 flex items-center gap-3">
               <div className="p-2 bg-primary/10 rounded-lg">
                 {getIconForActivity(activity.title)}
@@ -101,10 +95,8 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}
             </CardContent>
           </Card>
-        </div>
-      </DialogTrigger>
+        </DialogTrigger>
 
-      <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
@@ -150,7 +142,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
           </div>
           {!isReadOnly && (
               <div className="flex justify-end gap-2 pt-4">
-                  <Button variant="outline" onClick={(e) => openEditDialog(e)}>Edit</Button>
+                  <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>Edit</Button>
                   <Button variant="destructive" onClick={() => { setDetailViewOpen(false); onDeleteActivity(activity.id); }}>Delete</Button>
               </div>
           )}

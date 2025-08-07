@@ -91,7 +91,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                     </Dialog>
                  )}
               </div>
-              <div className="mt-2 space-y-2 overflow-y-auto">
+              <div className="mt-2 space-y-2">
                 {dayActivities.map(activity => (
                   <ItineraryItem
                     key={activity.id}

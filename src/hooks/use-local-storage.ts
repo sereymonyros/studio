@@ -3,13 +3,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-// A custom event to dispatch changes to the same tab
-const dispatchStorageEvent = (key: string, newValue: any) => {
-  if (typeof window !== 'undefined') {
-    window.dispatchEvent(new StorageEvent('storage', { key, newValue }));
-  }
-};
-
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
   const readValue = useCallback((): T => {
     if (typeof window === 'undefined') {
@@ -24,16 +17,15 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
     }
   }, [initialValue, key]);
 
-  const [storedValue, setStoredValue] = useState<T>(readValue);
+  const [storedValue, setStoredValue] = useState<T>(initialValue);
 
   const setValue = useCallback((value: T | ((val: T) => T)) => {
     try {
-      const newValue = value instanceof Function ? value(storedValue) : value;
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(newValue));
-        setStoredValue(newValue);
-        // Dispatch a custom event to notify other hooks in the same tab
-        dispatchStorageEvent(key, JSON.stringify(newValue));
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        setStoredValue(valueToStore);
+        window.dispatchEvent(new StorageEvent('local-storage', { key }));
       }
     } catch (error) {
       console.warn(`Error setting localStorage key “${key}”:`, error);
@@ -42,29 +34,26 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
 
   useEffect(() => {
     setStoredValue(readValue());
-  }, [readValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === key && event.newValue !== null) {
-        try {
-          setStoredValue(JSON.parse(event.newValue) as T);
-        } catch (error) {
-          console.warn(`Error parsing storage event value for key “${key}”:`, error);
-        }
+      if (event.key === key) {
+        setStoredValue(readValue());
       }
     };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorageChange);
-    }
+    
+    // The custom 'local-storage' event is for same-tab updates.
+    // The standard 'storage' event is for cross-tab updates.
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('local-storage', handleStorageChange as EventListener);
 
     return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('storage', handleStorageChange);
-      }
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('local-storage', handleStorageChange as EventListener);
     };
-  }, [key]);
+  }, [key, readValue]);
 
   return [storedValue, setValue];
 }

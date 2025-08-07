@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import type { Activity, Suggestion } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
@@ -27,16 +27,22 @@ function ItineraryPage() {
   const isAdmin = searchParams.get('admin') === 'true';
   const isReadOnly = !isAdmin;
 
-  const [activities, setActivities] = useLocalStorage<Activity[]>('activities', defaultActivities);
+  const [storedActivities, setStoredActivities] = useLocalStorage<Activity[]>('activities', defaultActivities);
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const { toast } = useToast()
+  
+  useEffect(() => {
+    setActivities(storedActivities);
+  }, [storedActivities]);
+
 
   const handleAddActivity = async (activity: Omit<Activity, 'id'>) => {
     if (isReadOnly) return;
     const newActivity = { ...activity, id: crypto.randomUUID() };
     const updatedActivities = [...activities, newActivity];
-    setActivities(updatedActivities);
+    setStoredActivities(updatedActivities);
 
     setIsLoadingSuggestions(true);
     setSuggestions([]);
@@ -59,14 +65,16 @@ function ItineraryPage() {
 
   const handleUpdateActivity = (updatedActivity: Activity) => {
     if (isReadOnly) return;
-    setActivities(activities.map((activity) =>
+    const updatedActivities = activities.map((activity) =>
       activity.id === updatedActivity.id ? updatedActivity : activity
-    ));
+    );
+    setStoredActivities(updatedActivities);
   };
 
   const handleDeleteActivity = (id: string) => {
     if (isReadOnly) return;
-    setActivities(activities.filter((activity) => activity.id !== id));
+    const updatedActivities = activities.filter((activity) => activity.id !== id);
+    setStoredActivities(updatedActivities);
   };
 
   return (

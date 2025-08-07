@@ -108,7 +108,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                               <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
                               </DialogHeader>
                               {selectedDate && <ItineraryForm
-                                  activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00'}}
+                                  activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00', address: '', website: ''}}
                                   onSubmit={handleAddSubmit}
                                   onCancel={() => setAddModalOpen(false)}
                               />}

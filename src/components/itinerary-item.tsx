@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
+import Image from "next/image";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -20,7 +21,7 @@ const getIconForActivity = (title: string) => {
   const lowerTitle = title.toLowerCase();
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain className="w-5 h-5 text-primary" />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils className="w-5 h-5 text-primary" />;
-  if (/\b(landmark|monument|museum|site|tour|gallery)\b/.test(lowerTitle)) return <Landmark className="w-5 h-5 text-primary" />;
+  if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark className="w-5 h-5 text-primary" />;
   return <MapPin className="w-5 h-5 text-primary" />;
 };
 
@@ -91,6 +92,11 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
+              {activity.imageUrl && (
+                <div className="relative w-full h-48 rounded-md overflow-hidden" data-ai-hint="accommodation interior">
+                  <Image src={activity.imageUrl} alt={activity.title} layout="fill" objectFit="cover" />
+                </div>
+              )}
               <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground"/>
                   <span className="text-foreground">{format(activityDate, "EEEE, MMMM d, yyyy")}</span>

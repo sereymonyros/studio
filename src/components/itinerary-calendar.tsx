@@ -63,7 +63,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
           const dayActivities = (activitiesByDate[dateKey] || []).sort((a,b) => a.time.localeCompare(b.time));
           
           return (
-            <div key={day.toString()} className={cn("border rounded-md p-2 min-h-[160px] flex flex-col", isToday(day) ? 'bg-accent/40' : 'bg-card')}>
+            <div key={day.toString()} className={cn("border rounded-md p-2 flex flex-col", isToday(day) ? 'bg-accent/40' : 'bg-card')}>
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                     <span className={cn("font-bold", isToday(day) && 'text-primary')}>{format(day, 'd')}</span>
@@ -81,7 +81,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                             <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
                             </DialogHeader>
                             {selectedDate && <ItineraryForm
-                                activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00'}}
+                                activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00', imageUrl: ''}}
                                 onSubmit={handleAddSubmit}
                                 onCancel={() => setAddModalOpen(false)}
                             />}

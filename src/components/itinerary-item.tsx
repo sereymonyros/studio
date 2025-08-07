@@ -6,10 +6,9 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Image as ImageIcon } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
-import Image from "next/image";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -47,21 +46,27 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   }
 
   const openEditDialog = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent the detail view from opening
+    e.stopPropagation(); 
     setDetailViewOpen(false);
     setIsEditing(true);
   }
-
+  
   const handleDelete = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent the detail view from opening
+    e.stopPropagation();
     onDeleteActivity(activity.id)
+  }
+
+  const openDetails = () => {
+    if (!isEditing) {
+      setDetailViewOpen(true);
+    }
   }
 
   return (
     <>
-      <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
-        <DialogTrigger asChild>
-          <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
+      <DialogTrigger asChild>
+        <div onClick={openDetails} className="cursor-pointer">
+          <Card className="transition-all hover:shadow-md bg-card/80">
             <CardContent className="p-3 flex items-center gap-3">
               <div className="p-2 bg-primary/10 rounded-lg">
                 {getIconForActivity(activity.title)}
@@ -96,7 +101,10 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}
             </CardContent>
           </Card>
-        </DialogTrigger>
+        </div>
+      </DialogTrigger>
+
+      <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
@@ -105,17 +113,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-              {activity.imageUrl && (
-                <div className="relative aspect-video w-full rounded-md overflow-hidden">
-                    <Image
-                      src={activity.imageUrl}
-                      alt={activity.title}
-                      fill
-                      className="object-cover"
-                      data-ai-hint="activity image"
-                    />
-                </div>
-              )}
               <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground"/>
                   <span className="text-foreground">{formattedDate}</span>

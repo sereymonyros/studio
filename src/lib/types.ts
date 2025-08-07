@@ -1,3 +1,4 @@
+
 export interface Activity {
   id: string;
   title: string;
@@ -5,7 +6,6 @@ export interface Activity {
   time: string; // HH:mm
   website?: string;
   address?: string;
-  imageUrl?: string;
 }
 
 export interface Suggestion {

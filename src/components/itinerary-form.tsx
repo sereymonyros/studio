@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +21,6 @@ const formSchema = z.object({
   time: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:mm)."),
   website: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
   address: z.string().optional(),
-  imageUrl: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
 });
 
 type ItineraryFormProps = {
@@ -39,7 +39,6 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       time: activity?.time || "12:00",
       website: activity?.website || "",
       address: activity?.address || "",
-      imageUrl: activity?.imageUrl || "",
     },
   });
 
@@ -50,7 +49,6 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       time: values.time,
       website: values.website,
       address: values.address,
-      imageUrl: values.imageUrl,
     };
     
     if (activity?.id) {
@@ -98,19 +96,6 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
               <FormLabel>Website</FormLabel>
               <FormControl>
                 <Input placeholder="e.g., https://example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="imageUrl"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Image URL</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., https://example.com/image.png" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

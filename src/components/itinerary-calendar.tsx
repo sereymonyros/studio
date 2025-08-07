@@ -10,6 +10,7 @@ import { PlusCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
+import Image from "next/image";
 
 type ItineraryCalendarProps = {
   activities: Activity[];
@@ -48,6 +49,11 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
     setSelectedDate(date);
     setAddModalOpen(true);
   }
+  
+  const isSedonaDay = (day: Date) => {
+      const dayStr = format(day, 'yyyy-MM-dd');
+      return dayStr === `${year}-08-15` || dayStr === `${year}-08-16`;
+  }
 
   return (
     <div className="bg-card/50 rounded-lg border p-4 md:p-6">
@@ -61,35 +67,57 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
         {tripDays.map(day => {
           const dateKey = format(day, 'yyyy-MM-dd');
           const dayActivities = (activitiesByDate[dateKey] || []).sort((a,b) => a.time.localeCompare(b.time));
+          const isSedona = isSedonaDay(day);
           
           return (
-            <div key={day.toString()} className={cn("border rounded-md p-2 flex flex-col", isToday(day) ? 'bg-accent/40' : 'bg-card')}>
-              <div className="flex justify-between items-center">
-                <div className="flex flex-col">
-                    <span className={cn("font-bold", isToday(day) && 'text-primary')}>{format(day, 'd')}</span>
-                    <span className="text-xs text-muted-foreground">{format(day, 'EEEE')}</span>
+            <div 
+              key={day.toString()} 
+              className={cn(
+                "border rounded-md p-2 flex flex-col relative overflow-hidden min-h-[150px]", 
+                isToday(day) ? 'bg-accent/40' : 'bg-card',
+                isSedona && "text-white"
+              )}
+            >
+              {isSedona && (
+                <>
+                  <Image 
+                    src="https://placehold.co/400x600.png"
+                    alt="Sedona Landscape"
+                    fill
+                    className="object-cover z-0"
+                    data-ai-hint="sedona landscape"
+                  />
+                  <div className="absolute inset-0 bg-black/50 z-10"></div>
+                </>
+              )}
+              <div className="relative z-20">
+                <div className="flex justify-between items-center">
+                  <div className="flex flex-col">
+                      <span className={cn("font-bold", isToday(day) && 'text-primary')}>{format(day, 'd')}</span>
+                      <span className={cn("text-xs", isSedona ? "text-white/80" : "text-muted-foreground")}>{format(day, 'EEEE')}</span>
+                  </div>
+                   {!isReadOnly && (
+                      <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
+                          <DialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className={cn("h-6 w-6", isSedona && "hover:bg-white/20 text-white/80 hover:text-white")} onClick={() => openAddModal(day)}>
+                              <PlusCircle className="h-4 w-4"/>
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                              <DialogHeader>
+                              <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
+                              </DialogHeader>
+                              {selectedDate && <ItineraryForm
+                                  activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00'}}
+                                  onSubmit={handleAddSubmit}
+                                  onCancel={() => setAddModalOpen(false)}
+                              />}
+                          </DialogContent>
+                      </Dialog>
+                   )}
                 </div>
-                 {!isReadOnly && (
-                    <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
-                        <DialogTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => openAddModal(day)}>
-                            <PlusCircle className="h-4 w-4 text-muted-foreground"/>
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                            <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
-                            </DialogHeader>
-                            {selectedDate && <ItineraryForm
-                                activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00'}}
-                                onSubmit={handleAddSubmit}
-                                onCancel={() => setAddModalOpen(false)}
-                            />}
-                        </DialogContent>
-                    </Dialog>
-                 )}
               </div>
-              <div className="flex-grow space-y-2 mt-2">
+              <div className="flex-grow space-y-2 mt-2 relative z-20">
                   {dayActivities.map(activity => (
                     <ItineraryItem 
                       key={activity.id}

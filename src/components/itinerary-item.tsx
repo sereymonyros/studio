@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,10 +29,19 @@ const getIconForActivity = (title: string) => {
 export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false }: ItineraryItemProps) {
   const [isDetailViewOpen, setDetailViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  
-  const [year, month, day] = activity.date.split('-').map(Number);
-  const [hours, minutes] = activity.time.split(':').map(Number);
-  const activityDate = new Date(year, month - 1, day, hours, minutes);
+  const [formattedTime, setFormattedTime] = useState("");
+  const [formattedDate, setFormattedDate] = useState("");
+  const [activityDate, setActivityDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    const [year, month, day] = activity.date.split('-').map(Number);
+    const [hours, minutes] = activity.time.split(':').map(Number);
+    const date = new Date(year, month - 1, day, hours, minutes);
+    setActivityDate(date);
+    setFormattedTime(format(date, "h:mm a"));
+    setFormattedDate(format(date, "EEEE, MMMM d, yyyy"));
+  }, [activity.date, activity.time]);
+
 
   const handleUpdate = (updatedActivity: Omit<Activity, 'id'> | Activity) => {
     onUpdateActivity(updatedActivity as Activity);
@@ -56,7 +66,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               <div className="flex-grow">
                 <p className="font-bold font-headline text-sm">{activity.title}</p>
                 <p className="text-xs text-muted-foreground">
-                  {format(activityDate, "h:mm a")}
+                  {formattedTime}
                 </p>
               </div>
               {!isReadOnly && (
@@ -99,11 +109,11 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}
               <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground"/>
-                  <span className="text-foreground">{format(activityDate, "EEEE, MMMM d, yyyy")}</span>
+                  <span className="text-foreground">{formattedDate}</span>
               </div>
               <div className="flex items-center gap-3">
                   <Clock className="w-5 h-5 text-muted-foreground"/>
-                  <span className="text-foreground">{format(activityDate, "h:mm a")}</span>
+                  <span className="text-foreground">{formattedTime}</span>
               </div>
               {activity.website && (
                 <div className="flex items-start gap-3">

@@ -33,15 +33,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [formattedDate, setFormattedDate] = useState("");
 
   useEffect(() => {
-    // This logic now runs only on the client, after hydration.
-    // The date string is parsed consistently using `new Date()` with a format it can handle.
     const activityDate = new Date(activity.date.replace(/-/g, '/') + `T${activity.time}`);
     if (!isNaN(activityDate.getTime())) {
       setFormattedTime(format(activityDate, "h:mm a"));
       setFormattedDate(format(activityDate, "EEEE, MMMM d, yyyy"));
     }
   }, [activity.date, activity.time]);
-
 
   const handleUpdate = (updatedActivity: Omit<Activity, 'id'> | Activity) => {
     onUpdateActivity(updatedActivity as Activity);
@@ -50,58 +47,56 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   }
 
   const openEditDialog = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setDetailViewOpen(false); // Close detail view if open
+    e.stopPropagation(); // Prevent the detail view from opening
+    setDetailViewOpen(false);
     setIsEditing(true);
   }
 
-  const openDetails = () => {
-    if (!isEditing) {
-      setDetailViewOpen(true);
-    }
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent the detail view from opening
+    onDeleteActivity(activity.id)
   }
 
   return (
     <>
-      <div onClick={openDetails} className="cursor-pointer">
-        <Card className="transition-all hover:shadow-md bg-card/80">
-          <CardContent className="p-3 flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              {getIconForActivity(activity.title)}
-            </div>
-            <div className="flex-grow">
-              <p className="font-bold font-headline text-sm">{activity.title}</p>
-              <p className="text-xs text-muted-foreground">
-                {formattedTime}
-              </p>
-            </div>
-            {!isReadOnly && (
+      <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
+        <DialogTrigger asChild>
+          <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
+            <CardContent className="p-3 flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                {getIconForActivity(activity.title)}
+              </div>
+              <div className="flex-grow">
+                <p className="font-bold font-headline text-sm">{activity.title}</p>
+                <p className="text-xs text-muted-foreground">
+                  {formattedTime}
+                </p>
+              </div>
+              {!isReadOnly && (
                 <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
-                    <Button
+                  <Button
                     variant="ghost"
                     size="icon"
                     className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
                     onClick={openEditDialog}
                     aria-label={`Edit ${activity.title}`}
-                    >
+                  >
                     <Edit className="w-4 h-4" />
-                    </Button>
-                    <Button
+                  </Button>
+                  <Button
                     variant="ghost"
                     size="icon"
                     className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
-                    onClick={() => onDeleteActivity(activity.id)}
+                    onClick={handleDelete}
                     aria-label={`Delete ${activity.title}`}
-                    >
+                  >
                     <Trash2 className="w-4 h-4" />
-                    </Button>
+                  </Button>
                 </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-      
-      <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
+              )}
+            </CardContent>
+          </Card>
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">

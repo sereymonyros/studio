@@ -104,11 +104,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-              {activity.imageUrl && (
-                <div className="relative w-full h-48 rounded-md overflow-hidden" data-ai-hint="accommodation interior">
-                  <Image src={activity.imageUrl} alt={activity.title} layout="fill" objectFit="cover" />
-                </div>
-              )}
               <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground"/>
                   <span className="text-foreground">{formattedDate}</span>

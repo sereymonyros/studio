@@ -4,7 +4,6 @@ export interface Activity {
   date: string; // YYYY-MM-DD
   time: string; // HH:mm
   website?: string;
-  imageUrl?: string;
 }
 
 export interface Suggestion {

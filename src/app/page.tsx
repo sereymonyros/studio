@@ -25,6 +25,7 @@ function ItineraryPage() {
   useEffect(() => {
     async function fetchActivities() {
       try {
+        setIsLoadingActivities(true);
         const fetchedActivities = await getActivities();
         setActivities(fetchedActivities);
       } catch (error) {

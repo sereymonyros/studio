@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
 import copy from 'copy-to-clipboard';
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -84,7 +85,10 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
       <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
         <DialogTrigger asChild>
            <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
-              <Card className="transition-all hover:shadow-md bg-card/80">
+              <Card className={cn(
+                "transition-all hover:shadow-md bg-card/80",
+                "opacity-60 hover:opacity-100 focus:opacity-100"
+              )}>
                 <CardContent className="p-3 flex items-center gap-3">
                   <div className="p-2 bg-primary/10 rounded-lg">
                     {getIconForActivity(activity.title)}

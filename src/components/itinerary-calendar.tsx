@@ -94,7 +94,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                     className="object-cover z-0"
                     data-ai-hint="sedona red rock"
                   />
-                  <div className="absolute inset-0 bg-black/50 z-10"></div>
+                  <div className="absolute inset-0 bg-black/30 z-10"></div>
                 </>
               )}
               {isGrandCanyon && (
@@ -106,7 +106,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                     className="object-cover z-0"
                     data-ai-hint="grand canyon"
                   />
-                  <div className="absolute inset-0 bg-black/50 z-10"></div>
+                  <div className="absolute inset-0 bg-black/30 z-10"></div>
                 </>
               )}
               <div className="relative z-20">

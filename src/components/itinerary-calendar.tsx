@@ -21,7 +21,6 @@ type ItineraryCalendarProps = {
 };
 
 export default function ItineraryCalendar({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false }: ItineraryCalendarProps) {
-  const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const year = new Date().getFullYear();
@@ -30,6 +29,8 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
   const tripEnd = new Date(year, 7, 22);
 
   const tripDays = eachDayOfInterval({ start: tripStart, end: tripEnd });
+
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
 
   const activitiesByDate = activities.reduce((acc, activity) => {
     const dateKey = activity.date;
@@ -78,7 +79,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
           
           return (
             <div 
-              key={day.toString()} 
+              key={day.toISOString()}
               className={cn(
                 "border rounded-md p-2 flex flex-col relative overflow-hidden min-h-[150px]", 
                 isToday(day) ? 'bg-accent/40' : 'bg-card',

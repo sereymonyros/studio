@@ -7,7 +7,7 @@ import type { Activity, Suggestion } from '@/lib/types';
 import ItineraryCalendar from '@/components/itinerary-calendar';
 import AiSuggestions from '@/components/ai-suggestions';
 import { getSuggestions } from './actions';
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
 import { Sunrise } from 'lucide-react';
 import { getActivities, addActivity, updateActivity, deleteActivity as deleteActivityFromDb } from '@/services/firestore';
 
@@ -20,7 +20,7 @@ function ItineraryPage() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [isLoadingActivities, setIsLoadingActivities] = useState(true);
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchActivities() {

@@ -18,7 +18,8 @@ const defaultActivities: Activity[] = [
     date: `${new Date().getFullYear()}-08-17`,
     time: '09:00',
     address: 'S Entrance Rd, Grand Canyon Village, AZ 86023',
-    website: 'https://www.nps.gov/grca/planyourvisit/grand-canyon-visitor-center.htm'
+    website: 'https://www.nps.gov/grca/planyourvisit/grand-canyon-visitor-center.htm',
+    phoneNumber: ''
   }
 ];
 

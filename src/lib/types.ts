@@ -6,6 +6,7 @@ export interface Activity {
   time: string; // HH:mm
   website?: string;
   address?: string;
+  phoneNumber?: string;
 }
 
 export interface Suggestion {

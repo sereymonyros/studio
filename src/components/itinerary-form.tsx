@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, PlusCircle } from "lucide-react";
+import { Calendar as CalendarIcon, PlusCircle, Phone } from "lucide-react";
 import type { Activity } from "@/lib/types";
 
 import { cn } from "@/lib/utils";
@@ -21,6 +21,7 @@ const formSchema = z.object({
   time: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:mm)."),
   website: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
   address: z.string().optional(),
+  phoneNumber: z.string().optional(),
 });
 
 type ItineraryFormProps = {
@@ -39,6 +40,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       time: activity?.time || "12:00",
       website: activity?.website || "",
       address: activity?.address || "",
+      phoneNumber: activity?.phoneNumber || "",
     },
   });
 
@@ -49,6 +51,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       time: values.time,
       website: values.website,
       address: values.address,
+      phoneNumber: values.phoneNumber,
     };
     
     if (activity?.id) {
@@ -96,6 +99,22 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
               <FormLabel>Website</FormLabel>
               <FormControl>
                 <Input placeholder="e.g., https://example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+         <FormField
+          control={form.control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number (for reminders)</FormLabel>
+              <FormControl>
+                <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input placeholder="e.g., 555-123-4567" {...field} className="pl-10" />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

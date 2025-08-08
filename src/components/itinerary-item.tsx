@@ -6,7 +6,7 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Clipboard } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Clipboard, Phone } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
 import copy from 'copy-to-clipboard';
@@ -72,6 +72,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
         `Time: ${formattedTime}`,
         activity.address ? `Address: ${activity.address}` : null,
         activity.website ? `Website: ${activity.website}` : null,
+        activity.phoneNumber ? `Phone: ${activity.phoneNumber}` : null,
       ].filter(Boolean).join('\n');
 
       copy(eventDetails);
@@ -166,6 +167,17 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       className="text-primary hover:underline"
                     >
                       {activity.website}
+                    </a>
+                </div>
+              )}
+              {activity.phoneNumber && (
+                <div className="flex items-start gap-3">
+                    <Phone className="w-5 h-5 text-muted-foreground mt-1"/>
+                    <a 
+                      href={`tel:${activity.phoneNumber}`}
+                      className="text-primary hover:underline"
+                    >
+                      {activity.phoneNumber}
                     </a>
                 </div>
               )}

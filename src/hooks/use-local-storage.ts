@@ -3,57 +3,59 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
+// A custom hook for using localStorage with SSR support
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
-  const readValue = useCallback((): T => {
+  // State to store our value
+  // Pass initial state function to useState so logic is only executed once
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    // This part runs only on the client side
     if (typeof window === 'undefined') {
       return initialValue;
     }
     try {
+      // Get from local storage by key
       const item = window.localStorage.getItem(key);
-      return item ? (JSON.parse(item) as T) : initialValue;
+      // Parse stored json or if none return initialValue
+      return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.warn(`Error reading localStorage key “${key}”:`, error);
+      // If error also return initialValue
+      console.log(error);
       return initialValue;
     }
-  }, [initialValue, key]);
+  });
 
-  const [storedValue, setStoredValue] = useState<T>(initialValue);
-
-  const setValue = useCallback((value: T | ((val: T) => T)) => {
+  // Return a wrapped version of useState's setter function that ...
+  // ... persists the new value to localStorage.
+  const setValue = (value: T | ((val: T) => T)) => {
     try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      // Allow value to be a function so we have same API as useState
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      // Save state
+      setStoredValue(valueToStore);
+      // Save to local storage
       if (typeof window !== 'undefined') {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        setStoredValue(valueToStore);
-        window.dispatchEvent(new StorageEvent('local-storage', { key }));
       }
     } catch (error) {
-      console.warn(`Error setting localStorage key “${key}”:`, error);
+      // A more advanced implementation would handle the error case
+      console.log(error);
     }
-  }, [key, storedValue]);
+  };
 
+  // This effect will update the local state when the localStorage changes in another tab.
   useEffect(() => {
-    setStoredValue(readValue());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === key) {
-        setStoredValue(readValue());
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === key && e.newValue) {
+        setStoredValue(JSON.parse(e.newValue));
       }
     };
-    
-    // The custom 'local-storage' event is for same-tab updates.
-    // The standard 'storage' event is for cross-tab updates.
     window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('local-storage', handleStorageChange as EventListener);
-
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('local-storage', handleStorageChange as EventListener);
     };
-  }, [key, readValue]);
+  }, [key]);
+
 
   return [storedValue, setValue];
 }

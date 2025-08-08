@@ -89,10 +89,10 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                 <>
                   <Image 
                     src="https://placehold.co/400x600.png"
-                    alt="Sedona Landscape"
+                    alt="Sedona red rock view"
                     fill
                     className="object-cover z-0"
-                    data-ai-hint="sedona landscape"
+                    data-ai-hint="sedona red rock"
                   />
                   <div className="absolute inset-0 bg-black/50 z-10"></div>
                 </>
@@ -127,7 +127,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
                               <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
                               </DialogHeader>
                               {selectedDate && <ItineraryForm
-                                  activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00', address: '', website: ''}}
+                                  activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00', address: ''}}
                                   onSubmit={handleAddSubmit}
                                   onCancel={() => setAddModalOpen(false)}
                               />}

@@ -88,7 +88,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
               {isSedona && (
                 <>
                   <Image 
-                    src="https://placehold.co/400x600.png"
+                    src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nob-IyAOCdBqCRoSkOUtu2PaTE5nAqqzaPo1tBxpt2vgQzZgIMXAMFAXhw7Z2HEnzfwnRii7oDE-SrfmL9NoxXJUa6Q3rxef5zMQLcwgfQ40l-AyxRgExvCVvgW5AXs21G5bzsg=s680-w680-h510-rw"
                     alt="Sedona red rock view"
                     fill
                     className="object-cover z-0"

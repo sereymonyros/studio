@@ -100,7 +100,7 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
               {isGrandCanyon && (
                  <>
                   <Image 
-                    src="https://placehold.co/400x600.png"
+                    src="https://chasingexperiencesvlog.com/wp-content/uploads/slide-rock-state-park-for-kids-families-sedona-101-576x1024-1.jpg"
                     alt="Grand Canyon Landscape"
                     fill
                     className="object-cover z-0"

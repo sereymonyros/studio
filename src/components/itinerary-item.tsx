@@ -22,10 +22,11 @@ type ItineraryItemProps = {
 
 const getIconForActivity = (title: string) => {
   const lowerTitle = title.toLowerCase();
-  if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain className="w-5 h-5 text-primary" />;
-  if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils className="w-5 h-5 text-primary" />;
-  if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark className="w-5 h-5 text-primary" />;
-  return <MapPin className="w-5 h-5 text-primary" />;
+  const iconProps = { className: "w-5 h-5 text-foreground", strokeWidth: 2.5 };
+  if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
+  if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
+  if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
+  return <MapPin {...iconProps} />;
 };
 
 export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false }: ItineraryItemProps) {
@@ -94,7 +95,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                     {getIconForActivity(activity.title)}
                   </div>
                   <div className="flex-grow">
-                    <p className="font-bold font-headline text-sm text-white">{activity.title}</p>
+                    <p className="font-bold font-headline text-sm text-foreground">{activity.title}</p>
                     <p className="text-xs text-muted-foreground">
                       {formattedTime}
                     </p>

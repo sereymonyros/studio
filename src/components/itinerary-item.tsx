@@ -55,49 +55,57 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
 
   const openEditDialog = (e: React.MouseEvent) => {
     e.stopPropagation(); 
-    setDetailViewOpen(false);
     setIsEditing(true);
+    setDetailViewOpen(false); // Close the detail view if it's open
   }
+  
+  const openDetails = (e: React.MouseEvent) => {
+    // This function will only be called if the click did not happen on an interactive element.
+    setDetailViewOpen(true);
+  }
+  
 
   return (
     <>
       <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
         <DialogTrigger asChild>
-            <Card className="transition-all hover:shadow-md bg-card/80 cursor-pointer">
-              <CardContent className="p-3 flex items-center gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  {getIconForActivity(activity.title)}
-                </div>
-                <div className="flex-grow">
-                  <p className="font-bold font-headline text-sm">{activity.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {formattedTime}
-                  </p>
-                </div>
-                {!isReadOnly && (
-                  <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
-                      onClick={openEditDialog}
-                      aria-label={`Edit ${activity.title}`}
-                    >
-                      <Edit className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
-                      onClick={handleDelete}
-                      aria-label={`Delete ${activity.title}`}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
+           <div onClick={openDetails} className="cursor-pointer">
+              <Card className="transition-all hover:shadow-md bg-card/80">
+                <CardContent className="p-3 flex items-center gap-3">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    {getIconForActivity(activity.title)}
                   </div>
-                )}
-              </CardContent>
-            </Card>
+                  <div className="flex-grow">
+                    <p className="font-bold font-headline text-sm">{activity.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {formattedTime}
+                    </p>
+                  </div>
+                  {!isReadOnly && (
+                    <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
+                        onClick={openEditDialog}
+                        aria-label={`Edit ${activity.title}`}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
+                        onClick={handleDelete}
+                        aria-label={`Delete ${activity.title}`}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
         </DialogTrigger>
 
         <DialogContent>

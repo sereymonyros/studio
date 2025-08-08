@@ -6,9 +6,11 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Clipboard } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
+import copy from 'copy-to-clipboard';
+import { useToast } from "@/hooks/use-toast";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -30,6 +32,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [isEditing, setIsEditing] = useState(false);
   const [formattedTime, setFormattedTime] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
+  const { toast } = useToast();
 
   useEffect(() => {
     // The date string from localStorage might not have a timezone, so we parse it as if it's in the user's local timezone.
@@ -59,17 +62,28 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     setDetailViewOpen(false); // Close the detail view if it's open
   }
   
-  const openDetails = (e: React.MouseEvent) => {
-    // This function will only be called if the click did not happen on an interactive element.
-    setDetailViewOpen(true);
+  const handleCopyToClipboard = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      const eventDetails = [
+        `Event: ${activity.title}`,
+        `Date: ${formattedDate}`,
+        `Time: ${formattedTime}`,
+        activity.address ? `Address: ${activity.address}` : null,
+        activity.website ? `Website: ${activity.website}` : null,
+      ].filter(Boolean).join('\n');
+
+      copy(eventDetails);
+      toast({
+          title: "Copied to Clipboard!",
+          description: "Event details are ready to be pasted.",
+      });
   }
-  
 
   return (
     <>
       <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
         <DialogTrigger asChild>
-           <div onClick={openDetails} className="cursor-pointer">
+           <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
               <Card className="transition-all hover:shadow-md bg-card/80">
                 <CardContent className="p-3 flex items-center gap-3">
                   <div className="p-2 bg-primary/10 rounded-lg">
@@ -151,12 +165,18 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 </div>
               )}
           </div>
-          {!isReadOnly && (
-              <div className="flex justify-end gap-2 pt-4">
-                  <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>Edit</Button>
-                  <Button variant="destructive" onClick={handleDelete}>Delete</Button>
-              </div>
-          )}
+            <div className="flex justify-end gap-2 pt-4">
+                <Button variant="outline" onClick={handleCopyToClipboard}>
+                    <Clipboard className="mr-2 h-4 w-4" />
+                    Copy for Reminder
+                </Button>
+                {!isReadOnly && (
+                    <>
+                        <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>Edit</Button>
+                        <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+                    </>
+                )}
+            </div>
         </DialogContent>
       </Dialog>
       

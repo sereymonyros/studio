@@ -47,6 +47,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.allgrandcanyon.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -25,7 +25,7 @@ type ItineraryItemProps = {
 
 const getIconForActivity = (title: string, isSpecialDay: boolean) => {
   const lowerTitle = title.toLowerCase();
-  const iconProps = { className: cn("w-6 h-6", isSpecialDay ? "text-white" : "text-foreground"), strokeWidth: 2.5 };
+  const iconProps = { className: cn("w-6 h-6", isSpecialDay ? "text-white" : "text-primary"), strokeWidth: 2.5 };
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
   if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
@@ -97,13 +97,13 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                   <div className="flex-grow">
                     <p className={cn(
                       "font-bold font-headline text-sm",
-                      isSpecialDay ? "text-white" : "text-foreground"
+                      isSpecialDay ? "text-white" : "text-primary"
                     )}>
                       {displayTitle}
                     </p>
                     <p className={cn(
                       "text-xs",
-                      isSpecialDay ? "text-white/80" : "text-muted-foreground"
+                      isSpecialDay ? "text-white/80" : "text-primary/90"
                     )}>
                       {activity.time}
                     </p>

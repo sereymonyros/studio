@@ -47,6 +47,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     if (!isNaN(activityDate.getTime())) {
       formattedTime = format(activityDate, "p", { locale });
       formattedDate = format(activityDate, "PPPP", { locale });
+      console.log("Time: ", formattedTime);
     }
   } catch (e) {
     console.error("Error formatting date:", e);
@@ -104,7 +105,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       "text-xs",
                       isSpecialDay ? "text-white/80" : "text-muted-foreground"
                     )}>
-                      {formattedTime}
+                      {activity.time}
                     </p>
                   </div>
                   {!isReadOnly && (
@@ -175,11 +176,11 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
           <div className="space-y-4 py-4">
               <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground"/>
-                  <span className="text-foreground">{formattedDate}</span>
+                  <span className="text-foreground">{activity.date}</span>
               </div>
               <div className="flex items-center gap-3">
                   <Clock className="w-5 h-5 text-muted-foreground"/>
-                  <span className="text-foreground">{formattedTime}</span>
+                  <span className="text-foreground">{activity.time}</span>
               </div>
               {activity.address && (
                 <div className="flex items-start gap-3">
@@ -206,18 +207,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       {activity.website}
                     </a>
                 </div>
-              )}
-              {activity.phoneNumber && (
-                <div className="flex items-start gap-3">
-                    <Phone className="w-5 h-5 text-muted-foreground mt-1"/>
-                    <a 
-                      href={`tel:${activity.phoneNumber}`}
-                      className="text-primary hover:underline"
-                    >
-                      {activity.phoneNumber}
-                    </a>
-                </div>
-              )}
+              )}              
           </div>
           <div className="flex justify-end gap-2 pt-4">
               {!isReadOnly && (

@@ -4,8 +4,8 @@ export type Language = 'en' | 'km';
 export const translations = {
   en: {
     header: {
-      title: "Arizona Adventure Planner",
-      description: "Your personal guide to the Grand Canyon State.",
+      title: "Arizona Trip",
+      description: "",
       toggleLang: "Switch to Khmer"
     },
     calendar: {

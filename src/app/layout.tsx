@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: 'Arizona Adventure Planner',
+  title: 'Arizona Trip',
   description: 'Organize your trip to Arizona with this simple and elegant Trip Planner.',
 };
 

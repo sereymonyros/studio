@@ -51,6 +51,19 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     setAddModalOpen(false);
   };
 
+  const dayBackgroundImages: Record<string, string> = {
+    [`${year}-08-15`]: "https://roadslesstraveled.us/blog/wp-content/uploads/2014/05/A-04-Scenic-drive-in-Sedona-561.jpg", // Replace with your actual image URLs
+    [`${year}-08-16`]: '/images/day2.jpg',
+    [`${year}-08-17`]: '/images/day3.jpg',
+    [`${year}-08-18`]: '/images/day4.jpg',
+    [`${year}-08-19`]: '/images/day5.jpg',
+    [`${year}-08-20`]: '/images/day6.jpg',
+    [`${year}-08-21`]: '/images/day7.jpg',
+    [`${year}-08-22`]: '/images/day8.jpg',
+    // Add more dates and URLs as needed
+  };
+
+
   const openAddModal = (date: Date) => {
     setSelectedDate(date);
     setAddModalOpen(true);
@@ -75,6 +88,8 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
           const isSedona = isSedonaDay(day);
           const isGrandCanyon = isGrandCanyonDay(day);
           const isSpecialDay = isSedona || isGrandCanyon;
+
+          const backgroundImageSrc = dayBackgroundImages[dateKey];
           
           return (
             <div 
@@ -84,31 +99,22 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 isToday(day) ? 'bg-accent/40' : 'bg-card',
                 isSpecialDay && "text-white"
               )}
-            >
-              {isSedona && (
+            >             
+    
+
+              {/* Render background image if available for this day */}
+              {backgroundImageSrc && ( // Only apply if not a special day (Sedona/Grand Canyon have their own)
                 <>
-                  <Image 
-                    src="https://chasingexperiencesvlog.com/wp-content/uploads/slide-rock-state-park-for-kids-families-sedona-101-576x1024-1.jpg"
-                    alt="Sedona red rock view"
+                  <Image
+                    src={backgroundImageSrc}
+                    alt={`Background for ${format(day, 'MMMM d')}`}
                     fill
                     className="object-cover z-0"
-                    data-ai-hint="sedona red rock"
                   />
-                  <div className="absolute inset-0 bg-black/30 z-10"></div>
+                  <div className="absolute inset-0 bg-black/30 z-10"></div> {/* Optional: Add an overlay for better text readability */}
                 </>
               )}
-              {isGrandCanyon && (
-                 <>
-                  <Image 
-                    src="https://chasingexperiencesvlog.com/wp-content/uploads/slide-rock-state-park-for-kids-families-sedona-101-576x1024-1.jpg"
-                    alt="Grand Canyon Landscape"
-                    fill
-                    className="object-cover z-0"
-                    data-ai-hint="grand canyon"
-                  />
-                  <div className="absolute inset-0 bg-black/30 z-10"></div>
-                </>
-              )}
+
               <div className="relative z-20">
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col">

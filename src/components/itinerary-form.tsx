@@ -89,19 +89,6 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
         />
         <FormField
           control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t.fields.address.label}</FormLabel>
-              <FormControl>
-                <Input placeholder={t.fields.address.placeholder} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="websiteText"
           render={({ field }) => (
             <FormItem>
@@ -121,6 +108,19 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
               <FormLabel>{t.fields.website.label}</FormLabel>
               <FormControl>
                 <Input placeholder={t.fields.website.placeholder} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t.fields.address.label}</FormLabel>
+              <FormControl>
+                <Input placeholder={t.fields.address.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

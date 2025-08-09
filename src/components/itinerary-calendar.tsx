@@ -154,6 +154,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       isReadOnly={isReadOnly}
                       lang={lang}
                       t={t.form}
+                      isSpecialDay={isSpecialDay}
                     />
                   ))}
               </div>

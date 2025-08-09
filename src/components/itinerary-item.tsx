@@ -18,6 +18,7 @@ type ItineraryItemProps = {
   onUpdateActivity: (activity: Activity) => void;
   onDeleteActivity: (id: string) => void;
   isReadOnly?: boolean;
+  isSpecialDay?: boolean;
   lang: Language;
   t: Translation['form'];
 };
@@ -31,7 +32,7 @@ const getIconForActivity = (title: string) => {
   return <MapPin {...iconProps} />;
 };
 
-export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, lang, t }: ItineraryItemProps) {
+export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isSpecialDay = false, lang, t }: ItineraryItemProps) {
   const [isDetailViewOpen, setDetailViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formattedTime, setFormattedTime] = useState("");
@@ -86,15 +87,24 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
            <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
               <Card className={cn(
                 "transition-all hover:shadow-md bg-card/80",
-                "opacity-80 hover:opacity-100 focus:opacity-100"
+                "opacity-80 hover:opacity-100 focus:opacity-100",
+                isSpecialDay && "bg-black/20 border-white/20"
               )}>
                 <CardContent className="p-3 flex items-center gap-3">
-                  <div className="p-2 bg-primary/10 rounded-lg">
+                  <div className={cn("p-2 bg-primary/10 rounded-lg", isSpecialDay && "bg-white/10")}>
                     {getIconForActivity(activity.title)}
                   </div>
                   <div className="flex-grow">
-                    <p className="font-bold font-headline text-sm text-foreground">{displayTitle}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className={cn(
+                      "font-bold font-headline text-sm",
+                      isSpecialDay ? "text-white" : "text-foreground"
+                    )}>
+                      {displayTitle}
+                    </p>
+                    <p className={cn(
+                      "text-xs",
+                      isSpecialDay ? "text-white/80" : "text-muted-foreground"
+                    )}>
                       {formattedTime}
                     </p>
                   </div>
@@ -103,7 +113,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8"
+                        className={cn("text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8", isSpecialDay && "text-white/70 hover:text-white hover:bg-white/20")}
                         onClick={openEditDialog}
                         aria-label={`Edit ${activity.title}`}
                       >
@@ -112,7 +122,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8"
+                        className={cn("text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8", isSpecialDay && "text-white/70 hover:text-white hover:bg-white/20")}
                         onClick={handleDelete}
                         aria-label={`Delete ${activity.title}`}
                       >

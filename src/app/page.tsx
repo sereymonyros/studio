@@ -10,6 +10,7 @@ import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast";
 import { Sunrise } from 'lucide-react';
 import { getActivities, addActivity, updateActivity, deleteActivity as deleteActivityFromDb } from '@/services/firestore';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 function ItineraryPage() {
   const searchParams = useSearchParams();
@@ -112,12 +113,15 @@ function ItineraryPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary/80 text-primary-foreground py-6 px-4 md:px-8 shadow-md">
-        <div className="container mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
-            <Sunrise className="w-8 h-8"/>
-            Arizona Adventure Planner
-          </h1>
-          <p className="mt-1 text-primary-foreground/90">Your personal guide to the Grand Canyon State.</p>
+        <div className="container mx-auto flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
+              <Sunrise className="w-8 h-8"/>
+              Arizona Adventure Planner
+            </h1>
+            <p className="mt-1 text-primary-foreground/90">Your personal guide to the Grand Canyon State.</p>
+          </div>
+          <ThemeToggle />
         </div>
       </header>
       <main className="flex-grow container mx-auto p-4 md:p-8">

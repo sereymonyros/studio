@@ -144,7 +144,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                    )}
                 </div>
               </div>
-              <div className="flex-grow space-y-2 mt-2 relative z-20">
+              <div className="flex-grow space-y-1 mt-2 relative z-20">
                   {dayActivities.map(activity => (
                     <ItineraryItem 
                       key={activity.id}

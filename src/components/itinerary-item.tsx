@@ -24,7 +24,7 @@ type ItineraryItemProps = {
 
 const getIconForActivity = (title: string) => {
   const lowerTitle = title.toLowerCase();
-  const iconProps = { className: cn("w-6 h-6 text-white"), strokeWidth: 2.5 };
+  const iconProps = { className: cn("w-6 h-6 text-primary"), strokeWidth: 2.5 };
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
   if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
@@ -81,7 +81,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     setDetailViewOpen(false);
   }
   
-  const youtubeEmbedUrl = activity.youtubeUrl ? `https://www.youtube.com/embed/${activity.youtubeUrl}`: null;
+  const youtubeUrl = activity.youtubeUrl ?? null;
 
   return (
     <>
@@ -97,12 +97,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                   {getIconForActivity(activity.title)}
                   <div className="flex-grow">
                     <p className={cn(
-                      "text-primary font-bold font-headline text-sm",
+                      "text-foreground font-bold font-headline text-sm",
                     )}>
                       {displayTitle}
                     </p>
                     <p className={cn(
-                      "text-primary/90 text-xs font-bold"
+                      "text-muted-foreground text-xs font-bold"
                     )}>
                       {activity.time}
                     </p>
@@ -112,7 +112,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <Button
                         variant="ghost"
                         size="icon"
-                        className={cn("text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8")}
+                        className={cn("text-muted-foreground hover:text-foreground hover:bg-primary/10 h-8 w-8")}
                         onClick={openEditDialog}
                         aria-label={`Edit ${activity.title}`}
                       >
@@ -144,7 +144,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
 
           {images && images.length > 0 && (
             <div className="relative">
-              <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-lg object-cover aspect-video" />
+              <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full rounded-lg object-cover aspect-video" />
               {/* Add onClick handler to the image to go to the next slide */}
               {images.length > 1 && ( // Only add click behavior if there's more than one image
                 <div onClick={nextSlide} className="absolute inset-0 cursor-pointer">
@@ -180,10 +180,10 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </div>
           )}
 
-          {youtubeEmbedUrl && (
+          {youtubeUrl && (
             <div className="aspect-w-16 aspect-h-9">
               <iframe
-                src={youtubeEmbedUrl}
+                src={youtubeUrl}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

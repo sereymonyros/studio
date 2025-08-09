@@ -107,14 +107,14 @@ function ItineraryPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="bg-primary/80 text-primary-foreground py-6 px-4 md:px-8 shadow-md">
+      <header className="bg-primary/80 text-white-foreground py-6 px-4 md:px-8 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
               <Sunrise className="w-8 h-8"/>
               {t.header.title}
             </h1>
-            <p className="mt-1 text-primary-foreground/90">{t.header.description}</p>
+            <p className="mt-1 text-white-foreground/90">{t.header.description}</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" onClick={toggleLanguage} aria-label={t.header.toggleLang} className="font-bold">

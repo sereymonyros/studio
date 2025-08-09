@@ -27,6 +27,7 @@ const formSchema = z.object({
   address: z.string().optional(),
   imageUrls: z.string().optional(),
   youtubeUrl: z.string().url("Please enter a valid YouTube URL.").optional().or(z.literal('')),
+  phoneNumber: z.string().optional(),
 });
 
 type ItineraryFormProps = {
@@ -47,44 +48,25 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       website: activity?.website || "",
       websiteText: activity?.websiteText || "",
       address: activity?.address || "",
+      phoneNumber: activity?.phoneNumber || "",
       imageUrls: activity?.imageUrls?.join('\n') || '',
       youtubeUrl: activity?.youtubeUrl || ''
     },
   });
   
   const locale = lang === 'km' ? km : enUS;
-
   function handleFormSubmit(values: z.infer<typeof formSchema>) {
-    let youtubeUrl = undefined;
-    if (values.youtubeUrl) {
-      try {
-        const url = new URL(values.youtubeUrl);
-        if (url.hostname === 'www.youtube.com' || url.hostname === 'youtube.com') {
-          const params = new URLSearchParams(url.search);
-          youtubeUrl = params.get('v');
-        } else if (url.hostname === 'youtu.be') {
-          youtubeUrl = url.pathname.slice(1);
-        }
-      } catch (error) {
-        console.error("Invalid YouTube URL provided:", error);
-        // Optionally, set a form error to notify the user
-        form.setError("youtubeUrl", { type: "manual", message: "Please enter a valid YouTube URL." });
-        return; // Stop form submission
-      }
-    }
-
-
-
     const activityData = {
       title: values.title,
       date: format(values.date, "yyyy-MM-dd"),
+      phoneNumber: values.phoneNumber,
       time: values.time,
       website: values.website,
       websiteText: values.websiteText,
-      address: values.address,
+      address: values.address || null, // Use null for empty optional fields
       imageUrls: values.imageUrls ? values.imageUrls.split('\n').map(url => url.trim()).filter(url => url !== '') : [],
-      youtubeUrl: youtubeUrl || undefined,
-    };
+      youtubeUrl: values.youtubeUrl || null, // Include youtubeUrl from values, use null if empty
+    } as Omit<Activity, 'id'>; // Cast to Omit<Activity, 'id'>
 
     if (activity?.id) {
       onSubmit({ ...activityData, id: activity.id });
@@ -148,7 +130,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
               <FormMessage />
             </FormItem>
           )}
-        />
+        />    
         <FormField
           control={form.control}
           name="youtubeUrl"

@@ -46,8 +46,8 @@ export default function AiSuggestions({ suggestions, isLoading, t }: AiSuggestio
           <ul className="space-y-4">
             {suggestions.map((suggestion, index) => (
               <li key={index} className="pl-2 border-l-2 border-accent">
-                <h4 className="font-bold font-headline text-primary">{suggestion.name}</h4>
-                <p className="text-primary/90">{suggestion.description}</p>
+                <h4 className="font-bold font-headline text-foreground">{suggestion.name}</h4>
+                <p className="text-muted-foreground">{suggestion.description}</p>
               </li>
             ))}
           </ul>

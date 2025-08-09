@@ -8,6 +8,7 @@ export interface Activity {
   website?: string;
   websiteText?: string; // Add this line
   address?: string;
+  phoneNumber?: string; // Keep this line if it was there previously
   youtubeUrl?: string; // Add this line
   imageUrls?: string[]; // Add this line
 }

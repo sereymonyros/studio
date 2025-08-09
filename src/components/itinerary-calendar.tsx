@@ -115,14 +115,14 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 
               <div className="relative z-20">
                 <div className="flex justify-between items-center">
-                  <div className="flex flex-col">
-                      <span className={cn("font-bold", isToday(day) && 'text-primary')}>{format(day, 'd', { locale })}</span>
+                  <div className="flex flex-col text-white">
+                      <span className={cn("font-bold", isToday(day) && 'text-primary-foreground')}>{format(day, 'd', { locale })}</span>
                       <span className={cn("text-xs")}>{format(day, 'EEEE', { locale })}</span>
                   </div>
                    {!isReadOnly && (
                       <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("h-6 w-6")} onClick={() => openAddModal(day)}>
+                            <Button variant="ghost" size="icon" className={cn("h-6 w-6 text-white hover:text-white")} onClick={() => openAddModal(day)}>
                               <PlusCircle className="h-4 w-4"/>
                             </Button>
                           </DialogTrigger>

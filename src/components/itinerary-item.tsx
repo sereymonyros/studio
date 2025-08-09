@@ -97,12 +97,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                   {getIconForActivity(activity.title)}
                   <div className="flex-grow">
                     <p className={cn(
-                      "text-foreground font-bold font-headline text-sm",
+                      "text-primary font-bold font-headline text-sm",
                     )}>
                       {displayTitle}
                     </p>
                     <p className={cn(
-                      "text-muted-foreground text-xs font-bold"
+                      "text-primary text-xs font-bold"
                     )}>
                       {activity.time}
                     </p>

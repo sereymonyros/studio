@@ -48,22 +48,22 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       websiteText: activity?.websiteText || "",
       address: activity?.address || "",
       imageUrls: activity?.imageUrls?.join('\n') || '',
-      youtubeUrl: activity?.youtubeId ? `https://www.youtube.com/watch?v=${activity.youtubeId}` : "",
+      youtubeUrl: activity?.youtubeUrl || ''
     },
   });
   
   const locale = lang === 'km' ? km : enUS;
 
   function handleFormSubmit(values: z.infer<typeof formSchema>) {
-    let youtubeId = undefined;
+    let youtubeUrl = undefined;
     if (values.youtubeUrl) {
       try {
         const url = new URL(values.youtubeUrl);
         if (url.hostname === 'www.youtube.com' || url.hostname === 'youtube.com') {
           const params = new URLSearchParams(url.search);
-          youtubeId = params.get('v');
+          youtubeUrl = params.get('v');
         } else if (url.hostname === 'youtu.be') {
-          youtubeId = url.pathname.slice(1);
+          youtubeUrl = url.pathname.slice(1);
         }
       } catch (error) {
         console.error("Invalid YouTube URL provided:", error);
@@ -83,7 +83,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       websiteText: values.websiteText,
       address: values.address,
       imageUrls: values.imageUrls ? values.imageUrls.split('\n').map(url => url.trim()).filter(url => url !== '') : [],
-      youtubeId: youtubeId || undefined,
+      youtubeUrl: youtubeUrl || undefined,
     };
 
     if (activity?.id) {

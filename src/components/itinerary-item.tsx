@@ -81,7 +81,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     setDetailViewOpen(false);
   }
   
-  const youtubeEmbedUrl = activity.youtubeId ? `https://www.youtube.com/embed/${activity.youtubeId}` : null;
+  const youtubeEmbedUrl = activity.youtubeUrl ? `https://www.youtube.com/embed/${activity.youtubeUrl}`: null;
 
   return (
     <>
@@ -97,12 +97,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                   {getIconForActivity(activity.title)}
                   <div className="flex-grow">
                     <p className={cn(
-                      "text-white font-bold font-headline text-sm",
+                      "text-primary font-bold font-headline text-sm",
                     )}>
                       {displayTitle}
                     </p>
                     <p className={cn(
-                      "text-xs font-bold"
+                      "text-primary/90 text-xs font-bold"
                     )}>
                       {activity.time}
                     </p>
@@ -144,7 +144,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
 
           {images && images.length > 0 && (
             <div className="relative">
-              <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-full object-cover aspect-square" />
+              <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-lg object-cover aspect-video" />
               {/* Add onClick handler to the image to go to the next slide */}
               {images.length > 1 && ( // Only add click behavior if there's more than one image
                 <div onClick={nextSlide} className="absolute inset-0 cursor-pointer">

@@ -173,11 +173,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </div>
           )}
 
-          <div className="space-y-4 py-4">
-              <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-muted-foreground"/>
-                  <span className="text-foreground">{activity.date}</span>
-              </div>
+          <div className="space-y-4 py-4">            
               <div className="flex items-center gap-3">
                   <Clock className="w-5 h-5 text-muted-foreground"/>
                   <span className="text-foreground">{activity.time}</span>

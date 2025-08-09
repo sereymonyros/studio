@@ -143,7 +143,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
 
           {images && images.length > 0 && (
             <div className="relative">
-              <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-md object-cover aspect-video" />
+              <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-full object-cover aspect-video" />
               {images.length > 1 && (
                 <>
                   <div className="absolute inset-y-0 left-0 flex items-center">

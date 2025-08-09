@@ -6,11 +6,9 @@ import type { Activity } from "@/lib/types";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Clipboard, Phone } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Phone } from "lucide-react";
 import { format } from "date-fns";
 import ItineraryForm from "./itinerary-form";
-import copy from 'copy-to-clipboard';
-import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 type ItineraryItemProps = {
@@ -34,9 +32,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [isEditing, setIsEditing] = useState(false);
   const [formattedTime, setFormattedTime] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
-
-
-  const { toast } = useToast();
 
   useEffect(() => {
     const activityDate = new Date(activity.date.replace(/-/g, '/') + `T${activity.time}`);
@@ -62,15 +57,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     setDetailViewOpen(false);
   }
   
-  const handleCopyToClipboard = () => {
-    const textToCopy = `What: ${activity.title}\nWhen: ${formattedDate} at ${formattedTime}${activity.address ? `\nWhere: ${activity.address}` : ''}${activity.phoneNumber ? `\nPhone: ${activity.phoneNumber}` : ''}`;
-    copy(textToCopy);
-    toast({
-      title: "Copied to Clipboard",
-      description: "Event details are ready to be pasted.",
-    });
-  }
-
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
@@ -78,8 +64,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
-
-
 
   const openEditDialog = (e: React.MouseEvent) => {
     e.stopPropagation(); 
@@ -219,10 +203,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}
           </div>
           <div className="flex justify-end gap-2 pt-4">
-              <Button variant="outline" onClick={handleCopyToClipboard}>
-                  <Clipboard className="mr-2 h-4 w-4" />
-                  Copy for Reminder
-              </Button>
               {!isReadOnly && (
                   <>
                       <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>Edit</Button>

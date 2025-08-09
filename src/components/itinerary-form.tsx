@@ -10,6 +10,7 @@ import type { Activity } from "@/lib/types";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -22,6 +23,7 @@ const formSchema = z.object({
   website: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
   address: z.string().optional(),
   phoneNumber: z.string().optional(),
+  imageUrls: z.string().optional(),
 });
 
 type ItineraryFormProps = {
@@ -41,6 +43,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       website: activity?.website || "",
       address: activity?.address || "",
       phoneNumber: activity?.phoneNumber || "",
+      imageUrls: activity?.imageUrls?.join('\n') || '',
     },
   });
 
@@ -52,8 +55,9 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       website: values.website,
       address: values.address,
       phoneNumber: values.phoneNumber,
+      imageUrls: values.imageUrls ? values.imageUrls.split('\n').map(url => url.trim()).filter(url => url !== '') : [],
     };
-    
+
     if (activity?.id) {
       onSubmit({ ...activityData, id: activity.id });
     } else {
@@ -155,6 +159,19 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
             )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="imageUrls"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image URLs (one per line)</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Enter image URLs, one per line" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="flex gap-2">
             {onCancel && <Button type="button" variant="outline" className="w-full" onClick={onCancel}>Cancel</Button>}
             <Button type="submit" className="w-full">

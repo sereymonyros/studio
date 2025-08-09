@@ -75,9 +75,8 @@ function ItineraryPage() {
   const handleUpdateActivity = async (updatedActivity: Activity) => {
     try {
       await updateActivity(updatedActivity);
-      setActivities(activities.map((activity) =>
-        activity.id === updatedActivity.id ? updatedActivity : activity
-      ));
+      const fetchedActivities = await getActivities();
+      setActivities(fetchedActivities);
     } catch (error) {
       console.error('Failed to update activity:', error);
        toast({

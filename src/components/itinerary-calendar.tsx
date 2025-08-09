@@ -67,7 +67,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   }
 
   return (
-    <div className="bg-card/50 rounded-lg border p-4 md:p-6">
+    <div className="bg-card/50 rounded-lg border p-4 md:p-6 shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl md:text-2xl font-bold font-headline">
           {t.calendar.title}: {format(tripStart, 'MMMM d', { locale })} - {format(tripEnd, 'd, yyyy', { locale })}
@@ -86,7 +86,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
             <div 
               key={day.toISOString()}
               className={cn(
-                "border rounded-md p-2 flex flex-col relative overflow-hidden min-h-[150px]", 
+                "border rounded-md p-2 flex flex-col relative overflow-hidden min-h-[150px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1", 
                 isToday(day) ? 'bg-accent/40' : 'bg-card',
                 isSpecialDay && "text-white"
               )}

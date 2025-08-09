@@ -118,7 +118,7 @@ function ItineraryPage() {
             <p className="mt-1 text-primary-foreground/90">{t.header.description}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={toggleLanguage} aria-label={t.header.toggleLang}>
+            <Button variant="ghost" size="icon" onClick={toggleLanguage} aria-label={t.header.toggleLang}>
               <Languages className="h-[1.2rem] w-[1.2rem]" />
             </Button>
             <ThemeToggle />

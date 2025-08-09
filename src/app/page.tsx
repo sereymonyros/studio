@@ -11,30 +11,15 @@ import { Sunrise, Languages } from 'lucide-react';
 import { getActivities, addActivity, updateActivity, deleteActivity as deleteActivityFromDb } from '@/services/firestore';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
-
-const translations = {
-  en: {
-    title: "Arizona Adventure Planner",
-    description: "Your personal guide to the Grand Canyon State.",
-    footer: "Happy travels in sunny Arizona!",
-    loading: "Loading itinerary...",
-    toggleLang: "Switch to Khmer"
-  },
-  km: {
-    title: "អ្នករៀបចំផែនការផ្សងព្រេងអារីហ្សូណា",
-    description: "មគ្គុទ្ទេសក៍ផ្ទាល់ខ្លួនរបស់អ្នកទៅកាន់រដ្ឋ Grand Canyon ។",
-    footer: "រីករាយដំណើរកម្សាន្តនៅអារីហ្សូណាដែលមានពន្លឺថ្ងៃ!",
-    loading: "កំពុងផ្ទុក...",
-    toggleLang: "ប្តូរទៅភាសាអង់គ្លេស"
-  }
-};
+import { translations } from '@/lib/translations';
+import type { Language } from '@/lib/translations';
 
 function ItineraryPage() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [isLoadingActivities, setIsLoadingActivities] = useState(true);
-  const [lang, setLang] = useState<'en' | 'km'>('en');
+  const [lang, setLang] = useState<Language>('en');
   const { toast } = useToast();
   
   const t = translations[lang];
@@ -50,15 +35,15 @@ function ItineraryPage() {
         setActivities([]); 
         toast({
           variant: "destructive",
-          title: "Database Error",
-          description: "Could not load itinerary. Please try again later.",
+          title: t.toasts.dbErrorTitle,
+          description: t.toasts.dbErrorLoad,
         });
       } finally {
         setIsLoadingActivities(false);
       }
     }
     fetchActivities();
-  }, [toast]);
+  }, [toast, t.toasts]);
 
   const handleAddActivity = async (activity: Omit<Activity, 'id'>) => {
     try {
@@ -73,8 +58,8 @@ function ItineraryPage() {
       console.error('Failed to add activity:', error);
       toast({
         variant: "destructive",
-        title: "Database Error",
-        description: "Could not save the new activity.",
+        title: t.toasts.dbErrorTitle,
+        description: t.toasts.dbErrorSave,
       });
     } finally {
       setIsLoadingSuggestions(false);
@@ -97,8 +82,8 @@ function ItineraryPage() {
       console.error('Failed to update activity:', error);
        toast({
         variant: "destructive",
-        title: "Database Error",
-        description: "Could not update the activity.",
+        title: t.toasts.dbErrorTitle,
+        description: t.toasts.dbErrorUpdate,
       });
     }
   };
@@ -111,8 +96,8 @@ function ItineraryPage() {
       console.error('Failed to delete activity:', error);
       toast({
         variant: "destructive",
-        title: "Database Error",
-        description: "Could not delete the activity.",
+        title: t.toasts.dbErrorTitle,
+        description: t.toasts.dbErrorDelete,
       });
     }
   };
@@ -128,12 +113,12 @@ function ItineraryPage() {
           <div>
             <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
               <Sunrise className="w-8 h-8"/>
-              {t.title}
+              {t.header.title}
             </h1>
-            <p className="mt-1 text-primary-foreground/90">{t.description}</p>
+            <p className="mt-1 text-primary-foreground/90">{t.header.description}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={toggleLanguage} aria-label={t.toggleLang}>
+            <Button variant="outline" size="icon" onClick={toggleLanguage} aria-label={t.header.toggleLang}>
               <Languages className="h-[1.2rem] w-[1.2rem]" />
             </Button>
             <ThemeToggle />
@@ -144,7 +129,7 @@ function ItineraryPage() {
         <div className="grid lg:grid-cols-5 gap-8 items-start">
           <div className="lg:col-span-3 flex flex-col gap-8">
              {isLoadingActivities ? (
-                <p>{t.loading}</p>
+                <p>{t.calendar.loading}</p>
              ) : (
                 <ItineraryCalendar 
                   activities={activities}
@@ -152,16 +137,18 @@ function ItineraryPage() {
                   onUpdateActivity={handleUpdateActivity}
                   onDeleteActivity={handleDeleteActivity}
                   isReadOnly={false}
+                  lang={lang}
+                  t={t}
                 />
              )}
           </div>
           <div className="lg:col-span-2">
-            <AiSuggestions suggestions={suggestions} isLoading={isLoadingSuggestions} />
+            <AiSuggestions suggestions={suggestions} isLoading={isLoadingSuggestions} t={t.suggestions} />
           </div>
         </div>
       </main>
       <footer className="text-center p-4 text-muted-foreground text-sm">
-        <p>{t.footer}</p>
+        <p>{t.footer.text}</p>
       </footer>
     </div>
   );

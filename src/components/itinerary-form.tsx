@@ -5,8 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
+import { enUS, km } from 'date-fns/locale';
 import { Calendar as CalendarIcon, PlusCircle, Phone } from "lucide-react";
 import type { Activity } from "@/lib/types";
+import type { Language, Translation } from "@/lib/translations";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -29,11 +31,12 @@ const formSchema = z.object({
 type ItineraryFormProps = {
   activity?: Omit<Activity, 'id'> & { id?: string };
   onSubmit: (activity: Omit<Activity, 'id'> | Activity) => void;
-  submitButtonText?: string;
   onCancel?: () => void;
+  lang: Language;
+  t: Translation['form'];
 };
 
-export default function ItineraryForm({ activity, onSubmit, submitButtonText = "Add to Itinerary", onCancel }: ItineraryFormProps) {
+export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }: ItineraryFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,6 +49,8 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
       imageUrls: activity?.imageUrls?.join('\n') || '',
     },
   });
+  
+  const locale = lang === 'km' ? km : enUS;
 
   function handleFormSubmit(values: z.infer<typeof formSchema>) {
     const activityData = {
@@ -74,9 +79,9 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>title</FormLabel>
+              <FormLabel>{t.fields.title.label}</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., Hike Camelback Mountain" {...field} />
+                <Input placeholder={t.fields.title.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,9 +92,9 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>address</FormLabel>
+              <FormLabel>{t.fields.address.label}</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., 123 Main St, Sedona, AZ" {...field} />
+                <Input placeholder={t.fields.address.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,9 +105,9 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
           name="website"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Website</FormLabel>
+              <FormLabel>{t.fields.website.label}</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., https://example.com" {...field} />
+                <Input placeholder={t.fields.website.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,7 +120,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>date</FormLabel>
+                <FormLabel>{t.fields.date.label}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -126,13 +131,14 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                        {field.value ? format(field.value, "PPP", { locale }) : <span>{t.fields.date.placeholder}</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
+                      locale={locale}
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
@@ -150,7 +156,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
             name="time"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>time</FormLabel>
+                <FormLabel>{t.fields.time.label}</FormLabel>
                 <FormControl>
                   <Input type="time" {...field} />
                 </FormControl>
@@ -164,19 +170,19 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
           name="imageUrls"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Image URLs (one per line)</FormLabel>
+              <FormLabel>{t.fields.imageUrls.label}</FormLabel>
               <FormControl>
-                <Textarea placeholder="Enter image URLs, one per line" {...field} />
+                <Textarea placeholder={t.fields.imageUrls.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <div className="flex gap-2">
-            {onCancel && <Button type="button" variant="outline" className="w-full" onClick={onCancel}>Cancel</Button>}
+            {onCancel && <Button type="button" variant="outline" className="w-full" onClick={onCancel}>{t.buttons.cancel}</Button>}
             <Button type="submit" className="w-full">
               <PlusCircle className="mr-2 h-4 w-4" />
-              {submitButtonText}
+              {activity?.id ? t.buttons.save : t.buttons.add}
             </Button>
         </div>
       </form>

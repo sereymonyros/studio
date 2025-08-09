@@ -1,16 +1,19 @@
+
 "use client";
 
 import type { Suggestion } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Lightbulb } from "lucide-react";
+import type { Translation } from "@/lib/translations";
 
 interface AiSuggestionsProps {
   suggestions: Suggestion[];
   isLoading: boolean;
+  t: Translation['suggestions'];
 }
 
-export default function AiSuggestions({ suggestions, isLoading }: AiSuggestionsProps) {
+export default function AiSuggestions({ suggestions, isLoading, t }: AiSuggestionsProps) {
   const shouldRender = isLoading || suggestions.length > 0;
 
   if (!shouldRender) {
@@ -22,7 +25,7 @@ export default function AiSuggestions({ suggestions, isLoading }: AiSuggestionsP
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-accent-foreground/80">
           <Lightbulb className="w-6 h-6 text-accent" />
-          <span>AI-Powered Suggestions</span>
+          <span>{t.title}</span>
         </CardTitle>
       </CardHeader>
       <CardContent>

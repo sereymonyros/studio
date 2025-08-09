@@ -3,19 +3,23 @@
 
 import React, { useState, useEffect } from "react";
 import type { Activity } from "@/lib/types";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Phone } from "lucide-react";
 import { format } from "date-fns";
+import { enUS, km } from 'date-fns/locale';
 import ItineraryForm from "./itinerary-form";
 import { cn } from "@/lib/utils";
+import type { Language, Translation } from "@/lib/translations";
 
 type ItineraryItemProps = {
   activity: Activity;
   onUpdateActivity: (activity: Activity) => void;
   onDeleteActivity: (id: string) => void;
   isReadOnly?: boolean;
+  lang: Language;
+  t: Translation['form'];
 };
 
 const getIconForActivity = (title: string) => {
@@ -27,22 +31,24 @@ const getIconForActivity = (title: string) => {
   return <MapPin {...iconProps} />;
 };
 
-export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false }: ItineraryItemProps) {
+export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, lang, t }: ItineraryItemProps) {
   const [isDetailViewOpen, setDetailViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formattedTime, setFormattedTime] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
+  
+  const locale = lang === 'km' ? km : enUS;
 
   useEffect(() => {
+    // Safari does not like `new Date('YYYY-MM-DD')`
     const activityDate = new Date(activity.date.replace(/-/g, '/') + `T${activity.time}`);
     if (!isNaN(activityDate.getTime())) {
-      setFormattedTime(format(activityDate, "h:mm a"));
-      setFormattedDate(format(activityDate, "EEEE, MMMM d, yyyy"));
+      setFormattedTime(format(activityDate, "p", { locale }));
+      setFormattedDate(format(activityDate, "PPPP", { locale }));
     }
-  }, [activity.date, activity.time]); // Depend on activity.date and activity.time
+  }, [activity.date, activity.time, locale]);
 
-  // State for current slide, dependent on activity.imageUrls
-  const images = activity.imageUrls && activity.imageUrls.length > 0 ? activity.imageUrls : ['https://placehold.co/600x400.png']; // Use dummy if no images
+  const images = activity.imageUrls && activity.imageUrls.length > 0 ? activity.imageUrls : ['https://placehold.co/600x400.png'];
   const [currentSlide, setCurrentSlide] = useState(0); 
   
   const handleUpdate = (updatedActivity: Omit<Activity, 'id'> | Activity) => {
@@ -128,7 +134,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
           {images && images.length > 0 && (
             <div className="relative">
               <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-md object-cover aspect-video" />
-              {images.length > 1 && ( // Only show buttons if there's more than one image
+              {images.length > 1 && (
                 <>
                   <div className="absolute inset-y-0 left-0 flex items-center">
                     <Button
@@ -205,8 +211,8 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
           <div className="flex justify-end gap-2 pt-4">
               {!isReadOnly && (
                   <>
-                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>Edit</Button>
-                      <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>{t.buttons.edit}</Button>
+                      <Button variant="destructive" onClick={handleDelete}>{t.buttons.delete}</Button>
                   </>
               )}
           </div>
@@ -217,13 +223,14 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
          <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Edit Activity</DialogTitle>
+                <DialogTitle>{t.editTitle}</DialogTitle>
               </DialogHeader>
               <ItineraryForm 
                 activity={activity} 
-                onSubmit={handleUpdate} 
-                submitButtonText="Save Changes"
+                onSubmit={handleUpdate}
                 onCancel={() => setIsEditing(false)}
+                lang={lang}
+                t={t}
               />
             </DialogContent>
          </Dialog>

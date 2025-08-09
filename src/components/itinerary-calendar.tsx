@@ -4,14 +4,15 @@
 import React, { useState, type FC } from 'react';
 import type { Activity } from '@/lib/types';
 import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-fns';
+import { enUS, km } from 'date-fns/locale';
 import ItineraryItem from './itinerary-item';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
-import { addActivity } from '@/services/firestore';
 import Image from "next/image";
+import type { Language, Translation } from '@/lib/translations';
 
 type ItineraryCalendarProps = {
   activities: Activity[];
@@ -19,19 +20,22 @@ type ItineraryCalendarProps = {
   onUpdateActivity: (activity: Activity) => void;
   onDeleteActivity: (id: string) => void;
   isReadOnly?: boolean;
+  lang: Language;
+  t: Translation;
 };
 
-const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false }) => {
+const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false, lang, t }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const year = new Date().getFullYear();
-  // Dates are 0-indexed for month, so 7 is August.
   const tripStart = new Date(year, 7, 15); 
   const tripEnd = new Date(year, 7, 22);
 
   const tripDays = eachDayOfInterval({ start: tripStart, end: tripEnd });
 
   const [isAddModalOpen, setAddModalOpen] = useState(false);
+  
+  const locale = lang === 'km' ? km : enUS;
 
   const activitiesByDate = activities.reduce((acc, activity) => {
     const dateKey = activity.date;
@@ -43,14 +47,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   }, {} as Record<string, Activity[]>);
 
   const handleAddSubmit = async (activity: Omit<Activity, 'id'>) => {
-    try {
-      const newActivityId = await addActivity(activity);
-      console.log("Activity added with ID:", newActivityId);
-      // You might want to do something with the new ID,
-      // like updating the local state or refetching activities
-    } catch (error) {
-      console.error("Error adding activity:", error);
-    }
+    await onAddActivity(activity);
     setAddModalOpen(false);
   };
 
@@ -73,7 +70,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     <div className="bg-card/50 rounded-lg border p-4 md:p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl md:text-2xl font-bold font-headline">
-          Trip Itinerary: {format(tripStart, 'MMMM d')} - {format(tripEnd, 'd, yyyy')}
+          {t.calendar.title}: {format(tripStart, 'MMMM d', { locale })} - {format(tripEnd, 'd, yyyy', { locale })}
         </h2>
       </div>
       
@@ -121,8 +118,8 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
               <div className="relative z-20">
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col">
-                      <span className={cn("font-bold", isToday(day) && 'text-primary')}>{format(day, 'd')}</span>
-                      <span className={cn("text-xs", isSpecialDay ? "text-white/80" : "text-muted-foreground")}>{format(day, 'EEEE')}</span>
+                      <span className={cn("font-bold", isToday(day) && 'text-primary')}>{format(day, 'd', { locale })}</span>
+                      <span className={cn("text-xs", isSpecialDay ? "text-white/80" : "text-muted-foreground")}>{format(day, 'EEEE', { locale })}</span>
                   </div>
                    {!isReadOnly && (
                       <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
@@ -133,12 +130,14 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                           </DialogTrigger>
                           <DialogContent>
                               <DialogHeader>
-                              <DialogTitle>Add Activity on {selectedDate && format(selectedDate, 'PPP')}</DialogTitle>
+                              <DialogTitle>{t.form.addTitle} {selectedDate && format(selectedDate, 'PPP', { locale })}</DialogTitle>
                               </DialogHeader>
                               {selectedDate && <ItineraryForm
                                   activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00', address: ''}}
                                   onSubmit={handleAddSubmit}
                                   onCancel={() => setAddModalOpen(false)}
+                                  t={t.form}
+                                  lang={lang}
                               />}
                           </DialogContent>
                       </Dialog>
@@ -153,6 +152,8 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       onUpdateActivity={onUpdateActivity}
                       onDeleteActivity={onDeleteActivity}
                       isReadOnly={isReadOnly}
+                      lang={lang}
+                      t={t.form}
                     />
                   ))}
               </div>

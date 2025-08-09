@@ -2,39 +2,52 @@
 "use client";
 
 import { useState, Suspense, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import type { Activity, Suggestion } from '@/lib/types';
 import ItineraryCalendar from '@/components/itinerary-calendar';
 import AiSuggestions from '@/components/ai-suggestions';
 import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast";
-import { Sunrise } from 'lucide-react';
+import { Sunrise, Languages } from 'lucide-react';
 import { getActivities, addActivity, updateActivity, deleteActivity as deleteActivityFromDb } from '@/services/firestore';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { Button } from '@/components/ui/button';
+
+const translations = {
+  en: {
+    title: "Arizona Adventure Planner",
+    description: "Your personal guide to the Grand Canyon State.",
+    footer: "Happy travels in sunny Arizona!",
+    loading: "Loading itinerary...",
+    toggleLang: "Switch to Khmer"
+  },
+  km: {
+    title: "អ្នករៀបចំផែនការផ្សងព្រេងអារីហ្សូណា",
+    description: "មគ្គុទ្ទេសក៍ផ្ទាល់ខ្លួនរបស់អ្នកទៅកាន់រដ្ឋ Grand Canyon ។",
+    footer: "រីករាយដំណើរកម្សាន្តនៅអារីហ្សូណាដែលមានពន្លឺថ្ងៃ!",
+    loading: "កំពុងផ្ទុក...",
+    toggleLang: "ប្តូរទៅភាសាអង់គ្លេស"
+  }
+};
 
 function ItineraryPage() {
-  const searchParams = useSearchParams();
-  // const isAdmin = searchParams.get('admin') === 'true';
-  const isAdmin = true;
-  const isReadOnly = false;
-
   const [activities, setActivities] = useState<Activity[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [isLoadingActivities, setIsLoadingActivities] = useState(true);
+  const [lang, setLang] = useState<'en' | 'km'>('en');
   const { toast } = useToast();
+  
+  const t = translations[lang];
 
   useEffect(() => {
     async function fetchActivities() {
       try {
-        console.log("Attempting to fetch activities...");
         setIsLoadingActivities(true);
         const fetchedActivities = await getActivities();
-        console.log("Fetched activities:", fetchedActivities); // Log the fetched data
         setActivities(fetchedActivities);
       } catch (error) {
         console.error("Error fetching activities: ", error);
-        setActivities([]); // Set activities to an empty array on error
+        setActivities([]); 
         toast({
           variant: "destructive",
           title: "Database Error",
@@ -42,18 +55,15 @@ function ItineraryPage() {
         });
       } finally {
         setIsLoadingActivities(false);
-        console.log("Finished fetching activities. isLoadingActivities:", false);
       }
     }
     fetchActivities();
   }, [toast]);
 
   const handleAddActivity = async (activity: Omit<Activity, 'id'>) => {
-    if (isReadOnly) return;
     try {
       const newActivityId = await addActivity(activity);
       const newActivity = { ...activity, id: newActivityId };
-      // After successfully adding, re-fetch activities to update the UI
       setIsLoadingSuggestions(true);
       const result = await getSuggestions(newActivity.title);
       if(result && result.length > 0) {
@@ -68,7 +78,6 @@ function ItineraryPage() {
       });
     } finally {
       setIsLoadingSuggestions(false);
-      // Always re-fetch and sort after adding
       const fetchedActivities = await getActivities();
       setActivities(fetchedActivities.sort((a, b) => {
         if (a.date < b.date) return -1;
@@ -79,7 +88,6 @@ function ItineraryPage() {
   };
 
   const handleUpdateActivity = async (updatedActivity: Activity) => {
-    if (isReadOnly) return;
     try {
       await updateActivity(updatedActivity);
       setActivities(activities.map((activity) =>
@@ -96,7 +104,6 @@ function ItineraryPage() {
   };
 
   const handleDeleteActivity = async (id: string) => {
-    if (isReadOnly) return;
     try {
       await deleteActivityFromDb(id);
       setActivities(activities.filter((activity) => activity.id !== id));
@@ -109,6 +116,10 @@ function ItineraryPage() {
       });
     }
   };
+  
+  const toggleLanguage = () => {
+    setLang(prevLang => prevLang === 'en' ? 'km' : 'en');
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -117,25 +128,30 @@ function ItineraryPage() {
           <div>
             <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
               <Sunrise className="w-8 h-8"/>
-              Arizona Adventure Planner
+              {t.title}
             </h1>
-            <p className="mt-1 text-primary-foreground/90">Your personal guide to the Grand Canyon State.</p>
+            <p className="mt-1 text-primary-foreground/90">{t.description}</p>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="icon" onClick={toggleLanguage} aria-label={t.toggleLang}>
+              <Languages className="h-[1.2rem] w-[1.2rem]" />
+            </Button>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
       <main className="flex-grow container mx-auto p-4 md:p-8">
         <div className="grid lg:grid-cols-5 gap-8 items-start">
           <div className="lg:col-span-3 flex flex-col gap-8">
              {isLoadingActivities ? (
-                <p>Loading itinerary...</p>
+                <p>{t.loading}</p>
              ) : (
                 <ItineraryCalendar 
                   activities={activities}
                   onAddActivity={handleAddActivity}
                   onUpdateActivity={handleUpdateActivity}
                   onDeleteActivity={handleDeleteActivity}
-                  isReadOnly={isReadOnly}
+                  isReadOnly={false}
                 />
              )}
           </div>
@@ -145,7 +161,7 @@ function ItineraryPage() {
         </div>
       </main>
       <footer className="text-center p-4 text-muted-foreground text-sm">
-        <p>Happy travels in sunny Arizona!</p>
+        <p>{t.footer}</p>
       </footer>
     </div>
   );

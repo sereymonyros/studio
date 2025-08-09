@@ -53,7 +53,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 
   const dayBackgroundImages: Record<string, string> = {
     [`${year}-08-15`]: "https://roadslesstraveled.us/blog/wp-content/uploads/2014/05/A-04-Scenic-drive-in-Sedona-561.jpg", // Replace with your actual image URLs
-    [`${year}-08-16`]: '/images/day2.jpg',
+    [`${year}-08-16`]: 'https://twoaztrains.com/wp-content/uploads/2022/12/Open-Air-Viewing-Cars-Verde-Canyon-Train-mb8.jpg',
     [`${year}-08-17`]: '/images/day3.jpg',
     [`${year}-08-18`]: '/images/day4.jpg',
     [`${year}-08-19`]: '/images/day5.jpg',

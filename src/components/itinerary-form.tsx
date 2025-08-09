@@ -28,6 +28,7 @@ const formSchema = z.object({
   imageUrls: z.string().optional(),
   youtubeUrl: z.string().url("Please enter a valid YouTube URL.").optional().or(z.literal('')),
   phoneNumber: z.string().optional(),
+  code: z.string().optional(),
 });
 
 type ItineraryFormProps = {
@@ -50,7 +51,8 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       address: activity?.address || "",
       phoneNumber: activity?.phoneNumber || "",
       imageUrls: activity?.imageUrls?.join('\n') || '',
-      youtubeUrl: activity?.youtubeUrl || ''
+      youtubeUrl: activity?.youtubeUrl || '',
+      code: activity?.code || "",
     },
   });
   
@@ -204,6 +206,19 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
               <FormLabel>{t.fields.imageUrls.label}</FormLabel>
               <FormControl>
                 <Textarea placeholder={t.fields.imageUrls.placeholder} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="code"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t.fields.code.label}</FormLabel>
+              <FormControl>
+                <Textarea placeholder={t.fields.code.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

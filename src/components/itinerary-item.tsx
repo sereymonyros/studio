@@ -24,7 +24,7 @@ type ItineraryItemProps = {
 
 const getIconForActivity = (title: string) => {
   const lowerTitle = title.toLowerCase();
-  const iconProps = { className: cn("w-6 h-6 text-white"), strokeWidth: 2.5 };
+  const iconProps = { className: cn("w-6 h-6 text-black dark:text-white"), strokeWidth: 2.5 };
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
   if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
@@ -97,12 +97,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                   {getIconForActivity(activity.title)}
                   <div className="flex-grow">
                     <p className={cn(
-                      "text-white font-bold font-headline text-sm",
+                      "text-black dark:text-white font-bold font-headline text-sm",
                     )}>
                       {displayTitle}
                     </p>
                     <p className={cn(
-                      "text-white text-xs font-bold"
+                      "text-black dark:text-white text-xs font-bold"
                     )}>
                       {activity.time}
                     </p>
@@ -112,7 +112,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <Button
                         variant="ghost"
                         size="icon"
-                        className={cn("text-muted-foreground hover:text-foreground hover:bg-primary/10 h-8 w-8")}
                         onClick={openEditDialog}
                         aria-label={`Edit ${activity.title}`}
                       >
@@ -121,7 +120,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <Button
                         variant="ghost"
                         size="icon"
-                        className={cn("text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8")}
                         onClick={handleDelete}
                         aria-label={`Delete ${activity.title}`}
                       >
@@ -225,6 +223,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       {activity.address}
                     </a>
                 </div>
+              )}
+              {activity?.code && (
+                <div className="flex items-center gap-3">
+                <Clock className="w-5 h-5 text-muted-foreground"/>
+                <span className="text-foreground">{activity.code}</span>
+            </div>
               )}        
           </div>
           <div className="flex justify-end gap-2 pt-4">

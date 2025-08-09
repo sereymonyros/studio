@@ -11,6 +11,7 @@ export interface Activity {
   phoneNumber?: string; // Keep this line if it was there previously
   youtubeUrl?: string; // Add this line
   imageUrls?: string[]; // Add this line
+  code?: string;
 }
 
 export interface Suggestion {

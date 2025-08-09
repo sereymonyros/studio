@@ -45,6 +45,10 @@ export const translations = {
         imageUrls: {
             label: "Image URLs (one per line)",
             placeholder: "Enter image URLs, one per line"
+        },
+        code: {
+          label: "Code",
+          placeholder: "Enter any relevant codes (e.g., confirmation, door code)"
         }
       },
       buttons: {
@@ -109,6 +113,10 @@ export const translations = {
         imageUrls: {
             label: "URL រូបភាព (មួយក្នុងមួយបន្ទាត់)",
             placeholder: "បញ្ចូល URL រូបភាព, មួយក្នុងមួយបន្ទាត់"
+        },
+        code: {
+          label: "កូដ",
+          placeholder: "បញ្ចូល​លេខ​កូដ​ដែល​ពាក់ព័ន្ធ (ឧ. លេខ​កូដ​បញ្ជាក់, លេខ​កូដ​ទ្វារ)"
         }
       },
       buttons: {

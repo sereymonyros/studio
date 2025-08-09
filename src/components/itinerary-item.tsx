@@ -18,21 +18,20 @@ type ItineraryItemProps = {
   onUpdateActivity: (activity: Activity) => void;
   onDeleteActivity: (id: string) => void;
   isReadOnly?: boolean;
-  isSpecialDay?: boolean;
   lang: Language;
   t: Translation['form'];
 };
 
-const getIconForActivity = (title: string, isSpecialDay: boolean) => {
+const getIconForActivity = (title: string) => {
   const lowerTitle = title.toLowerCase();
-  const iconProps = { className: cn("w-6 h-6", isSpecialDay ? "text-white" : "text-primary"), strokeWidth: 2.5 };
+  const iconProps = { className: cn("w-6 h-6 text-white"), strokeWidth: 2.5 };
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
   if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
   return <MapPin {...iconProps} />;
 };
 
-export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isSpecialDay = false, lang, t }: ItineraryItemProps) {
+export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, lang, t }: ItineraryItemProps) {
   const [isDetailViewOpen, setDetailViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   
@@ -53,7 +52,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     console.error("Error formatting date:", e);
   }
 
-  const images = activity.imageUrls && activity.imageUrls.length > 0 ? activity.imageUrls : ['https://placehold.co/600x400.png'];
+  const images = activity.imageUrls && activity.imageUrls.length > 0 ? activity.imageUrls : [];
   const [currentSlide, setCurrentSlide] = useState(0); 
   
   const handleUpdate = (updatedActivity: Omit<Activity, 'id'> | Activity) => {
@@ -89,21 +88,19 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
            <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
               <Card className={cn(
                 "transition-all hover:shadow-md bg-card/80 border-0",
-                "opacity-80 hover:opacity-100 focus:opacity-100",
-                isSpecialDay && "bg-black/20 border-white/20"
+                "opacity-80 hover:opacity-100 focus:opacity-100 border-white"
+                 
               )}>
                 <CardContent className="p-2 flex items-center gap-2">
-                  {getIconForActivity(activity.title, isSpecialDay)}
+                  {getIconForActivity(activity.title)}
                   <div className="flex-grow">
                     <p className={cn(
-                      "font-bold font-headline text-sm",
-                      isSpecialDay ? "text-white" : "text-primary"
+                      "text-white font-bold font-headline text-sm",
                     )}>
                       {displayTitle}
                     </p>
                     <p className={cn(
-                      "text-xs",
-                      isSpecialDay ? "text-white/80" : "text-primary/90"
+                      "text-xs font-bold"
                     )}>
                       {activity.time}
                     </p>
@@ -113,7 +110,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <Button
                         variant="ghost"
                         size="icon"
-                        className={cn("text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8", isSpecialDay && "text-white/70 hover:text-white hover:bg-white/20")}
+                        className={cn("text-muted-foreground hover:text-primary hover:bg-primary/10 h-8 w-8")}
                         onClick={openEditDialog}
                         aria-label={`Edit ${activity.title}`}
                       >
@@ -122,7 +119,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <Button
                         variant="ghost"
                         size="icon"
-                        className={cn("text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8", isSpecialDay && "text-white/70 hover:text-white hover:bg-white/20")}
+                        className={cn("text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8")}
                         onClick={handleDelete}
                         aria-label={`Delete ${activity.title}`}
                       >
@@ -138,7 +135,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
-              {getIconForActivity(activity.title, false)}
+              {getIconForActivity(activity.title)}
               {displayTitle}
             </DialogTitle>
           </DialogHeader>

@@ -119,7 +119,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col">
                       <span className={cn("font-bold", isToday(day) && 'text-primary')}>{format(day, 'd', { locale })}</span>
-                      <span className={cn("text-xs", isSpecialDay ? "text-white/80" : "text-muted-foreground")}>{format(day, 'EEEE', { locale })}</span>
+                      <span className={cn("text-xs")}>{format(day, 'EEEE', { locale })}</span>
                   </div>
                    {!isReadOnly && (
                       <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>

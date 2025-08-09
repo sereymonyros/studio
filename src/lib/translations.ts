@@ -64,13 +64,13 @@ export const translations = {
   },
   km: {
     header: {
-      title: "អ្នករៀបចំផែនការផ្សងព្រេងអារីហ្សូណា",
-      description: "មគ្គុទ្ទេសក៍ផ្ទាល់ខ្លួនរបស់អ្នកទៅកាន់រដ្ឋ Grand Canyon ។",
+      title: "ដំណើរ​កម្សាន្ត​នៅ​អារីហ្សូណា",
+      description: "",
       toggleLang: "ប្តូរទៅភាសាអង់គ្លេស"
     },
     calendar: {
       title: "កាលវិភាគ​ធ្វើ​ដំណើរ",
-      loading: "កំពុងផ្ទុក...",
+      loading: "កំពុងផ្ទុកកាលវិភាគ...",
     },
     suggestions: {
       title: "ការណែនាំដោយ AI"
@@ -81,15 +81,15 @@ export const translations = {
       fields: {
         title: {
           label: "ចំណងជើង",
-          placeholder: "ឧទាហរណ៍, ឡើងភ្នំ Camelback"
+          placeholder: "ឧ. ឡើងភ្នំ Camelback"
         },
         address: {
-          label: "អាស័យដ្ឋាន",
-          placeholder: "ឧទាហរណ៍, 123 Main St, Sedona, AZ"
+          label: "អាសយដ្ឋាន",
+          placeholder: "ឧ. 123 Main St, Sedona, AZ"
         },
         website: {
           label: "គេហទំព័រ",
-          placeholder: "ឧទាហរណ៍, https://example.com"
+          placeholder: "ឧ. https://example.com"
         },
         date: {
           label: "កាលបរិច្ឆេទ",

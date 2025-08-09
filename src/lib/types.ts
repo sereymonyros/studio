@@ -2,6 +2,7 @@
 export interface Activity {
   id: string;
   title: string;
+  title_km?: string;
   date: string; // YYYY-MM-DD
   time: string; // HH:mm
   website?: string;

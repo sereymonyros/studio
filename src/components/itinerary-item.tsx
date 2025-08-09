@@ -38,6 +38,8 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [formattedDate, setFormattedDate] = useState("");
   
   const locale = lang === 'km' ? km : enUS;
+  const displayTitle = lang === 'km' && activity.title_km ? activity.title_km : activity.title;
+
 
   useEffect(() => {
     // Safari does not like `new Date('YYYY-MM-DD')`
@@ -91,7 +93,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                     {getIconForActivity(activity.title)}
                   </div>
                   <div className="flex-grow">
-                    <p className="font-bold font-headline text-sm text-foreground">{activity.title}</p>
+                    <p className="font-bold font-headline text-sm text-foreground">{displayTitle}</p>
                     <p className="text-xs text-muted-foreground">
                       {formattedTime}
                     </p>
@@ -127,7 +129,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
               {getIconForActivity(activity.title)}
-              {activity.title}
+              {displayTitle}
             </DialogTitle>
           </DialogHeader>
 

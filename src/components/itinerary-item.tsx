@@ -35,21 +35,22 @@ const getIconForActivity = (title: string, isSpecialDay: boolean) => {
 export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isSpecialDay = false, lang, t }: ItineraryItemProps) {
   const [isDetailViewOpen, setDetailViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [formattedTime, setFormattedTime] = useState("");
-  const [formattedDate, setFormattedDate] = useState("");
   
   const locale = lang === 'km' ? km : enUS;
   const displayTitle = lang === 'km' && activity.title_km ? activity.title_km : activity.title;
 
-
-  useEffect(() => {
+  let formattedTime = "";
+  let formattedDate = "";
+  try {
     // Safari does not like `new Date('YYYY-MM-DD')`
-    const activityDate = new Date(activity.date.replace(/-/g, '/') + `T${activity.time}`);
+    const activityDate = new Date(`${activity.date.replace(/-/g, '/')}T${activity.time}`);
     if (!isNaN(activityDate.getTime())) {
-      setFormattedTime(format(activityDate, "p", { locale }));
-      setFormattedDate(format(activityDate, "PPPP", { locale }));
+      formattedTime = format(activityDate, "p", { locale });
+      formattedDate = format(activityDate, "PPPP", { locale });
     }
-  }, [activity.date, activity.time, locale]);
+  } catch (e) {
+    console.error("Error formatting date:", e);
+  }
 
   const images = activity.imageUrls && activity.imageUrls.length > 0 ? activity.imageUrls : ['https://placehold.co/600x400.png'];
   const [currentSlide, setCurrentSlide] = useState(0); 

@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -15,8 +16,8 @@ const Card = React.forwardRef<
       className
     )}
   >
-    <Image
-      src="https://placehold.co/400x200.png"
+    <Image      
+      src="https://placehold.co/600x400.png"
       alt="Card background"
       layout="fill"
       objectFit="cover"

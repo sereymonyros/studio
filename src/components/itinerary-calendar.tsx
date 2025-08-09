@@ -57,7 +57,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     [`${year}-08-17`]: "https://themaritimeexplorer.ca/wp-content/uploads/2024/12/Walnut-Canyon-Dwellings-768x440.jpg",
     [`${year}-08-18`]: 'https://cdn.allgrandcanyon.com/images/content/19995_1323283002_H6b08_lg.jpg',
     [`${year}-08-19`]: 'https://travelnevada.com/wp-content/uploads/2015/06/hoover-dam-1.jpg',
-    [`${year}-08-20`]: '/images/day6.jpg',
+    [`${year}-08-20`]: 'https://www.traveloffpath.com/wp-content/uploads/2022/05/Las-Vegas-strip-at-night-.jpg',
     [`${year}-08-21`]: '/images/day7.jpg',
     [`${year}-08-22`]: '/images/day8.jpg',
     // Add more dates and URLs as needed

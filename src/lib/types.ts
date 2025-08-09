@@ -7,6 +7,7 @@ export interface Activity {
   website?: string;
   address?: string;
   phoneNumber?: string;
+  imageUrls?: string[]; // Add this line
 }
 
 export interface Suggestion {

@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import type { Activity } from "@/lib/types";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Clipboard, Phone } from "lucide-react";
@@ -35,12 +35,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [formattedTime, setFormattedTime] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
 
-  const [currentSlide, setCurrentSlide] = useState(0); // State for current slide
-  const dummyImages = [
-    'https://placehold.co/600x400.png',
-    'https://placehold.co/600x400.png',
-    'https://placehold.co/600x400.png',
-  ];
 
   const { toast } = useToast();
 
@@ -50,7 +44,11 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
       setFormattedTime(format(activityDate, "h:mm a"));
       setFormattedDate(format(activityDate, "EEEE, MMMM d, yyyy"));
     }
-  }, [activity.date, activity.time]);
+  }, [activity.date, activity.time]); // Depend on activity.date and activity.time
+
+  // State for current slide, dependent on activity.imageUrls
+  const images = activity.imageUrls && activity.imageUrls.length > 0 ? activity.imageUrls : ['https://placehold.co/600x400.png']; // Use dummy if no images
+  const [currentSlide, setCurrentSlide] = useState(0); 
   
   const handleUpdate = (updatedActivity: Omit<Activity, 'id'> | Activity) => {
     onUpdateActivity(updatedActivity as Activity);
@@ -72,6 +70,16 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
       description: "Event details are ready to be pasted.",
     });
   }
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+
 
   const openEditDialog = (e: React.MouseEvent) => {
     e.stopPropagation(); 
@@ -133,29 +141,35 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </DialogTitle>
           </DialogHeader>
 
-          <div className="relative">
-            <img src={dummyImages[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-md" />
-            <div className="absolute inset-y-0 left-0 flex items-center">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setCurrentSlide((prev) => (prev === 0 ? dummyImages.length - 1 : prev - 1))}
-                className="rounded-full bg-black/20 text-white hover:bg-black/50"
-              >
-                &lt;
-              </Button>
+          {images && images.length > 0 && (
+            <div className="relative">
+              <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-md object-cover aspect-video" />
+              {images.length > 1 && ( // Only show buttons if there's more than one image
+                <>
+                  <div className="absolute inset-y-0 left-0 flex items-center">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={prevSlide}
+                      className="rounded-full bg-black/20 text-white hover:bg-black/50"
+                    >
+                      &lt;
+                    </Button>
+                  </div>
+                  <div className="absolute inset-y-0 right-0 flex items-center">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={nextSlide}
+                      className="rounded-full bg-black/20 text-white hover:bg-black/50"
+                    >
+                      &gt;
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setCurrentSlide((prev) => (prev === dummyImages.length - 1 ? 0 : prev + 1))}
-                className="rounded-full bg-black/20 text-white hover:bg-black/50"
-              >
-                &gt;
-              </Button>
-            </div>
-          </div>
+          )}
 
           <div className="space-y-4 py-4">
               <div className="flex items-center gap-3">

@@ -15,15 +15,7 @@ const Card = React.forwardRef<
       "transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1",
       className
     )}
-  >
-    <Image      
-      src="https://placehold.co/600x400.png"
-      alt="Card background"
-      layout="fill"
-      objectFit="cover"
-      className="absolute inset-0 z-0 opacity-20"
-      data-ai-hint="abstract texture"
-    />
+  >   
     <div className="relative z-10 h-full">
       {props.children}
     </div>

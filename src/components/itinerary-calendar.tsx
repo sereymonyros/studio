@@ -36,7 +36,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   
   const locale = lang === 'km' ? km : enUS;
-
+  // The `lang` variable is a placeholder. Replace with the actual method of accessing the current language state.
   const activitiesByDate = activities.reduce((acc, activity) => {
     const dateKey = activity.date;
     if (!acc[dateKey]) {
@@ -87,7 +87,6 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
           const dayActivities = (activitiesByDate[dateKey] || []).sort((a,b) => a.time.localeCompare(b.time));
           const isSedona = isSedonaDay(day);
           const isGrandCanyon = isGrandCanyonDay(day);
-          const isSpecialDay = isSedona || isGrandCanyon;
 
           const backgroundImageSrc = dayBackgroundImages[dateKey];
           
@@ -96,8 +95,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
               key={day.toISOString()}
               className={cn(
                 "border rounded-md p-2 flex flex-col relative overflow-hidden min-h-[150px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1", 
-                isToday(day) ? 'bg-accent/40' : 'bg-card',
-                isSpecialDay && "text-white"
+                isToday(day) ? 'bg-accent/40' : 'bg-card'
               )}
             >             
     
@@ -124,7 +122,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                    {!isReadOnly && (
                       <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("h-6 w-6", isSpecialDay && "hover:bg-white/20 text-white/80 hover:text-white")} onClick={() => openAddModal(day)}>
+                            <Button variant="ghost" size="icon" className={cn("h-6 w-6")} onClick={() => openAddModal(day)}>
                               <PlusCircle className="h-4 w-4"/>
                             </Button>
                           </DialogTrigger>
@@ -154,7 +152,6 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       isReadOnly={isReadOnly}
                       lang={lang}
                       t={t.form}
-                      isSpecialDay={isSpecialDay}
                     />
                   ))}
               </div>

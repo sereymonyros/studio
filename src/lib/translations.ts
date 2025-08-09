@@ -28,8 +28,12 @@ export const translations = {
           placeholder: "e.g., 123 Main St, Sedona, AZ"
         },
         website: {
-          label: "Website",
+          label: "Website URL",
           placeholder: "e.g., https://example.com"
+        },
+        websiteText: {
+          label: "Website Label",
+          placeholder: "e.g., Official Website"
         },
         date: {
           label: "Date",
@@ -88,8 +92,12 @@ export const translations = {
           placeholder: "ឧ. 123 Main St, Sedona, AZ"
         },
         website: {
-          label: "គេហទំព័រ",
+          label: "URL គេហទំព័រ",
           placeholder: "ឧ. https://example.com"
+        },
+        websiteText: {
+            label: "ស្លាកគេហទំព័រ",
+            placeholder: "ឧ. គេហទំព័រផ្លូវការ"
         },
         date: {
           label: "កាលបរិច្ឆេទ",

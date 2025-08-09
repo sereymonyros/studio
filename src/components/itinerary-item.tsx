@@ -143,6 +143,14 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
           {images && images.length > 0 && (
             <div className="relative">
               <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-full object-cover aspect-square" />
+              {/* Add onClick handler to the image to go to the next slide */}
+              {images.length > 1 && ( // Only add click behavior if there's more than one image
+                <div onClick={nextSlide} className="absolute inset-0 cursor-pointer">
+                    {/* This div covers the image to make it clickable */}
+                </div>
+              )}
+
+              {/* Navigation buttons (only show if more than one image) */}
               {images.length > 1 && (
                 <>
                   <div className="absolute inset-y-0 left-0 flex items-center">
@@ -196,8 +204,8 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary hover:underline"
-                    >
-                      {activity.website}
+>
+ {activity.websiteText}
                     </a>
                 </div>
               )}              

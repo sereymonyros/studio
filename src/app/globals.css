@@ -80,6 +80,10 @@
     @apply border-border;
   }
   body {
+    /* Default font */
+    font-family: sans-serif;
+  }
+  body {
     @apply bg-background text-foreground;
   }
 }

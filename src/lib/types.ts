@@ -6,8 +6,8 @@ export interface Activity {
   date: string; // YYYY-MM-DD
   time: string; // HH:mm
   website?: string;
+  websiteText?: string; // Add this line
   address?: string;
-  phoneNumber?: string;
   imageUrls?: string[]; // Add this line
 }
 

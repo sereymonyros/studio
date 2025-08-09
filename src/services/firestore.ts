@@ -28,7 +28,6 @@ export async function getActivities(): Promise<Activity[]> {
       time: '08:00',
       address: 'Echo Canyon Trailhead, Phoenix, AZ',
       website: 'https://www.phoenix.gov/parks/trails/locations/camelback-mountain',
-      phoneNumber: '602-262-7275',
       imageUrls: ['https://placehold.co/600x400.png']
     },
     {
@@ -39,7 +38,6 @@ export async function getActivities(): Promise<Activity[]> {
       time: '12:30',
       address: '825 N 1st St, Phoenix, AZ 85004',
       website: 'https://www.mattsbigbreakfast.com/',
-      phoneNumber: '602-254-1074',
       imageUrls: ['https://placehold.co/600x400.png']
     },
     {
@@ -50,7 +48,6 @@ export async function getActivities(): Promise<Activity[]> {
       time: '10:00',
       address: '1201 N Galvin Pkwy, Phoenix, AZ 85008',
       website: 'https://dbg.org/',
-      phoneNumber: '480-941-1225',
       imageUrls: ['https://placehold.co/600x400.png']
     },
     {

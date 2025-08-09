@@ -23,8 +23,8 @@ const formSchema = z.object({
   date: z.date({ required_error: "A date is required." }),
   time: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:mm)."),
   website: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
+  websiteText: z.string().min(2, "Title must be at least 2 characters.").max(100).optional(),
   address: z.string().optional(),
-  phoneNumber: z.string().optional(),
   imageUrls: z.string().optional(),
 });
 
@@ -44,8 +44,8 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       date: activity?.date ? new Date(activity.date.replace(/-/g, '/')) : new Date(),
       time: activity?.time || "12:00",
       website: activity?.website || "",
+      websiteText: activity?.websiteText || "",
       address: activity?.address || "",
-      phoneNumber: activity?.phoneNumber || "",
       imageUrls: activity?.imageUrls?.join('\n') || '',
     },
   });
@@ -58,8 +58,8 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       date: format(values.date, "yyyy-MM-dd"),
       time: values.time,
       website: values.website,
+      websiteText: values.websiteText,
       address: values.address,
-      phoneNumber: values.phoneNumber,
       imageUrls: values.imageUrls ? values.imageUrls.split('\n').map(url => url.trim()).filter(url => url !== '') : [],
     };
 
@@ -95,6 +95,19 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
               <FormLabel>{t.fields.address.label}</FormLabel>
               <FormControl>
                 <Input placeholder={t.fields.address.placeholder} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="websiteText"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t.fields.websiteText.label}</FormLabel>
+              <FormControl>
+                <Input placeholder={t.fields.websiteText.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

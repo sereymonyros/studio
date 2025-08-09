@@ -23,9 +23,9 @@ type ItineraryItemProps = {
   t: Translation['form'];
 };
 
-const getIconForActivity = (title: string) => {
+const getIconForActivity = (title: string, isSpecialDay: boolean) => {
   const lowerTitle = title.toLowerCase();
-  const iconProps = { className: "w-5 h-5 text-foreground", strokeWidth: 2.5 };
+  const iconProps = { className: cn("w-5 h-5", isSpecialDay ? "text-white" : "text-foreground"), strokeWidth: 2.5 };
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
   if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
@@ -92,7 +92,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}>
                 <CardContent className="p-3 flex items-center gap-3">
                   <div className={cn("p-2 bg-primary/10 rounded-lg", isSpecialDay && "bg-white/10")}>
-                    {getIconForActivity(activity.title)}
+                    {getIconForActivity(activity.title, isSpecialDay)}
                   </div>
                   <div className="flex-grow">
                     <p className={cn(
@@ -138,7 +138,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
-              {getIconForActivity(activity.title)}
+              {getIconForActivity(activity.title, false)}
               {displayTitle}
             </DialogTitle>
           </DialogHeader>

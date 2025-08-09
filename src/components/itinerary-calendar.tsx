@@ -59,7 +59,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     [`${year}-08-19`]: 'https://travelnevada.com/wp-content/uploads/2015/06/hoover-dam-1.jpg',
     [`${year}-08-20`]: 'https://www.traveloffpath.com/wp-content/uploads/2022/05/Las-Vegas-strip-at-night-.jpg',
     [`${year}-08-21`]: 'https://static.wixstatic.com/media/8de0c0_a38585f9e62d4672b5a0889001f317cc~mv2.jpg/v1/fill/w_500,h_375,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/8de0c0_a38585f9e62d4672b5a0889001f317cc~mv2.jpg',
-    [`${year}-08-22`]: '/images/day8.jpg',
+    [`${year}-08-22`]: 'https://sa.adanione.com/-/media/Project/AirportServices/Mumbai-Service-Banner-Image/App-banner/City-to-City-Flight-Status_Web.png',
     // Add more dates and URLs as needed
   };
 

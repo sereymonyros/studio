@@ -71,6 +71,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'sa.adanione.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -7,7 +7,7 @@ import ItineraryCalendar from '@/components/itinerary-calendar';
 import AiSuggestions from '@/components/ai-suggestions';
 import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast";
-import { Sunrise, Languages } from 'lucide-react';
+import { Sunrise } from 'lucide-react';
 import { getActivities, addActivity, updateActivity, deleteActivity as deleteActivityFromDb } from '@/services/firestore';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
@@ -118,8 +118,8 @@ function ItineraryPage() {
             <p className="mt-1 text-primary-foreground/90">{t.header.description}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={toggleLanguage} aria-label={t.header.toggleLang}>
-              <Languages className="h-[1.2rem] w-[1.2rem]" />
+            <Button variant="ghost" onClick={toggleLanguage} aria-label={t.header.toggleLang} className="font-bold">
+              {lang === 'en' ? 'ខ្មែរ' : 'EN'}
             </Button>
             <ThemeToggle />
           </div>

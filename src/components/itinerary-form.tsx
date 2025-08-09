@@ -70,7 +70,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Activity / Landmark</FormLabel>
+              <FormLabel>title</FormLabel>
               <FormControl>
                 <Input placeholder="e.g., Hike Camelback Mountain" {...field} />
               </FormControl>
@@ -83,7 +83,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Address</FormLabel>
+              <FormLabel>address</FormLabel>
               <FormControl>
                 <Input placeholder="e.g., 123 Main St, Sedona, AZ" {...field} />
               </FormControl>
@@ -104,29 +104,14 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
             </FormItem>
           )}
         />
-         <FormField
-          control={form.control}
-          name="phoneNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone Number (for reminders)</FormLabel>
-              <FormControl>
-                <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input placeholder="e.g., 555-123-4567" {...field} className="pl-10" />
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+  
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Date</FormLabel>
+                <FormLabel>date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -161,7 +146,7 @@ export default function ItineraryForm({ activity, onSubmit, submitButtonText = "
             name="time"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Time</FormLabel>
+                <FormLabel>time</FormLabel>
                 <FormControl>
                   <Input type="time" {...field} />
                 </FormControl>

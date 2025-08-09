@@ -13,8 +13,9 @@ import { getActivities, addActivity, updateActivity, deleteActivity as deleteAct
 
 function ItineraryPage() {
   const searchParams = useSearchParams();
-  const isAdmin = searchParams.get('admin') === 'true';
-  const isReadOnly = !isAdmin;
+  // const isAdmin = searchParams.get('admin') === 'true';
+  const isAdmin = true;
+  const isReadOnly = false;
 
   const [activities, setActivities] = useState<Activity[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -25,11 +26,14 @@ function ItineraryPage() {
   useEffect(() => {
     async function fetchActivities() {
       try {
+        console.log("Attempting to fetch activities...");
         setIsLoadingActivities(true);
         const fetchedActivities = await getActivities();
+        console.log("Fetched activities:", fetchedActivities); // Log the fetched data
         setActivities(fetchedActivities);
       } catch (error) {
         console.error("Error fetching activities: ", error);
+        setActivities([]); // Set activities to an empty array on error
         toast({
           variant: "destructive",
           title: "Database Error",
@@ -37,6 +41,7 @@ function ItineraryPage() {
         });
       } finally {
         setIsLoadingActivities(false);
+        console.log("Finished fetching activities. isLoadingActivities:", false);
       }
     }
     fetchActivities();
@@ -47,14 +52,8 @@ function ItineraryPage() {
     try {
       const newActivityId = await addActivity(activity);
       const newActivity = { ...activity, id: newActivityId };
-      setActivities(prev => [...prev, newActivity].sort((a, b) => {
-        if (a.date < b.date) return -1;
-        if (a.date > b.date) return 1;
-        return a.time.localeCompare(b.time);
-      }));
-
+      // After successfully adding, re-fetch activities to update the UI
       setIsLoadingSuggestions(true);
-      setSuggestions([]);
       const result = await getSuggestions(newActivity.title);
       if(result && result.length > 0) {
         setSuggestions(result);
@@ -68,6 +67,13 @@ function ItineraryPage() {
       });
     } finally {
       setIsLoadingSuggestions(false);
+      // Always re-fetch and sort after adding
+      const fetchedActivities = await getActivities();
+      setActivities(fetchedActivities.sort((a, b) => {
+        if (a.date < b.date) return -1;
+        if (a.date > b.date) return 1;
+        return a.time.localeCompare(b.time);
+      }));
     }
   };
 

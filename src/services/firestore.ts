@@ -64,11 +64,6 @@ export async function getActivities(): Promise<Activity[]> {
     }
   ];
 
-  // The Firestore implementation can be enabled by removing the mock data return.
-  if (true) {
-     return Promise.resolve(mockActivities);
-  }
-
   const q = query(collection(db, ACTIVITIES_COLLECTION), orderBy("date"), orderBy("time"));
   const querySnapshot = await getDocs(q);
   const activities: Activity[] = [];

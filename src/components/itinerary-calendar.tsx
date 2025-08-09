@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, type FC } from 'react';
 import type { Activity } from '@/lib/types';
 import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-fns';
 import ItineraryItem from './itinerary-item';
@@ -10,6 +10,7 @@ import { PlusCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
+import { addActivity } from '@/services/firestore';
 import Image from "next/image";
 
 type ItineraryCalendarProps = {
@@ -20,7 +21,7 @@ type ItineraryCalendarProps = {
   isReadOnly?: boolean;
 };
 
-export default function ItineraryCalendar({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false }: ItineraryCalendarProps) {
+const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const year = new Date().getFullYear();
@@ -41,8 +42,15 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
     return acc;
   }, {} as Record<string, Activity[]>);
 
-  const handleAddSubmit = (activity: Omit<Activity, 'id'>) => {
-    onAddActivity(activity);
+  const handleAddSubmit = async (activity: Omit<Activity, 'id'>) => {
+    try {
+      const newActivityId = await addActivity(activity);
+      console.log("Activity added with ID:", newActivityId);
+      // You might want to do something with the new ID,
+      // like updating the local state or refetching activities
+    } catch (error) {
+      console.error("Error adding activity:", error);
+    }
     setAddModalOpen(false);
   };
 
@@ -155,3 +163,5 @@ export default function ItineraryCalendar({ activities, onAddActivity, onUpdateA
     </div>
   );
 }
+
+export default ItineraryCalendar;

@@ -34,11 +34,17 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [isEditing, setIsEditing] = useState(false);
   const [formattedTime, setFormattedTime] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
+
+  const [currentSlide, setCurrentSlide] = useState(0); // State for current slide
+  const dummyImages = [
+    'https://placehold.co/600x400.png',
+    'https://placehold.co/600x400.png',
+    'https://placehold.co/600x400.png',
+  ];
+
   const { toast } = useToast();
 
   useEffect(() => {
-    // The date string from localStorage might not have a timezone, so we parse it as if it's in the user's local timezone.
-    // The 'T' separator is crucial for correct parsing across browsers.
     const activityDate = new Date(activity.date.replace(/-/g, '/') + `T${activity.time}`);
     if (!isNaN(activityDate.getTime())) {
       setFormattedTime(format(activityDate, "h:mm a"));
@@ -57,29 +63,20 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     onDeleteActivity(activity.id)
     setDetailViewOpen(false);
   }
+  
+  const handleCopyToClipboard = () => {
+    const textToCopy = `What: ${activity.title}\nWhen: ${formattedDate} at ${formattedTime}${activity.address ? `\nWhere: ${activity.address}` : ''}${activity.phoneNumber ? `\nPhone: ${activity.phoneNumber}` : ''}`;
+    copy(textToCopy);
+    toast({
+      title: "Copied to Clipboard",
+      description: "Event details are ready to be pasted.",
+    });
+  }
 
   const openEditDialog = (e: React.MouseEvent) => {
     e.stopPropagation(); 
     setIsEditing(true);
-    setDetailViewOpen(false); // Close the detail view if it's open
-  }
-  
-  const handleCopyToClipboard = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      const eventDetails = [
-        `Event: ${activity.title}`,
-        `Date: ${formattedDate}`,
-        `Time: ${formattedTime}`,
-        activity.address ? `Address: ${activity.address}` : null,
-        activity.website ? `Website: ${activity.website}` : null,
-        activity.phoneNumber ? `Phone: ${activity.phoneNumber}` : null,
-      ].filter(Boolean).join('\n');
-
-      copy(eventDetails);
-      toast({
-          title: "Copied to Clipboard!",
-          description: "Event details are ready to be pasted.",
-      });
+    setDetailViewOpen(false);
   }
 
   return (
@@ -135,6 +132,31 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               {activity.title}
             </DialogTitle>
           </DialogHeader>
+
+          <div className="relative">
+            <img src={dummyImages[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full h-auto rounded-md" />
+            <div className="absolute inset-y-0 left-0 flex items-center">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setCurrentSlide((prev) => (prev === 0 ? dummyImages.length - 1 : prev - 1))}
+                className="rounded-full bg-black/20 text-white hover:bg-black/50"
+              >
+                &lt;
+              </Button>
+            </div>
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setCurrentSlide((prev) => (prev === dummyImages.length - 1 ? 0 : prev + 1))}
+                className="rounded-full bg-black/20 text-white hover:bg-black/50"
+              >
+                &gt;
+              </Button>
+            </div>
+          </div>
+
           <div className="space-y-4 py-4">
               <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground"/>
@@ -182,18 +204,18 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 </div>
               )}
           </div>
-            <div className="flex justify-end gap-2 pt-4">
-                <Button variant="outline" onClick={handleCopyToClipboard}>
-                    <Clipboard className="mr-2 h-4 w-4" />
-                    Copy for Reminder
-                </Button>
-                {!isReadOnly && (
-                    <>
-                        <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>Edit</Button>
-                        <Button variant="destructive" onClick={handleDelete}>Delete</Button>
-                    </>
-                )}
-            </div>
+          <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={handleCopyToClipboard}>
+                  <Clipboard className="mr-2 h-4 w-4" />
+                  Copy for Reminder
+              </Button>
+              {!isReadOnly && (
+                  <>
+                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>Edit</Button>
+                      <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+                  </>
+              )}
+          </div>
         </DialogContent>
       </Dialog>
       

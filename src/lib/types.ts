@@ -8,6 +8,7 @@ export interface Activity {
   website?: string;
   websiteText?: string; // Add this line
   address?: string;
+  youtubeId?: string; // Add this line
   imageUrls?: string[]; // Add this line
 }
 

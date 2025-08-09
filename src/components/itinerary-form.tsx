@@ -26,6 +26,7 @@ const formSchema = z.object({
   websiteText: z.string().min(2, "Title must be at least 2 characters.").max(100).optional(),
   address: z.string().optional(),
   imageUrls: z.string().optional(),
+  youtubeUrl: z.string().url("Please enter a valid YouTube URL.").optional().or(z.literal('')),
 });
 
 type ItineraryFormProps = {
@@ -47,12 +48,33 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       websiteText: activity?.websiteText || "",
       address: activity?.address || "",
       imageUrls: activity?.imageUrls?.join('\n') || '',
+      youtubeUrl: activity?.youtubeId ? `https://www.youtube.com/watch?v=${activity.youtubeId}` : "",
     },
   });
   
   const locale = lang === 'km' ? km : enUS;
 
   function handleFormSubmit(values: z.infer<typeof formSchema>) {
+    let youtubeId = undefined;
+    if (values.youtubeUrl) {
+      try {
+        const url = new URL(values.youtubeUrl);
+        if (url.hostname === 'www.youtube.com' || url.hostname === 'youtube.com') {
+          const params = new URLSearchParams(url.search);
+          youtubeId = params.get('v');
+        } else if (url.hostname === 'youtu.be') {
+          youtubeId = url.pathname.slice(1);
+        }
+      } catch (error) {
+        console.error("Invalid YouTube URL provided:", error);
+        // Optionally, set a form error to notify the user
+        form.setError("youtubeUrl", { type: "manual", message: "Please enter a valid YouTube URL." });
+        return; // Stop form submission
+      }
+    }
+
+
+
     const activityData = {
       title: values.title,
       date: format(values.date, "yyyy-MM-dd"),
@@ -61,6 +83,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       websiteText: values.websiteText,
       address: values.address,
       imageUrls: values.imageUrls ? values.imageUrls.split('\n').map(url => url.trim()).filter(url => url !== '') : [],
+      youtubeId: youtubeId || undefined,
     };
 
     if (activity?.id) {
@@ -113,7 +136,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             </FormItem>
           )}
         />
-        <FormField
+         <FormField
           control={form.control}
           name="address"
           render={({ field }) => (
@@ -126,6 +149,19 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="youtubeUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>YouTube URL</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />  
   
         <div className="grid grid-cols-2 gap-4">
           <FormField

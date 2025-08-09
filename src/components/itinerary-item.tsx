@@ -80,6 +80,8 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     setIsEditing(true);
     setDetailViewOpen(false);
   }
+  
+  const youtubeEmbedUrl = activity.youtubeId ? `https://www.youtube.com/embed/${activity.youtubeId}` : null;
 
   return (
     <>
@@ -178,24 +180,25 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </div>
           )}
 
+          {youtubeEmbedUrl && (
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe
+                src={youtubeEmbedUrl}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full rounded-lg"
+              ></iframe>
+            </div>
+          )}
+
+
           <div className="space-y-4 py-4">            
               <div className="flex items-center gap-3">
                   <Clock className="w-5 h-5 text-muted-foreground"/>
                   <span className="text-foreground">{activity.time}</span>
               </div>
-              {activity.address && (
-                <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-muted-foreground mt-1"/>
-                     <a 
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.address)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      {activity.address}
-                    </a>
-                </div>
-              )}
+            
               {activity.website && (
                 <div className="flex items-start gap-3">
                     <Link className="w-5 h-5 text-muted-foreground mt-1"/>
@@ -208,7 +211,21 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
  {activity.websiteText}
                     </a>
                 </div>
-              )}              
+              )}      
+
+                {activity.address && (
+                <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-muted-foreground mt-1"/>
+                     <a 
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.address)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      {activity.address}
+                    </a>
+                </div>
+              )}        
           </div>
           <div className="flex justify-end gap-2 pt-4">
               {!isReadOnly && (

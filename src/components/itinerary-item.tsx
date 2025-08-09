@@ -86,14 +86,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
         <DialogTrigger asChild>
            <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
               <Card className={cn(
-                "transition-all hover:shadow-md bg-card/80",
+                "transition-all hover:shadow-md bg-card/80 border-0",
                 "opacity-80 hover:opacity-100 focus:opacity-100",
                 isSpecialDay && "bg-black/20 border-white/20"
               )}>
-                <CardContent className="p-3 flex items-center gap-3">
-                  <div className={cn("p-2 bg-primary/10 rounded-lg", isSpecialDay && "bg-white/10")}>
-                    {getIconForActivity(activity.title, isSpecialDay)}
-                  </div>
+                <CardContent className="p-2 flex items-center gap-2">
+                  {getIconForActivity(activity.title, isSpecialDay)}
                   <div className="flex-grow">
                     <p className={cn(
                       "font-bold font-headline text-sm",

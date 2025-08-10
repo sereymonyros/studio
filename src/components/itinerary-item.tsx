@@ -6,7 +6,7 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Phone } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Key } from "lucide-react";
 import { format } from "date-fns";
 import { enUS, km } from 'date-fns/locale';
 import ItineraryForm from "./itinerary-form";
@@ -226,7 +226,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}
               {activity?.code && (
                 <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-muted-foreground"/>
+                <Key className="w-5 h-5 text-muted-foreground"/>
                 <span className="text-foreground">{activity.code}</span>
             </div>
               )}        

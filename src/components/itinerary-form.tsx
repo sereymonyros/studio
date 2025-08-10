@@ -68,6 +68,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
       address: values.address || null, // Use null for empty optional fields
       imageUrls: values.imageUrls ? values.imageUrls.split('\n').map(url => url.trim()).filter(url => url !== '') : [],
       youtubeUrl: values.youtubeUrl || null, // Include youtubeUrl from values, use null if empty
+      code: values.code,
     } as Omit<Activity, 'id'>; // Cast to Omit<Activity, 'id'>
 
     if (activity?.id) {
@@ -210,7 +211,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
               <FormMessage />
             </FormItem>
           )}
-        />
+        />   
         <FormField
           control={form.control}
           name="code"
@@ -218,7 +219,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             <FormItem>
               <FormLabel>{t.fields.code.label}</FormLabel>
               <FormControl>
-                <Textarea placeholder={t.fields.code.placeholder} {...field} />
+                <Input placeholder={t.fields.code.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

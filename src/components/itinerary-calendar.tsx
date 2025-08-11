@@ -94,7 +94,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
             <div 
               key={day.toISOString()}
               className={cn(
-                "border rounded-xl p-2 flex flex-col relative overflow-hidden min-h-[200px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1", 
+                "border rounded-3xl p-2 flex flex-col relative overflow-hidden min-h-[200px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1", 
                 isToday(day) ? 'bg-accent/40' : 'bg-card'
               )}
             >             

@@ -125,25 +125,27 @@ function ItineraryPage() {
         </div>
       </header>
       <main className="flex-grow container mx-auto p-4 md:p-8">
-        <div className="flex justify-center">
-          <div className="grid lg:grid-cols-5 gap-8 items-start w-full max-w-6xl">
-            <div className="lg:col-span-3 flex flex-col gap-8">
-              {isLoadingActivities ? (
-                  <p>{t.calendar.loading}</p>
-              ) : (
-                  <ItineraryCalendar 
-                    activities={activities}
-                    onAddActivity={handleAddActivity}
-                    onUpdateActivity={handleUpdateActivity}
-                    onDeleteActivity={handleDeleteActivity}
-                    isReadOnly={false}
-                    lang={lang}
-                    t={t}
-                  />
-              )}
-            </div>
-            <div className="lg:col-span-2">
-              <AiSuggestions suggestions={suggestions} isLoading={isLoadingSuggestions} t={t.suggestions} />
+        <div className="bg-black/50 rounded-lg p-4">
+          <div className="flex justify-center">
+            <div className="grid lg:grid-cols-5 gap-8 items-start w-full max-w-6xl">
+              <div className="lg:col-span-3 flex flex-col gap-8">
+                {isLoadingActivities ? (
+                    <p>{t.calendar.loading}</p>
+                ) : (
+                    <ItineraryCalendar 
+                      activities={activities}
+                      onAddActivity={handleAddActivity}
+                      onUpdateActivity={handleUpdateActivity}
+                      onDeleteActivity={handleDeleteActivity}
+                      isReadOnly={false}
+                      lang={lang}
+                      t={t}
+                    />
+                )}
+              </div>
+              <div className="lg:col-span-2">
+                <AiSuggestions suggestions={suggestions} isLoading={isLoadingSuggestions} t={t.suggestions} />
+              </div>
             </div>
           </div>
         </div>

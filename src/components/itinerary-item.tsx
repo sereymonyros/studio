@@ -59,12 +59,14 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [currentSlide, setCurrentSlide] = useState(0); 
   
   const handleUpdate = (updatedActivity: Omit<Activity, 'id'> | Activity) => {
+    if (isReadOnly) return;
     onUpdateActivity(updatedActivity as Activity);
     setIsEditing(false);
     setDetailViewOpen(false);
   }
   
   const handleDelete = (e: React.MouseEvent) => {
+    if (isReadOnly) return;
     e.stopPropagation();
     onDeleteActivity(activity.id)
     setDetailViewOpen(false);
@@ -116,6 +118,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         onClick={openEditDialog}
                         aria-label={`Edit ${activity.title}`}
                         className="w-6 h-6"
+                        disabled={isReadOnly}
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -125,6 +128,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         onClick={handleDelete}
                         aria-label={`Delete ${activity.title}`}
                          className="w-6 h-6"
+                         disabled={isReadOnly}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -237,8 +241,8 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
           <div className="flex justify-end gap-2 pt-4">
               {!isReadOnly && (
                   <>
-                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>{t.buttons.edit}</Button>
-                      <Button variant="destructive" onClick={handleDelete}>{t.buttons.delete}</Button>
+                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}} disabled={isReadOnly}>{t.buttons.edit}</Button>
+                      <Button variant="destructive" onClick={handleDelete} disabled={isReadOnly}>{t.buttons.delete}</Button>
                   </>
               )}
           </div>
@@ -257,6 +261,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 onCancel={() => setIsEditing(false)}
                 lang={lang}
                 t={t}
+                isReadOnly={isReadOnly}
               />
             </DialogContent>
          </Dialog>

@@ -47,6 +47,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   }, {} as Record<string, Activity[]>);
 
   const handleAddSubmit = async (activity: Omit<Activity, 'id'>) => {
+    if (isReadOnly) return;
     await onAddActivity(activity);
     setAddModalOpen(false);
   };
@@ -122,7 +123,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                    {!isReadOnly && (
                       <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("h-6 w-6 text-white hover:text-white")} onClick={() => openAddModal(day)}>
+                            <Button variant="ghost" size="icon" className={cn("h-6 w-6 text-white hover:text-white")} onClick={() => openAddModal(day)} disabled={isReadOnly}>
                               <PlusCircle className="h-4 w-4"/>
                             </Button>
                           </DialogTrigger>
@@ -136,6 +137,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                                   onCancel={() => setAddModalOpen(false)}
                                   t={t.form}
                                   lang={lang}
+                                  isReadOnly={isReadOnly}
                               />}
                           </DialogContent>
                       </Dialog>

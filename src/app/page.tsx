@@ -49,6 +49,7 @@ function ItineraryPage() {
   }, [toast, t.toasts]);
 
   const handleAddActivity = async (activity: Omit<Activity, 'id'>) => {
+    if (isAdmin) return; // Disable in admin mode
     try {
       const newActivityId = await addActivity(activity);
       const newActivity = { ...activity, id: newActivityId };
@@ -76,6 +77,7 @@ function ItineraryPage() {
   };
 
   const handleUpdateActivity = async (updatedActivity: Activity) => {
+    if (isAdmin) return; // Disable in admin mode
     try {
       await updateActivity(updatedActivity);
       const fetchedActivities = await getActivities();
@@ -91,6 +93,7 @@ function ItineraryPage() {
   };
 
   const handleDeleteActivity = async (id: string) => {
+    if (isAdmin) return; // Disable in admin mode
     try {
       await deleteActivityFromDb(id);
       setActivities(activities.filter((activity) => activity.id !== id));
@@ -146,7 +149,7 @@ function ItineraryPage() {
                       onAddActivity={handleAddActivity}
                       onUpdateActivity={handleUpdateActivity}
                       onDeleteActivity={handleDeleteActivity}
-                      isReadOnly={!isAdmin}
+                      isReadOnly={isAdmin}
                       lang={lang}
                       t={t}
                     />

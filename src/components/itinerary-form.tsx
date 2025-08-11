@@ -37,9 +37,10 @@ type ItineraryFormProps = {
   onCancel?: () => void;
   lang: Language;
   t: Translation['form'];
+  isReadOnly?: boolean;
 };
 
-export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }: ItineraryFormProps) {
+export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t, isReadOnly = false }: ItineraryFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,6 +59,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
   
   const locale = lang === 'km' ? km : enUS;
   function handleFormSubmit(values: z.infer<typeof formSchema>) {
+    if (isReadOnly) return;
     const activityData = {
       title: values.title,
       date: format(values.date, "yyyy-MM-dd"),
@@ -89,7 +91,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             <FormItem>
               <FormLabel>{t.fields.title.label}</FormLabel>
               <FormControl>
-                <Input placeholder={t.fields.title.placeholder} {...field} />
+                <Input placeholder={t.fields.title.placeholder} {...field} disabled={isReadOnly} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -102,7 +104,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             <FormItem>
               <FormLabel>{t.fields.websiteText.label}</FormLabel>
               <FormControl>
-                <Input placeholder={t.fields.websiteText.placeholder} {...field} />
+                <Input placeholder={t.fields.websiteText.placeholder} {...field} disabled={isReadOnly} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,7 +117,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             <FormItem>
               <FormLabel>{t.fields.website.label}</FormLabel>
               <FormControl>
-                <Input placeholder={t.fields.website.placeholder} {...field} />
+                <Input placeholder={t.fields.website.placeholder} {...field} disabled={isReadOnly} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -128,7 +130,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             <FormItem>
               <FormLabel>{t.fields.address.label}</FormLabel>
               <FormControl>
-                <Input placeholder={t.fields.address.placeholder} {...field} />
+                <Input placeholder={t.fields.address.placeholder} {...field} disabled={isReadOnly} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -141,7 +143,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             <FormItem>
               <FormLabel>YouTube URL</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ" {...field} />
+                <Input placeholder="e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ" {...field} disabled={isReadOnly} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -164,6 +166,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
                           "pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
+                        disabled={isReadOnly}
                       >
                         {field.value ? format(field.value, "PPP", { locale }) : <span>{t.fields.date.placeholder}</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -176,7 +179,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) => date < new Date("1900-01-01")}
+                      disabled={(date) => date < new Date("1900-01-01") || isReadOnly}
                       initialFocus
                     />
                   </PopoverContent>
@@ -192,7 +195,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
               <FormItem>
                 <FormLabel>{t.fields.time.label}</FormLabel>
                 <FormControl>
-                  <Input type="time" {...field} />
+                  <Input type="time" {...field} disabled={isReadOnly} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -206,7 +209,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             <FormItem>
               <FormLabel>{t.fields.imageUrls.label}</FormLabel>
               <FormControl>
-                <Textarea placeholder={t.fields.imageUrls.placeholder} {...field} />
+                <Textarea placeholder={t.fields.imageUrls.placeholder} {...field} disabled={isReadOnly} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -219,7 +222,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
             <FormItem>
               <FormLabel>{t.fields.code.label}</FormLabel>
               <FormControl>
-                <Input placeholder={t.fields.code.placeholder} {...field} />
+                <Input placeholder={t.fields.code.placeholder} {...field} disabled={isReadOnly} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -227,7 +230,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t }:
         />
         <div className="flex gap-2">
             {onCancel && <Button type="button" variant="outline" className="w-full" onClick={onCancel}>{t.buttons.cancel}</Button>}
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isReadOnly}>
               <PlusCircle className="mr-2 h-4 w-4" />
               {activity?.id ? t.buttons.save : t.buttons.add}
             </Button>

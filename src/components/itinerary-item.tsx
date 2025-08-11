@@ -18,6 +18,7 @@ type ItineraryItemProps = {
   onUpdateActivity: (activity: Activity) => void;
   onDeleteActivity: (id: string) => void;
   isReadOnly?: boolean;
+  isAdmin: boolean;
   lang: Language;
   t: Translation['form'];
 };
@@ -34,7 +35,7 @@ const getIconForActivity = (activity: Activity) => {
   return <MapPin {...iconProps} />;
 };
 
-export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, lang, t }: ItineraryItemProps) {
+export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }: ItineraryItemProps) {
   const [isDetailViewOpen, setDetailViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   
@@ -59,14 +60,14 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [currentSlide, setCurrentSlide] = useState(0); 
   
   const handleUpdate = (updatedActivity: Omit<Activity, 'id'> | Activity) => {
-    if (isReadOnly) return;
+    if (isAdmin) return;
     onUpdateActivity(updatedActivity as Activity);
     setIsEditing(false);
     setDetailViewOpen(false);
   }
   
   const handleDelete = (e: React.MouseEvent) => {
-    if (isReadOnly) return;
+    if (isAdmin) return;
     e.stopPropagation();
     onDeleteActivity(activity.id)
     setDetailViewOpen(false);
@@ -110,7 +111,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <span className="ml-2 font-normal text-xs">{activity.time}</span>
                     </p>
                   </div>
-                  {!isReadOnly && (
+                  {isAdmin && (
                     <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
                       <Button
                         variant="ghost"
@@ -118,7 +119,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         onClick={openEditDialog}
                         aria-label={`Edit ${activity.title}`}
                         className="w-6 h-6"
-                        disabled={isReadOnly}
+                        disabled={isAdmin}
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -128,7 +129,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         onClick={handleDelete}
                         aria-label={`Delete ${activity.title}`}
                          className="w-6 h-6"
-                         disabled={isReadOnly}
+                         disabled={isAdmin}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -239,17 +240,17 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}        
           </div>
           <div className="flex justify-end gap-2 pt-4">
-              {!isReadOnly && (
+              {isAdmin && (
                   <>
-                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}} disabled={isReadOnly}>{t.buttons.edit}</Button>
-                      <Button variant="destructive" onClick={handleDelete} disabled={isReadOnly}>{t.buttons.delete}</Button>
+                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}} disabled={isAdmin}>{t.buttons.edit}</Button>
+                      <Button variant="destructive" onClick={handleDelete} disabled={isAdmin}>{t.buttons.delete}</Button>
                   </>
               )}
           </div>
         </DialogContent>
       </Dialog>
       
-      {!isReadOnly && (
+      {isAdmin && (
          <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <DialogContent className="bg-card/40">
               <DialogHeader>
@@ -261,7 +262,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 onCancel={() => setIsEditing(false)}
                 lang={lang}
                 t={t}
-                isReadOnly={isReadOnly}
+                isReadOnly={isAdmin}
               />
             </DialogContent>
          </Dialog>

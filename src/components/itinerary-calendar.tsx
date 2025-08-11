@@ -20,11 +20,12 @@ type ItineraryCalendarProps = {
   onUpdateActivity: (activity: Activity) => void;
   onDeleteActivity: (id: string) => void;
   isReadOnly?: boolean;
+  isAdmin: boolean;
   lang: Language;
   t: Translation;
 };
 
-const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false, lang, t }) => {
+const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const year = new Date().getFullYear();
@@ -47,7 +48,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   }, {} as Record<string, Activity[]>);
 
   const handleAddSubmit = async (activity: Omit<Activity, 'id'>) => {
-    if (isReadOnly) return;
+    if (isAdmin) return;
     await onAddActivity(activity);
     setAddModalOpen(false);
   };
@@ -120,10 +121,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       <span className="font-bold">{format(day, 'd', { locale })}</span>
                       <span className="text-xs">{format(day, 'EEEE', { locale })}</span>
                   </div>
-                   {!isReadOnly && (
+                   {isAdmin && (
                       <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("h-6 w-6 text-white hover:text-white")} onClick={() => openAddModal(day)} disabled={isReadOnly}>
+                            <Button variant="ghost" size="icon" className={cn("h-6 w-6 text-white hover:text-white")} onClick={() => openAddModal(day)} disabled={isAdmin}>
                               <PlusCircle className="h-4 w-4"/>
                             </Button>
                           </DialogTrigger>
@@ -137,7 +138,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                                   onCancel={() => setAddModalOpen(false)}
                                   t={t.form}
                                   lang={lang}
-                                  isReadOnly={isReadOnly}
+                                  isReadOnly={isAdmin}
                               />}
                           </DialogContent>
                       </Dialog>
@@ -152,6 +153,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       onUpdateActivity={onUpdateActivity}
                       onDeleteActivity={onDeleteActivity}
                       isReadOnly={isReadOnly}
+                      isAdmin={isAdmin}
                       lang={lang}
                       t={t.form}
                     />

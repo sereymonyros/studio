@@ -96,7 +96,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 "hover:bg-card/100 focus:bg-card/100 border-white"
                  
               )}>
-                <CardContent className="p-1 flex items-center gap-2">
+                <CardContent className="p-1.5 flex items-center gap-1.5">
                   {getIconForActivity(activity)}
                   <div className="flex-grow">
                     <p className={cn(
@@ -113,6 +113,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         size="icon"
                         onClick={openEditDialog}
                         aria-label={`Edit ${activity.title}`}
+                        className="w-6 h-6"
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -121,6 +122,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         size="icon"
                         onClick={handleDelete}
                         aria-label={`Delete ${activity.title}`}
+                         className="w-6 h-6"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

@@ -80,7 +80,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   }
 
   return (
-    <div className="bg-card/60 rounded-lg p-4 md:p-6 shadow-sm">
+    <div className="rounded-lg p-4 md:p-6 shadow-sm">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
         {tripDays.map(day => {
           const dateKey = format(day, 'yyyy-MM-dd');

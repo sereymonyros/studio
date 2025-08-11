@@ -30,7 +30,7 @@ const getIconForActivity = (activity: Activity) => {
   if (/\b(home)\b/.test(textToSearch)) return <Home {...iconProps} />;
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(textToSearch)) return <Mountain {...iconProps} />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(textToSearch)) return <Utensils {...iconProps} />;
-  if (/\b(landmark|monument|museum|site|tour|gallery|airbnb)\b/.test(textToSearch)) return <Landmark {...iconProps} />;
+  if (/\b(landmark|monument|museum|site|tour|airbnb)\b/.test(textToSearch)) return <Landmark {...iconProps} />;
   return <MapPin {...iconProps} />;
 };
 
@@ -103,11 +103,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
                     )}>
                       {displayTitle}
-                    </p>
-                    <p className={cn(
-                      "text-black/80 dark:text-white/80 text-xs font-bold"
-                    )}>
-                      {activity.time}
+                      <span className="ml-2 font-normal text-xs">{activity.time}</span>
                     </p>
                   </div>
                   {!isReadOnly && (

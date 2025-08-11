@@ -94,7 +94,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
             <div 
               key={day.toISOString()}
               className={cn(
-                "border rounded-[35px] p-2 flex flex-col relative overflow-hidden min-h-[200px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1", 
+                "rounded-[35px] p-2 flex flex-col relative overflow-hidden min-h-[200px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1", 
                 'bg-card'
               )}
             >             
@@ -109,7 +109,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     fill
                     className="object-cover z-0"
                   />
-                  <div className="absolute inset-0 bg-black/30 z-10"></div> {/* Optional: Add an overlay for better text readability */}
+                  <div className="absolute inset-0 bg-black/20 z-10"></div> {/* Optional: Add an overlay for better text readability */}
                 </>
               )}
 

@@ -55,7 +55,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     [`${year}-08-15`]: "https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/sedona.png?alt=media&token=b9789354-8b22-4034-a657-61683780da60",
     [`${year}-08-16`]: "https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-16.png?alt=media&token=12547b94-eb4d-4fe8-9c10-e34e6f457f25",
     [`${year}-08-17`]: "https://themaritimeexplorer.ca/wp-content/uploads/2024/12/Walnut-Canyon-Dwellings-768x440.jpg",
-    [`${year}-08-18`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-18.png?alt=media&token=1324b3d0-4aaf-492f-8966-3f69dc7048de',
+    [`${year}-08-18`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-18.png?alt=media&token=51d72d6b-b709-4b7e-b0a2-dd8c08681892',
     [`${year}-08-19`]: 'https://travelnevada.com/wp-content/uploads/2015/06/hoover-dam-1.jpg',
     [`${year}-08-20`]: 'https://www.traveloffpath.com/wp-content/uploads/2022/05/Las-Vegas-strip-at-night-.jpg',
     [`${year}-08-21`]: 'https://static.wixstatic.com/media/8de0c0_a38585f9e62d4672b5a0889001f317cc~mv2.jpg/v1/fill/w_500,h_375,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/8de0c0_a38585f9e62d4672b5a0889001f317cc~mv2.jpg',

@@ -24,7 +24,7 @@ type ItineraryItemProps = {
 
 const getIconForActivity = (activity: Activity) => {
   const { title, address, website } = activity;
-  const textToSearch = [title, address, website].join(' ').toLowerCase();
+  const textToSearch = [title, address || '', website || ''].join(' ').toLowerCase();
 
   const iconProps = { className: cn("w-4 h-4 text-black/80 dark:text-white/80"), strokeWidth: 2.5 };
   if (/\b(home)\b/.test(textToSearch)) return <Home {...iconProps} />;

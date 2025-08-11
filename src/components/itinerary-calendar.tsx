@@ -58,7 +58,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     [`${year}-08-18`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-18.png?alt=media&token=51d72d6b-b709-4b7e-b0a2-dd8c08681892',
     [`${year}-08-19`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-19.png?alt=media&token=7cd14791-e66a-4dd7-b329-dd6f56463cce',
     [`${year}-08-20`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-20.jpg?alt=media&token=ca903707-fb19-4a20-9bad-a16234aba652',
-    [`${year}-08-21`]: 'https://static.wixstatic.com/media/8de0c0_a38585f9e62d4672b5a0889001f317cc~mv2.jpg/v1/fill/w_500,h_375,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/8de0c0_a38585f9e62d4672b5a0889001f317cc~mv2.jpg',
+    [`${year}-08-21`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-21.avif?alt=media&token=56f9850c-3b35-4322-bc45-43992b5f0eae',
     [`${year}-08-22`]: 'https://sa.adanione.com/-/media/Project/AirportServices/Mumbai-Service-Banner-Image/App-banner/City-to-City-Flight-Status_Web.png',
     // Add more dates and URLs as needed
   };

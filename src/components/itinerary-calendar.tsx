@@ -95,7 +95,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
               key={day.toISOString()}
               className={cn(
                 "border rounded-[35px] p-2 flex flex-col relative overflow-hidden min-h-[200px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1", 
-                isToday(day) ? 'bg-accent' : 'bg-card'
+                'bg-card'
               )}
             >             
     
@@ -116,8 +116,8 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
               <div className="relative z-20">
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col text-white">
-                      <span className={cn("font-bold", isToday(day) && 'text-primary-foreground')}>{format(day, 'd', { locale })}</span>
-                      <span className={cn("text-xs")}>{format(day, 'EEEE', { locale })}</span>
+                      <span className="font-bold">{format(day, 'd', { locale })}</span>
+                      <span className="text-xs">{format(day, 'EEEE', { locale })}</span>
                   </div>
                    {!isReadOnly && (
                       <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>

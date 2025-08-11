@@ -27,10 +27,10 @@ const getIconForActivity = (activity: Activity) => {
   const textToSearch = [title, address || '', website || ''].join(' ').toLowerCase();
 
   const iconProps = { className: cn("w-4 h-4 text-black/80 dark:text-white/80"), strokeWidth: 2.5 };
-  if (/\b(home)\b/.test(textToSearch)) return <Home {...iconProps} />;
+  if (/\b(home|airbnb)\b/i.test(textToSearch)) return <Home {...iconProps} />;
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(textToSearch)) return <Mountain {...iconProps} />;
-  if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(textToSearch)) return <Utensils {...iconProps} />;
-  if (/\b(landmark|monument|museum|site|tour|airbnb)\b/.test(textToSearch)) return <Landmark {...iconProps} />;
+  if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/i.test(textToSearch)) return <Utensils {...iconProps} />;
+  if (/\b(landmark|monument|museum|site|tour)\b/i.test(textToSearch)) return <Landmark {...iconProps} />;
   return <MapPin {...iconProps} />;
 };
 
@@ -131,7 +131,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </div>
         </DialogTrigger>
 
-        <DialogContent>
+        <DialogContent className="bg-card/40">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
               {getIconForActivity(activity)}

@@ -90,7 +90,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
            <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
               <Card className={cn(
                 "transition-all hover:shadow-md bg-card/80 border-0 rounded-3xl",
-                "opacity-80 hover:opacity-100 focus:opacity-100 border-white"
+                "hover:opacity-100 focus:opacity-100 border-white"
                  
               )}>
                 <CardContent className="p-1 flex items-center gap-2">

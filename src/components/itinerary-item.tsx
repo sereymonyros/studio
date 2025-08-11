@@ -93,7 +93,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 "opacity-80 hover:opacity-100 focus:opacity-100 border-white"
                  
               )}>
-                <CardContent className="p-2 flex items-center gap-2">
+                <CardContent className="p-1 flex items-center gap-2">
                   {getIconForActivity(activity.title)}
                   <div className="flex-grow">
                     <p className={cn(

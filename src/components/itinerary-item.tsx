@@ -60,14 +60,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
   const [currentSlide, setCurrentSlide] = useState(0); 
   
   const handleUpdate = (updatedActivity: Omit<Activity, 'id'> | Activity) => {
-    if (isAdmin) return;
     onUpdateActivity(updatedActivity as Activity);
     setIsEditing(false);
     setDetailViewOpen(false);
   }
   
   const handleDelete = (e: React.MouseEvent) => {
-    if (isAdmin) return;
     e.stopPropagation();
     onDeleteActivity(activity.id)
     setDetailViewOpen(false);
@@ -111,7 +109,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <span className="ml-2 font-normal text-xs">{activity.time}</span>
                     </p>
                   </div>
-                  {isAdmin && (
+                  {!isAdmin && (
                     <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
                       <Button
                         variant="ghost"
@@ -119,7 +117,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         onClick={openEditDialog}
                         aria-label={`Edit ${activity.title}`}
                         className="w-6 h-6"
-                        disabled={isAdmin}
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -129,7 +126,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         onClick={handleDelete}
                         aria-label={`Delete ${activity.title}`}
                          className="w-6 h-6"
-                         disabled={isAdmin}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -140,7 +136,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </div>
         </DialogTrigger>
 
-        <DialogContent className="bg-card/40">
+        <DialogContent className="bg-background">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
               {getIconForActivity(activity)}
@@ -240,19 +236,19 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
               )}        
           </div>
           <div className="flex justify-end gap-2 pt-4">
-              {isAdmin && (
+              {!isAdmin && (
                   <>
-                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}} disabled={isAdmin}>{t.buttons.edit}</Button>
-                      <Button variant="destructive" onClick={handleDelete} disabled={isAdmin}>{t.buttons.delete}</Button>
+                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>{t.buttons.edit}</Button>
+                      <Button variant="destructive" onClick={handleDelete}>{t.buttons.delete}</Button>
                   </>
               )}
           </div>
         </DialogContent>
       </Dialog>
       
-      {isAdmin && (
+      {!isAdmin && (
          <Dialog open={isEditing} onOpenChange={setIsEditing}>
-            <DialogContent className="bg-card/40">
+            <DialogContent className="bg-background">
               <DialogHeader>
                 <DialogTitle>{t.editTitle}</DialogTitle>
               </DialogHeader>

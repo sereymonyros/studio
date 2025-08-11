@@ -59,7 +59,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     [`${year}-08-19`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-19.png?alt=media&token=7cd14791-e66a-4dd7-b329-dd6f56463cce',
     [`${year}-08-20`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-20.jpg?alt=media&token=ca903707-fb19-4a20-9bad-a16234aba652',
     [`${year}-08-21`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-21.avif?alt=media&token=56f9850c-3b35-4322-bc45-43992b5f0eae',
-    [`${year}-08-22`]: 'https://sa.adanione.com/-/media/Project/AirportServices/Mumbai-Service-Banner-Image/App-banner/City-to-City-Flight-Status_Web.png',
+    [`${year}-08-22`]: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-22.jpg?alt=media&token=5836dba8-5f31-47a5-b4f9-1e09fb912902',
     // Add more dates and URLs as needed
   };
 

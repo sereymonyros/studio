@@ -7,12 +7,14 @@ import ItineraryCalendar from '@/components/itinerary-calendar';
 import AiSuggestions from '@/components/ai-suggestions';
 import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast";
-import { Sunrise } from 'lucide-react';
+import { Sunrise, Shield } from 'lucide-react';
 import { getActivities, addActivity, updateActivity, deleteActivity as deleteActivityFromDb } from '@/services/firestore';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { translations } from '@/lib/translations';
 import type { Language } from '@/lib/translations';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 function ItineraryPage() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -20,6 +22,7 @@ function ItineraryPage() {
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [isLoadingActivities, setIsLoadingActivities] = useState(true);
   const [lang, setLang] = useState<Language>('en');
+  const [isAdmin, setIsAdmin] = useState(true);
   const { toast } = useToast();
   
   const t = translations[lang];
@@ -116,7 +119,14 @@ function ItineraryPage() {
             </h1>
             <p className="mt-1 text-white-foreground/90">{t.header.description}</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center space-x-2">
+              <Switch id="admin-mode" checked={isAdmin} onCheckedChange={setIsAdmin} aria-label="Toggle Admin Mode" />
+              <Label htmlFor="admin-mode" className="flex items-center gap-2 text-white font-medium">
+                <Shield className="w-5 h-5" />
+                <span>{isAdmin ? 'Admin' : 'User'}</span>
+              </Label>
+            </div>
             <Button variant="ghost" onClick={toggleLanguage} aria-label={t.header.toggleLang} className="font-bold">
               {lang === 'en' ? 'ខ្មែរ' : 'EN'}
             </Button>
@@ -137,7 +147,7 @@ function ItineraryPage() {
                       onAddActivity={handleAddActivity}
                       onUpdateActivity={handleUpdateActivity}
                       onDeleteActivity={handleDeleteActivity}
-                      isReadOnly={false}
+                      isReadOnly={!isAdmin}
                       lang={lang}
                       t={t}
                     />

@@ -22,13 +22,15 @@ type ItineraryItemProps = {
   t: Translation['form'];
 };
 
-const getIconForActivity = (title: string) => {
-  const lowerTitle = title.toLowerCase();
+const getIconForActivity = (activity: Activity) => {
+  const { title, address, website } = activity;
+  const textToSearch = [title, address, website].join(' ').toLowerCase();
+
   const iconProps = { className: cn("w-5 h-5 text-black/80 dark:text-white/80"), strokeWidth: 2.5 };
-  if (/\b(home)\b/.test(lowerTitle)) return <Home {...iconProps} />;
-  if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
-  if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
-  if (/\b(landmark|monument|museum|site|tour|gallery|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
+  if (/\b(home)\b/.test(textToSearch)) return <Home {...iconProps} />;
+  if (/\b(hike|mountain|park|trail|canyon)\b/.test(textToSearch)) return <Mountain {...iconProps} />;
+  if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(textToSearch)) return <Utensils {...iconProps} />;
+  if (/\b(landmark|monument|museum|site|tour|gallery|airbnb)\b/.test(textToSearch)) return <Landmark {...iconProps} />;
   return <MapPin {...iconProps} />;
 };
 
@@ -95,7 +97,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                  
               )}>
                 <CardContent className="p-1 flex items-center gap-2">
-                  {getIconForActivity(activity.title)}
+                  {getIconForActivity(activity)}
                   <div className="flex-grow">
                     <p className={cn(
                       "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
@@ -136,7 +138,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
-              {getIconForActivity(activity.title)}
+              {getIconForActivity(activity)}
               {displayTitle}
             </DialogTitle>
           </DialogHeader>

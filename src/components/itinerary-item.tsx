@@ -243,7 +243,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
       
       {!isReadOnly && (
          <Dialog open={isEditing} onOpenChange={setIsEditing}>
-            <DialogContent>
+            <DialogContent className="bg-card/40">
               <DialogHeader>
                 <DialogTitle>{t.editTitle}</DialogTitle>
               </DialogHeader>

@@ -109,28 +109,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <span className="ml-2 font-normal text-xs">{activity.time}</span>
                     </p>
                   </div>
-                  {!isAdmin && (
-                    <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={openEditDialog}
-                        aria-label={`Edit ${activity.title}`}
-                        className="w-6 h-6"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={handleDelete}
-                        aria-label={`Delete ${activity.title}`}
-                         className="w-6 h-6"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             </div>
@@ -234,14 +212,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 <span className="text-foreground">{activity.code}</span>
             </div>
               )}        
-          </div>
-          <div className="flex justify-end gap-2 pt-4">
-              {!isAdmin && (
-                  <>
-                      <Button variant="outline" onClick={(e) => { e.stopPropagation(); setDetailViewOpen(false); setIsEditing(true);}}>{t.buttons.edit}</Button>
-                      <Button variant="destructive" onClick={handleDelete}>{t.buttons.delete}</Button>
-                  </>
-              )}
           </div>
         </DialogContent>
       </Dialog>

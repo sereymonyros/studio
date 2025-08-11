@@ -120,28 +120,6 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       <span className="font-bold">{format(day, 'd', { locale })}</span>
                       <span className="text-xs">{format(day, 'EEEE', { locale })}</span>
                   </div>
-                   {!isAdmin && (
-                      <Dialog open={isAddModalOpen && selectedDate != null && isSameDay(day, selectedDate)} onOpenChange={(isOpen) => { if (!isOpen) setAddModalOpen(false)}}>
-                          <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("h-6 w-6 text-white hover:text-white")} onClick={() => openAddModal(day)}>
-                              <PlusCircle className="h-4 w-4"/>
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="bg-background">
-                              <DialogHeader>
-                              <DialogTitle>{t.form.addTitle} {selectedDate && format(selectedDate, 'PPP', { locale })}</DialogTitle>
-                              </DialogHeader>
-                              {selectedDate && <ItineraryForm
-                                  activity={{id: '', title: '', date: format(selectedDate!, 'yyyy-MM-dd'), time: '12:00', address: ''}}
-                                  onSubmit={handleAddSubmit}
-                                  onCancel={() => setAddModalOpen(false)}
-                                  t={t.form}
-                                  lang={lang}
-                                  isReadOnly={isAdmin}
-                              />}
-                          </DialogContent>
-                      </Dialog>
-                   )}
                 </div>
               </div>
               <div className="flex-grow space-y-1 mt-2 relative z-20 flex justify-center flex-col">

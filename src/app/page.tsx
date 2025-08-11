@@ -122,7 +122,7 @@ function ItineraryPage() {
           <div className="flex items-center gap-4">
             <div className="flex items-center space-x-2">
               <Switch id="admin-mode" checked={isAdmin} onCheckedChange={setIsAdmin} aria-label="Toggle Admin Mode" />
-              <Label htmlFor="admin-mode" className="flex items-center gap-2 text-white font-medium">
+              <Label htmlFor="admin-mode" className="flex items-center gap-2 text-foreground dark:text-primary-foreground font-medium">
                 <Shield className="w-5 h-5" />
                 <span>{isAdmin ? 'Admin' : 'User'}</span>
               </Label>

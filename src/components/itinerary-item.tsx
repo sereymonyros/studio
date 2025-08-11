@@ -97,7 +97,9 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                  
               )}>
                 <CardContent className="p-1.5 flex items-center gap-1.5">
-                  {getIconForActivity(activity)}
+                  <div className="pl-1.5">
+                    {getIconForActivity(activity)}
+                  </div>
                   <div className="flex-grow">
                     <p className={cn(
                       "text-black/80 dark:text-white/80 font-bold font-headline text-sm",

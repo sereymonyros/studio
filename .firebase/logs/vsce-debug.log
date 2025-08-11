@@ -105,3 +105,5 @@ I0811 18:43:15.255489    6960 load.go:115] Finished reloading
 [debug] [2025-08-11T18:43:15.343Z] I0811 18:43:15.342313    6960 dev.go:95] Listening on address (HTTP + gRPC): 127.0.0.1:50001
  {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0811 18:43:15.342313    6960 dev.go:95] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
 [error] [Firebase Plugin] error:  {}
+[info] [Firebase Plugin] Stopping Data Connect toolkit
+[warn] ⚠  Data Connect Emulator has exited upon receiving signal: SIGINT 

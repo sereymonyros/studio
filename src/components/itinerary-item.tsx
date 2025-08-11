@@ -24,7 +24,7 @@ type ItineraryItemProps = {
 
 const getIconForActivity = (title: string) => {
   const lowerTitle = title.toLowerCase();
-  const iconProps = { className: cn("w-6 h-6 text-black dark:text-white"), strokeWidth: 2.5 };
+  const iconProps = { className: cn("w-6 h-6 text-black/80 dark:text-white/80"), strokeWidth: 2.5 };
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
   if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
@@ -97,12 +97,12 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                   {getIconForActivity(activity.title)}
                   <div className="flex-grow">
                     <p className={cn(
-                      "text-black dark:text-white font-bold font-headline text-sm",
+                      "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
                     )}>
                       {displayTitle}
                     </p>
                     <p className={cn(
-                      "text-black dark:text-white text-xs font-bold"
+                      "text-black/80 dark:text-white/80 text-xs font-bold"
                     )}>
                       {activity.time}
                     </p>

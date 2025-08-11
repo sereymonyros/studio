@@ -96,3 +96,7 @@
 a[href*="vercel.com?utm_source="] {
   display: none !important;
 }
+
+.nextjs-toast {
+  display: none !important;
+}

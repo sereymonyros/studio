@@ -52,7 +52,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   };
 
   const dayBackgroundImages: Record<string, string> = {
-    [`${year}-08-15`]: "https://roadslesstraveled.us/blog/wp-content/uploads/2014/05/A-04-Scenic-drive-in-Sedona-561.jpg", // Replace with your actual image URLs
+    [`${year}-08-15`]: "https://chasingexperiencesvlog.com/wp-content/uploads/2024/07/Arizona-1.png", // Replace with your actual image URLs
     [`${year}-08-16`]: "https://twoaztrains.com/wp-content/uploads/2022/12/Open-Air-Viewing-Cars-Verde-Canyon-Train-mb8.jpg",
     [`${year}-08-17`]: "https://themaritimeexplorer.ca/wp-content/uploads/2024/12/Walnut-Canyon-Dwellings-768x440.jpg",
     [`${year}-08-18`]: 'https://cdn.allgrandcanyon.com/images/content/19995_1323283002_H6b08_lg.jpg',
@@ -94,7 +94,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
             <div 
               key={day.toISOString()}
               className={cn(
-                "rounded-[35px] p-2 flex flex-col relative overflow-hidden min-h-[200px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1", 
+                "rounded-[35px] p-2 flex flex-col relative overflow-hidden min-h-[300px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1",
                 'bg-card'
               )}
             >             

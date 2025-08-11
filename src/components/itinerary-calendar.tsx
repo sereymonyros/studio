@@ -52,8 +52,8 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   };
 
   const dayBackgroundImages: Record<string, string> = {
-    [`${year}-08-15`]: "https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/sedona.png?alt=media&token=b9789354-8b22-4034-a657-61683780da60", // Replace with your actual image URLs
-    [`${year}-08-16`]: "https://twoaztrains.com/wp-content/uploads/2022/12/Open-Air-Viewing-Cars-Verde-Canyon-Train-mb8.jpg",
+    [`${year}-08-15`]: "https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/sedona.png?alt=media&token=b9789354-8b22-4034-a657-61683780da60",
+    [`${year}-08-16`]: "https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/08-16.png?alt=media&token=12547b94-eb4d-4fe8-9c10-e34e6f457f25",
     [`${year}-08-17`]: "https://themaritimeexplorer.ca/wp-content/uploads/2024/12/Walnut-Canyon-Dwellings-768x440.jpg",
     [`${year}-08-18`]: 'https://cdn.allgrandcanyon.com/images/content/19995_1323283002_H6b08_lg.jpg',
     [`${year}-08-19`]: 'https://travelnevada.com/wp-content/uploads/2015/06/hoover-dam-1.jpg',

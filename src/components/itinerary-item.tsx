@@ -6,7 +6,7 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Key } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Key, Home } from "lucide-react";
 import { format } from "date-fns";
 import { enUS, km } from 'date-fns/locale';
 import ItineraryForm from "./itinerary-form";
@@ -24,10 +24,11 @@ type ItineraryItemProps = {
 
 const getIconForActivity = (title: string) => {
   const lowerTitle = title.toLowerCase();
-  const iconProps = { className: cn("w-6 h-6 text-black/80 dark:text-white/80"), strokeWidth: 2.5 };
+  const iconProps = { className: cn("w-5 h-5 text-black/80 dark:text-white/80"), strokeWidth: 2.5 };
+  if (/\b(home)\b/.test(lowerTitle)) return <Home {...iconProps} />;
   if (/\b(hike|mountain|park|trail|canyon)\b/.test(lowerTitle)) return <Mountain {...iconProps} />;
   if (/\b(eat|dine|restaurant|lunch|dinner|breakfast|food|cafe)\b/.test(lowerTitle)) return <Utensils {...iconProps} />;
-  if (/\b(landmark|monument|museum|site|tour|gallery|home|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
+  if (/\b(landmark|monument|museum|site|tour|gallery|airbnb)\b/.test(lowerTitle)) return <Landmark {...iconProps} />;
   return <MapPin {...iconProps} />;
 };
 

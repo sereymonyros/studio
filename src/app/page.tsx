@@ -7,7 +7,7 @@ import ItineraryCalendar from '@/components/itinerary-calendar';
 import AiSuggestions from '@/components/ai-suggestions';
 import { getSuggestions } from './actions';
 import { useToast } from "@/hooks/use-toast";
-import { Sunrise, Shield } from 'lucide-react';
+import { Sunrise } from 'lucide-react';
 import { getActivities, addActivity, updateActivity, deleteActivity as deleteActivityFromDb } from '@/services/firestore';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
@@ -123,7 +123,6 @@ function ItineraryPage() {
             <div className="flex items-center space-x-2">
               <Switch id="admin-mode" checked={isAdmin} onCheckedChange={setIsAdmin} aria-label="Toggle Admin Mode" />
               <Label htmlFor="admin-mode" className="flex items-center gap-2 text-foreground dark:text-primary-foreground font-medium">
-                <Shield className="w-5 h-5" />
                 <span>{isAdmin ? 'Admin' : 'User'}</span>
               </Label>
             </div>

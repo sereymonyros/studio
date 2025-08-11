@@ -120,8 +120,8 @@ function ItineraryPage() {
             <p className="mt-1 text-white-foreground/90">{t.header.description}</p>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center space-x-2">
-              <Switch id="admin-mode" checked={isAdmin} onCheckedChange={setIsAdmin} aria-label="Toggle Admin Mode" />
+            <div className="flex items-center space-x-2 invisible">
+              <Switch id="admin-mode" checked={isAdmin} onCheckedChange={setIsAdmin} aria-label="Toggle Admin Mode"/>
               <Label htmlFor="admin-mode" className="flex items-center gap-2 text-foreground dark:text-primary-foreground font-medium">
                 <span>{isAdmin ? 'Admin' : 'User'}</span>
               </Label>

@@ -67,7 +67,7 @@ export const translations = {
         dbErrorDelete: "Could not delete the activity."
     },
     footer: {
-      text: "Happy travels in sunny Arizona!"
+      text: "@RSM"
     }
   },
   km: {
@@ -135,7 +135,7 @@ export const translations = {
         dbErrorDelete: "មិនអាចលុបសកម្មភាពបានទេ។"
     },
     footer: {
-      text: "រីករាយដំណើរកម្សាន្តនៅអារីហ្សូណាដែលមានពន្លឺថ្ងៃ!"
+      text: "@RSM"
     }
   }
 };

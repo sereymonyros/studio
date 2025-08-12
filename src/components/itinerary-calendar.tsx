@@ -109,7 +109,8 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         {passengers.map((p, index) => (
           <div key={p.name} className={cn(
             "flex items-center gap-1.5",
-            (p.name === 'Lord Ren' || p.name === 'Master Sieng' || index === passengers.length - 1) && 'col-span-2'
+            (p.name === 'Lord Ren' || p.name === 'Master Sieng') && 'col-span-2',
+             index === passengers.length - 1 && 'col-span-2'
           )}>
               <User className="w-3 h-3 text-black dark:text-white"/>
               <span className="font-normal">{p.name}:</span>
@@ -236,10 +237,3 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 }
 
 export default ItineraryCalendar;
-
-    
-    
-    
-
-    
-

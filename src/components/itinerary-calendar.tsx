@@ -96,6 +96,23 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
       return dayStr === `${year}-08-17` || dayStr === `${year}-08-18`;
   }
 
+  const FlightInfo = () => (
+    <div className="relative z-20 p-2 text-white/70 text-[10px] bg-black/30 rounded-2xl">
+      <h4 className="font-bold flex items-center gap-2 mb-1 text-sm text-white">
+        <Plane className="w-4 h-4" /> Flight Info
+      </h4>
+      <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+        {passengers.map(p => (
+          <div key={p.name} className="flex items-center gap-1.5">
+              <User className="w-3 h-3"/>
+              <span className="font-semibold text-white/70">{p.name}:</span>
+              <span className="text-white/70">{p.seat}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <div className="rounded-lg p-4 md:p-6 shadow-sm">
       <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
@@ -117,11 +134,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         {tripDays.map(day => {
           const dateKey = format(day, 'yyyy-MM-dd');
           const dayActivities = (activitiesByDate[dateKey] || []).sort((a,b) => a.time.localeCompare(b.time));
-          const isSedona = isSedonaDay(day);
-          const isGrandCanyon = isGrandCanyonDay(day);
 
           const backgroundImageSrc = dayBackgroundImages[dateKey];
-          const isFlightDay = dateKey === `${year}-08-15` || dateKey === `${year}-08-22`;
+          const isStartFlightDay = dateKey === `${year}-08-15`;
+          const isEndFlightDay = dateKey === `${year}-08-22`;
           
           return (
             <div 
@@ -131,10 +147,8 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 'bg-card'
               )}
             >             
-    
-
               {/* Render background image if available for this day */}
-              {backgroundImageSrc && ( // Only apply if not a special day (Sedona/Grand Canyon have their own)
+              {backgroundImageSrc && (
                 <>
                   <Image
                     src={backgroundImageSrc}
@@ -146,7 +160,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 </>
               )}
 
-              <div className="relative z-20">
+              <div className="relative z-20 flex flex-col flex-grow">
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col text-white">
                       <span className="font-bold">{format(day, 'd', { locale })}</span>
@@ -163,8 +177,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       </Button>
                     )}
                 </div>
-              </div>
-              <div className="flex-grow space-y-1 mt-2 relative z-20 flex flex-col justify-start">
+                
+                <div className="flex-grow space-y-1 mt-2 flex flex-col">
+                  {isStartFlightDay && <div className="mb-2"><FlightInfo /></div>}
+
                   {dayActivities.map(activity => (
                     <ItineraryItem 
                       key={activity.id}
@@ -177,23 +193,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       t={t.form}
                     />
                   ))}
+                  
+                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo /></div>}
+                </div>
               </div>
-              {isFlightDay && (
-                  <div className="relative z-20 mt-auto p-2 text-white/70 text-[10px] bg-black/30 rounded-2xl">
-                    <h4 className="font-bold flex items-center gap-2 mb-1 text-sm text-white">
-                      <Plane className="w-4 h-4" /> Flight Info
-                    </h4>
-                    <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                      {passengers.map(p => (
-                        <div key={p.name} className="flex items-center gap-1.5">
-                            <User className="w-3 h-3"/>
-                            <span className="font-semibold text-white/70">{p.name}:</span>
-                            <span className="text-white/70">{p.seat}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
             </div>
           )
         })}
@@ -203,7 +206,3 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 }
 
 export default ItineraryCalendar;
-
-    
-
-    

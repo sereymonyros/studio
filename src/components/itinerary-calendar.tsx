@@ -40,11 +40,11 @@ const departurePassengers = [
   ];
 
 const returnPassengers = [
-    { name: 'Tony', seat: '31D' },
-    { name: 'LyLy', seat: '31E' },
-    { name: 'Benjamin', seat: '31B' },
-    { name: 'Ryan', seat: '31C' },
-    { name: 'Vanna', seat: '31F' },
+    { name: 'Tony', seat: '31E' },
+    { name: 'LyLy', seat: '31B' },
+    { name: 'Benjamin', seat: '31D' },
+    { name: 'Ryan', seat: '31F' },
+    { name: 'Vanna', seat: '31C' },
     { name: 'Roth', seat: 'N/A' },
     { name: 'Mr.Ren', seat: 'N/A' },
     { name: 'Navin', seat: 'N/A' },
@@ -225,4 +225,5 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 
 export default ItineraryCalendar;
 
+    
     

@@ -62,6 +62,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   }, {} as Record<string, Activity[]>);
 
   const handleAddSubmit = async (activity: Omit<Activity, 'id'>) => {
+    if (!isAdmin) return;
     await onAddActivity(activity);
     setAddModalOpen(false);
   };
@@ -107,7 +108,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
             activity={{ date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '' }}
             lang={lang}
             t={t.form}
-            isReadOnly={isReadOnly}
+            isReadOnly={!isAdmin}
           />
         </DialogContent>
       </Dialog>
@@ -150,7 +151,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       <span className="font-bold">{format(day, 'd', { locale })}</span>
                       <span className="text-xs">{format(day, 'EEEE', { locale })}</span>
                   </div>
-                    {!isReadOnly && isAdmin && (
+                    {isAdmin && (
                       <Button
                         variant="ghost"
                         size="icon"
@@ -169,7 +170,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       activity={activity} 
                       onUpdateActivity={onUpdateActivity}
                       onDeleteActivity={onDeleteActivity}
-                      isReadOnly={isReadOnly}
+                      isReadOnly={!isAdmin}
                       isAdmin={isAdmin}
                       lang={lang}
                       t={t.form}
@@ -178,10 +179,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
               </div>
               {isFlightDay && (
                   <div className="relative z-20 mt-auto p-2 text-white text-xs bg-black/30 rounded-2xl">
-                    <h4 className="font-bold flex items-center gap-2 mb-1">
+                    <h4 className="font-bold flex items-center gap-2 mb-1 text-sm">
                       <Plane className="w-4 h-4" /> Flight Info
                     </h4>
-                    <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+                    <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
                       {passengers.map(p => (
                         <div key={p.name} className="flex items-center gap-1.5">
                             <User className="w-3 h-3"/>

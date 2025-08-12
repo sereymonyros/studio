@@ -202,7 +202,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                          <CloudSun className="w-5 h-5" />
                          <div className="flex flex-col" style={{fontSize: '16px'}}>
                            <span className="font-bold">{weather.f}°F</span>
-                           <span className="font-light">{weather.c}°C</span>
+                           <span className="font-bold">{weather.c}°C</span>
                          </div>
                        </div>
                     )}
@@ -242,3 +242,4 @@ export default ItineraryCalendar;
     
 
     
+

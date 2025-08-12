@@ -109,7 +109,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       </p>
                       <span className="text-xs font-normal text-black/60 dark:text-white/60">{activity.time}</span>
                   </div>
-                  {isAdmin && (
+                  {isAdmin && false && (
                     <div className="flex items-center pr-2">
                         <Button
                             variant="ghost"

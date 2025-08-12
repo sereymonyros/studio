@@ -112,7 +112,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   }
 
   const FlightInfo = ({ title, passengers }: { title: string, passengers: {name: string, seat: string}[] }) => (
-    <div className="relative z-20 p-2 text-[10px] bg-card/60 rounded-2xl">
+    <div className="relative z-20 p-2 text-[10px] bg-card/60 rounded-2xl dark:bg-card/60">
       <h4 className="font-bold flex items-center gap-2 mb-1 text-xs text-black dark:text-white">
         <Plane className="w-4 h-4 text-black dark:text-white" /> {title}
       </h4>
@@ -193,7 +193,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     )}
                 </div>
                 
-                <div className="flex-grow space-y-1 mt-2 flex flex-col">
+                <div className="flex-grow space-y-2 mt-2 flex flex-col justify-center">
                   {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 12-3PM" passengers={departurePassengers}/></div>}
 
                   {dayActivities.map(activity => (

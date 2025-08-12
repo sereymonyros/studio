@@ -12,7 +12,6 @@ import { enUS, km } from 'date-fns/locale';
 import ItineraryForm from "./itinerary-form";
 import { cn } from "@/lib/utils";
 import type { Language, Translation } from "@/lib/translations";
-import { getWeatherForActivity } from "@/app/actions";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -39,38 +38,9 @@ const getIconForActivity = (activity: Activity) => {
 export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }: ItineraryItemProps) {
   const [isDetailViewOpen, setDetailViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [weather, setWeather] = useState<{ temperature: number; conditions: string } | null>(null);
-  const [isLoadingWeather, setIsLoadingWeather] = useState(true);
   
   const locale = lang === 'km' ? km : enUS;
   const displayTitle = lang === 'km' && activity.title_km ? activity.title_km : activity.title;
-
-  useEffect(() => {
-    const fetchWeather = async () => {
-      if (!activity.address) {
-        setIsLoadingWeather(false);
-        return;
-      }
-      try {
-        setIsLoadingWeather(true);
-        const city = activity.address.split(',')[1]?.trim() || 'Phoenix';
-        const weatherData = await getWeatherForActivity({
-          city,
-          date: activity.date,
-          time: activity.time,
-        });
-        setWeather(weatherData);
-      } catch (error) {
-        console.error("Failed to fetch weather:", error);
-        setWeather(null);
-      } finally {
-        setIsLoadingWeather(false);
-      }
-    };
-
-    fetchWeather();
-  }, [activity.address, activity.date, activity.time]);
-
 
   let formattedTime = "";
   let formattedDate = "";

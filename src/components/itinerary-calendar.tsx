@@ -147,30 +147,6 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     );
 };
 
-  
-  const dailyTemperatures = useMemo(() => {
-    const temps = new Map<string, { f: number, c: number }>();
-    const today = startOfDay(new Date()); // Get today's date at midnight
-    const todaySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-
-    tripDays.forEach(day => {
-      const dateKey = format(day, 'yyyy-MM-dd');
-      
-      // Create a pseudo-random number generator that is stable for a given day
-      let seed = todaySeed + day.getDate();
-      const pseudoRandom = () => {
-        let x = Math.sin(seed++) * 10000;
-        return x - Math.floor(x);
-      };
-
-      const tempF = Math.floor(pseudoRandom() * (115 - 100 + 1)) + 100; // Random between 100-115
-      const tempC = Math.round((tempF - 32) * 5 / 9);
-      temps.set(dateKey, { f: tempF, c: tempC });
-    });
-    return temps;
-  }, [tripDays]);
-
-
   return (
     <div className="rounded-lg p-4 md:p-6 shadow-sm">
       <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
@@ -192,8 +168,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         {tripDays.map(day => {
           const dateKey = format(day, 'yyyy-MM-dd');
           const dayActivities = (activitiesByDate[dateKey] || []).sort((a,b) => a.time.localeCompare(b.time));
-          const weather = dailyTemperatures.get(dateKey);
-
+          
           const backgroundImageSrc = dayBackgroundImages[dateKey];
           const isStartFlightDay = dateKey === `${year}-08-15`;
           const isEndFlightDay = dateKey === `${year}-08-22`;
@@ -224,16 +199,6 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       <span className="font-bold text-lg">{format(day, 'd', { locale })}</span>
                       <span className="text-sm -mt-1">{format(day, 'EEEE', { locale })}</span>
                     </div>
-                    
-                    {weather && (
-                       <div className="flex items-center gap-2 text-right">
-                         <CloudSun className="w-5 h-5" />
-                         <div className="flex flex-col" style={{fontSize: '16px'}}>
-                           <span className="font-bold">{weather.f}°F</span>
-                           <span className="font-bold">{weather.c}°C</span>
-                         </div>
-                       </div>
-                    )}
                 </div>
                 
                 <div className="flex-grow space-y-2 mt-2 flex flex-col justify-center">

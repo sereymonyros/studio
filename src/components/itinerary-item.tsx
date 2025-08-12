@@ -127,32 +127,17 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 "hover:bg-card/100 focus:bg-card/100 border-white"
                  
               )}>
-                <CardContent className="p-1.5 flex items-center gap-1.5">
+                <CardContent className="p-1.5 flex items-center gap-2">
                   <div className="pl-1.5">
                     {getIconForActivity(activity)}
                   </div>
-                  <div className="flex-grow">
-                    <div className="flex items-baseline gap-2">
-                        <p className={cn(
-                          "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
-                        )}>
-                          {displayTitle}
-                        </p>
-                        <span className="text-xs font-normal text-black/60 dark:text-white/60">{activity.time}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-xs font-normal text-black/60 dark:text-white/60 -mt-1">
-                      <div className="flex items-center gap-1">
-                          {isLoadingWeather ? (
-                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                          ) : weather ? (
-                            <>
-                                <Sun className="w-3.5 h-3.5 text-amber-500" />
-                                <span>{weather.temperature}°F</span>
-                            </>
-                          ) : null }
-                      </div>
-                    </div>
+                  <div className="flex-grow flex items-baseline gap-2">
+                      <p className={cn(
+                        "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
+                      )}>
+                        {displayTitle}
+                      </p>
+                      <span className="text-xs font-normal text-black/60 dark:text-white/60">{activity.time}</span>
                   </div>
                   {isAdmin && (
                     <div className="flex items-center pr-2">

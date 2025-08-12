@@ -68,10 +68,13 @@ const useDailyRandomTemperature = (dateKey: string) => {
 
   useEffect(() => {
     const getStoredTemp = () => {
+      // Use the date part of the dateKey for daily uniqueness
+      const todayStr = new Date().toISOString().split('T')[0];
       const storedData = localStorage.getItem(`weather_${dateKey}`);
       if (storedData) {
         const { temp, date } = JSON.parse(storedData);
-        if (date === new Date().toISOString().split('T')[0]) {
+        // Check if the stored date is today's date
+        if (date === todayStr) {
           return temp;
         }
       }
@@ -82,6 +85,7 @@ const useDailyRandomTemperature = (dateKey: string) => {
     if (storedTemp) {
       setTemp(storedTemp);
     } else {
+      // Generate a new temperature if no valid one is stored for today
       const newTemp = Math.floor(Math.random() * (110 - 100 + 1)) + 100;
       localStorage.setItem(`weather_${dateKey}`, JSON.stringify({ temp: newTemp, date: new Date().toISOString().split('T')[0] }));
       setTemp(newTemp);
@@ -186,7 +190,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
           <CloudSun className="w-5 h-5 mt-0.5" />
           <div>
             <div className="font-bold text-lg leading-none">{tempF}°F</div>
-            <div className="text-xs leading-none">{tempC}°C</div>
+            <div className="font-bold text-xs leading-none">{tempC}°C</div>
           </div>
         </div>
       </div>
@@ -276,3 +280,5 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 }
 
 export default ItineraryCalendar;
+
+    

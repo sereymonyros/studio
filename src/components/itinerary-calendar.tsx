@@ -153,11 +153,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
             <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
-                {passengers.map((p) => (
+                {passengers.map((p, index) => (
                     <div key={p.name} className={cn(
                         "flex items-center gap-1.5",
-                        (p.name === 'Lord Ren' || p.name === 'Master Sieng') && 'col-span-2',
-                        p.name === 'Lord Ren' && 'col-span-2'
+                        index >= passengers.length - 2 && 'col-span-2 justify-center'
                     )}>
                         <Avatar />
                         <span className="font-normal">{p.name}:</span>

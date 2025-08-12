@@ -102,13 +102,13 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 
   const FlightInfo = ({ title, passengers }: { title: string, passengers: {name: string, seat: string}[] }) => (
     <div className="relative z-20 p-2 text-xs bg-card/60 dark:bg-card/80 rounded-2xl">
-      <h4 className="font-bold flex items-center justify-center gap-2 mb-4 text-black dark:text-white text-sm text-center">
+      <h4 className="font-bold flex items-center justify-center gap-2 mb-4 text-black dark:text-white text-base text-center">
         <Plane className="w-4 h-4 text-black dark:text-white" /> {title}
       </h4>
-      <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-xs">
+      <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-sm">
         {passengers.map(p => (
           <div key={p.name} className="flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-black dark:text-white"/>
+              <User className="w-4 h-4 text-black dark:text-white"/>
               <span className="font-normal">{p.name}:</span>
               <span>{p.seat}</span>
           </div>
@@ -123,7 +123,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
       const dateKey = format(day, 'yyyy-MM-dd');
       // Use date to create a stable "random" seed
       const seed = day.getDate();
-      const tempF = 85 + (seed % 16); // Stable random between 85-100
+      const tempF = 100 + (seed % 16); // Stable random between 100-115
       const tempC = Math.round((tempF - 32) * 5 / 9);
       temps.set(dateKey, { f: tempF, c: tempC });
     });
@@ -188,7 +188,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     {weather && (
                        <div className="flex items-center gap-2 text-right">
                          <CloudSun className="w-5 h-5" />
-                         <div className="flex flex-col text-base">
+                         <div className="flex flex-col text-base" style={{fontSize: '16px'}}>
                            <span className="font-bold">{weather.f}°F</span>
                            <span className="font-light">{weather.c}°C</span>
                          </div>
@@ -224,3 +224,5 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 }
 
 export default ItineraryCalendar;
+
+    

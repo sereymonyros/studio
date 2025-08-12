@@ -6,7 +6,7 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Key, Home } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Key, Home, Sun } from "lucide-react";
 import { format } from "date-fns";
 import { enUS, km } from 'date-fns/locale';
 import ItineraryForm from "./itinerary-form";
@@ -106,8 +106,14 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
                     )}>
                       {displayTitle}
-                      <span className="ml-2 font-normal text-xs">{activity.time}</span>
                     </p>
+                    <div className="flex items-center gap-2 text-xs font-normal text-black/60 dark:text-white/60">
+                      <span>{activity.time}</span>
+                      <div className="flex items-center gap-1">
+                          <Sun className="w-3.5 h-3.5 text-amber-500" />
+                          <span>100°F</span>
+                      </div>
+                    </div>
                   </div>
                   {isAdmin && (
                     <div className="flex items-center pr-2">
@@ -238,7 +244,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
         </DialogContent>
       </Dialog>
       
-      {!isReadOnly && (
+      {isAdmin && (
          <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <DialogContent className="bg-background">
               <DialogHeader>

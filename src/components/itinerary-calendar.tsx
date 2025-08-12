@@ -102,13 +102,13 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 
   const FlightInfo = ({ title, passengers }: { title: string, passengers: {name: string, seat: string}[] }) => (
     <div className="relative z-20 p-2 text-xs bg-card/60 dark:bg-card/80 rounded-2xl">
-      <h4 className="font-bold flex items-center justify-center gap-2 mb-4 text-black dark:text-white text-base text-center">
+      <h4 className="font-bold flex items-center justify-center gap-2 mb-2 text-black dark:text-white text-base text-center">
         <Plane className="w-4 h-4 text-black dark:text-white" /> {title}
       </h4>
-      <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-sm">
+      <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-xs">
         {passengers.map(p => (
           <div key={p.name} className="flex items-center gap-1.5">
-              <User className="w-4 h-4 text-black dark:text-white"/>
+              <User className="w-3 h-3 text-black dark:text-white"/>
               <span className="font-normal">{p.name}:</span>
               <span>{p.seat}</span>
           </div>
@@ -188,7 +188,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     {weather && (
                        <div className="flex items-center gap-2 text-right">
                          <CloudSun className="w-5 h-5" />
-                         <div className="flex flex-col text-base" style={{fontSize: '16px'}}>
+                         <div className="flex flex-col" style={{fontSize: '16px'}}>
                            <span className="font-bold">{weather.f}°F</span>
                            <span className="font-light">{weather.c}°C</span>
                          </div>

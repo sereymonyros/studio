@@ -22,7 +22,7 @@ function ItineraryPage() {
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [isLoadingActivities, setIsLoadingActivities] = useState(true);
   const [lang, setLang] = useState<Language>('en');
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
   const { toast } = useToast();
   
   const t = translations[lang];

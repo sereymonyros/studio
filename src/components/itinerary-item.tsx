@@ -6,12 +6,13 @@ import type { Activity } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Key, Home, Sun } from "lucide-react";
+import { Trash2, Mountain, Utensils, Landmark, MapPin, Edit, Calendar, Clock, Link, Key, Home, Sun, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { enUS, km } from 'date-fns/locale';
 import ItineraryForm from "./itinerary-form";
 import { cn } from "@/lib/utils";
 import type { Language, Translation } from "@/lib/translations";
+import { getWeatherForActivity } from "@/app/actions";
 
 type ItineraryItemProps = {
   activity: Activity;
@@ -38,9 +39,38 @@ const getIconForActivity = (activity: Activity) => {
 export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }: ItineraryItemProps) {
   const [isDetailViewOpen, setDetailViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [weather, setWeather] = useState<{ temperature: number; conditions: string } | null>(null);
+  const [isLoadingWeather, setIsLoadingWeather] = useState(true);
   
   const locale = lang === 'km' ? km : enUS;
   const displayTitle = lang === 'km' && activity.title_km ? activity.title_km : activity.title;
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (!activity.address) {
+        setIsLoadingWeather(false);
+        return;
+      }
+      try {
+        setIsLoadingWeather(true);
+        const city = activity.address.split(',')[1]?.trim() || 'Phoenix';
+        const weatherData = await getWeatherForActivity({
+          city,
+          date: activity.date,
+          time: activity.time,
+        });
+        setWeather(weatherData);
+      } catch (error) {
+        console.error("Failed to fetch weather:", error);
+        setWeather(null);
+      } finally {
+        setIsLoadingWeather(false);
+      }
+    };
+
+    fetchWeather();
+  }, [activity.address, activity.date, activity.time]);
+
 
   let formattedTime = "";
   let formattedDate = "";
@@ -110,8 +140,14 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                     <div className="flex items-center gap-2 text-xs font-normal text-black/60 dark:text-white/60">
                       <span>{activity.time}</span>
                       <div className="flex items-center gap-1">
-                          <Sun className="w-3.5 h-3.5 text-amber-500" />
-                          <span>100°F</span>
+                          {isLoadingWeather ? (
+                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : weather ? (
+                            <>
+                                <Sun className="w-3.5 h-3.5 text-amber-500" />
+                                <span>{weather.temperature}°F</span>
+                            </>
+                          ) : null }
                       </div>
                     </div>
                   </div>

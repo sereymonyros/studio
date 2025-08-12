@@ -188,7 +188,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     {weather && (
                        <div className="flex items-center gap-2 text-right">
                          <CloudSun className="w-5 h-5" />
-                         <div className="flex flex-col text-xs">
+                         <div className="flex flex-col text-base">
                            <span className="font-bold">{weather.f}°F</span>
                            <span className="font-light">{weather.c}°C</span>
                          </div>

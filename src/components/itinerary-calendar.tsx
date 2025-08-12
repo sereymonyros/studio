@@ -153,11 +153,17 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
             <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
-                {passengers.map((p, index) => (
-                    <div key={p.name} className={cn(
-                        "flex items-center gap-1.5",
-                        index >= passengers.length - 2 && 'col-span-2 justify-center'
-                    )}>
+                {passengers.slice(0, -2).map((p) => (
+                    <div key={p.name} className="flex items-center gap-1.5">
+                        <Avatar />
+                        <span className="font-normal">{p.name}:</span>
+                        <span>{p.seat}</span>
+                    </div>
+                ))}
+            </div>
+            <div className="grid grid-cols-1 pt-1.5 pb-1.5">
+                {passengers.slice(-2).map((p) => (
+                    <div key={p.name} className="flex items-center justify-center gap-1.5">
                         <Avatar />
                         <span className="font-normal">{p.name}:</span>
                         <span>{p.seat}</span>
@@ -270,5 +276,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
 }
 
 export default ItineraryCalendar;
+
+    
 
     

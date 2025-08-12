@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, type FC, useMemo } from 'react';
+import React, { useState, type FC, useMemo, useEffect } from 'react';
 import type { Activity } from '@/lib/types';
 import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-fns';
 import { enUS, km } from 'date-fns/locale';
@@ -63,6 +63,33 @@ const Woman = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
 );
 
+const useDailyRandomTemperature = (dateKey: string) => {
+  const [temp, setTemp] = useState<number | null>(null);
+
+  useEffect(() => {
+    const getStoredTemp = () => {
+      const storedData = localStorage.getItem(`weather_${dateKey}`);
+      if (storedData) {
+        const { temp, date } = JSON.parse(storedData);
+        if (date === new Date().toISOString().split('T')[0]) {
+          return temp;
+        }
+      }
+      return null;
+    };
+
+    const storedTemp = getStoredTemp();
+    if (storedTemp) {
+      setTemp(storedTemp);
+    } else {
+      const newTemp = Math.floor(Math.random() * (110 - 100 + 1)) + 100;
+      localStorage.setItem(`weather_${dateKey}`, JSON.stringify({ temp: newTemp, date: new Date().toISOString().split('T')[0] }));
+      setTemp(newTemp);
+    }
+  }, [dateKey]);
+
+  return temp;
+};
 
 const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -147,6 +174,25 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     );
 };
 
+  const Weather = ({ dateKey }: { dateKey: string }) => {
+    const tempF = useDailyRandomTemperature(dateKey);
+    const tempC = tempF ? Math.round(((tempF - 32) * 5) / 9) : null;
+    
+    if (tempF === null) return null;
+
+    return (
+      <div className="absolute top-2 right-2 z-20 text-white p-2 text-right">
+        <div className="flex items-start gap-1">
+          <CloudSun className="w-5 h-5 mt-0.5" />
+          <div>
+            <div className="font-bold text-lg leading-none">{tempF}°F</div>
+            <div className="text-xs leading-none">{tempC}°C</div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="rounded-lg p-4 md:p-6 shadow-sm">
       <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
@@ -194,6 +240,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
               )}
 
               <div className="relative z-20 flex flex-col flex-grow">
+                <Weather dateKey={dateKey} />
                 <div className="flex justify-between items-start text-white p-2">
                     <div className="flex flex-col">
                       <span className="font-bold text-lg">{format(day, 'd', { locale })}</span>

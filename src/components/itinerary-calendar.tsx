@@ -146,7 +146,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     };
     
     return (
-        <div className="relative z-20 p-2 text-xs bg-card/60 rounded-2xl">
+        <div className="relative z-20 p-2 text-xs bg-card/60 rounded-[35px]">
             <h4 className="font-bold flex items-center justify-center gap-2 mb-2 text-black dark:text-white text-base text-center">
                 <Plane className="w-4 h-4 text-black dark:text-white" />
                 <span>{flight}</span>

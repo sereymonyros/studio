@@ -109,6 +109,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <span className="ml-2 font-normal text-xs">{activity.time}</span>
                     </p>
                   </div>
+                  {isAdmin && (
                     <div className="flex items-center pr-2">
                         <Button
                             variant="ghost"
@@ -129,6 +130,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                             <Trash2 className="w-3.5 h-3.5" />
                         </Button>
                     </div>
+                  )}
                 </CardContent>
               </Card>
             </div>

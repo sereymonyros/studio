@@ -135,14 +135,16 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       <span className="font-bold">{format(day, 'd', { locale })}</span>
                       <span className="text-xs">{format(day, 'EEEE', { locale })}</span>
                   </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-white w-8 h-8 rounded-full hover:bg-white/20"
-                      onClick={() => openAddModal(day)}
-                    >
-                      <PlusCircle className="w-5 h-5" />
-                    </Button>
+                    {isAdmin && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-white w-8 h-8 rounded-full hover:bg-white/20"
+                        onClick={() => openAddModal(day)}
+                      >
+                        <PlusCircle className="w-5 h-5" />
+                      </Button>
+                    )}
                 </div>
               </div>
               <div className="flex-grow space-y-1 mt-2 relative z-20 flex justify-center flex-col">

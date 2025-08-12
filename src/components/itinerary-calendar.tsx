@@ -122,11 +122,20 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   
   const dailyTemperatures = useMemo(() => {
     const temps = new Map<string, { f: number, c: number }>();
+    const today = startOfDay(new Date()); // Get today's date at midnight
+    const todaySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+
     tripDays.forEach(day => {
       const dateKey = format(day, 'yyyy-MM-dd');
-      // Use date to create a stable "random" seed
-      const seed = day.getDate();
-      const tempF = 100 + (seed % 16); // Stable random between 100-115
+      
+      // Create a pseudo-random number generator that is stable for a given day
+      let seed = todaySeed + day.getDate();
+      const pseudoRandom = () => {
+        let x = Math.sin(seed++) * 10000;
+        return x - Math.floor(x);
+      };
+
+      const tempF = Math.floor(pseudoRandom() * (115 - 100 + 1)) + 100; // Random between 100-115
       const tempC = Math.round((tempF - 32) * 5 / 9);
       temps.set(dateKey, { f: tempF, c: tempC });
     });

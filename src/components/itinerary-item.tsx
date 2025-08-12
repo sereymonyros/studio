@@ -132,13 +132,16 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                     {getIconForActivity(activity)}
                   </div>
                   <div className="flex-grow">
-                    <p className={cn(
-                      "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
-                    )}>
-                      {displayTitle}
-                    </p>
-                    <div className="flex items-center gap-2 text-xs font-normal text-black/60 dark:text-white/60">
-                      <span>{activity.time}</span>
+                    <div className="flex items-baseline gap-2">
+                        <p className={cn(
+                          "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
+                        )}>
+                          {displayTitle}
+                        </p>
+                        <span className="text-xs font-normal text-black/60 dark:text-white/60">{activity.time}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs font-normal text-black/60 dark:text-white/60 -mt-1">
                       <div className="flex items-center gap-1">
                           {isLoadingWeather ? (
                              <Loader2 className="w-3.5 h-3.5 animate-spin" />

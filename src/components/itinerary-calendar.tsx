@@ -7,12 +7,18 @@ import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-
 import { enUS, km } from 'date-fns/locale';
 import ItineraryItem from './itinerary-item';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Plane, User, CloudSun } from 'lucide-react';
+import { PlusCircle, Plane, User, CloudSun, PersonStanding, Baby } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
 import Image from "next/image";
 import type { Language, Translation } from '@/lib/translations';
+
+type Passenger = {
+    name: string;
+    seat: string;
+    avatar: 'male' | 'female' | 'child';
+};
 
 type ItineraryCalendarProps = {
   activities: Activity[];
@@ -25,33 +31,37 @@ type ItineraryCalendarProps = {
   t: Translation;
 };
 
-const departurePassengers = [
-    { name: 'Tony', seat: '31D' },
-    { name: 'LyLy', seat: '31E' },
-    { name: 'Benjamin', seat: '31B' },
-    { name: 'Ryan', seat: '31C' },
-    { name: 'Vanna', seat: '31F' },
-    { name: 'Roth', seat: '15A' },
-    { name: 'Navin', seat: '15C' },
-    { name: 'Lim', seat: '15D' },
-    { name: 'Nhok', seat: '15E' },
-    { name: 'Master Sieng', seat: '15F' },
-    { name: 'Lord Ren', seat: '15B' },
+const departurePassengers: Passenger[] = [
+    { name: 'Tony', seat: '31D', avatar: 'male' },
+    { name: 'LyLy', seat: '31E', avatar: 'female' },
+    { name: 'Benjamin', seat: '31B', avatar: 'child' },
+    { name: 'Ryan', seat: '31C', avatar: 'child' },
+    { name: 'Vanna', seat: '31F', avatar: 'female' },
+    { name: 'Roth', seat: '15A', avatar: 'male' },
+    { name: 'Navin', seat: '15C', avatar: 'male' },
+    { name: 'Lim', seat: '15D', avatar: 'female' },
+    { name: 'Nhok', seat: '15E', avatar: 'male' },
+    { name: 'Master Sieng', seat: '15F', avatar: 'male' },
+    { name: 'Lord Ren', seat: '15B', avatar: 'male' },
   ];
 
-const returnPassengers = [
-    { name: 'Tony', seat: '31E' },
-    { name: 'LyLy', seat: '31B' },
-    { name: 'Benjamin', seat: '31D' },
-    { name: 'Ryan', seat: '31F' },
-    { name: 'Vanna', seat: '31C' },
-    { name: 'Roth', seat: 'N/A' },
-    { name: 'Navin', seat: 'N/A' },
-    { name: 'Lim', seat: 'N/A' },
-    { name: 'Nhok', seat: 'N/A' },
-    { name: 'Master Sieng', seat: 'N/A' },
-    { name: 'Lord Ren', seat: 'N/A' },
+const returnPassengers: Passenger[] = [
+    { name: 'Tony', seat: '31E', avatar: 'male' },
+    { name: 'LyLy', seat: '31B', avatar: 'female' },
+    { name: 'Benjamin', seat: '31D', avatar: 'child' },
+    { name: 'Ryan', seat: '31F', avatar: 'child' },
+    { name: 'Vanna', seat: '31C', avatar: 'female' },
+    { name: 'Roth', seat: 'N/A', avatar: 'male' },
+    { name: 'Navin', seat: 'N/A', avatar: 'male' },
+    { name: 'Lim', seat: 'N/A', avatar: 'female' },
+    { name: 'Nhok', seat: 'N/A', avatar: 'male' },
+    { name: 'Master Sieng', seat: 'N/A', avatar: 'male' },
+    { name: 'Lord Ren', seat: 'N/A', avatar: 'male' },
 ];
+
+const Woman = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+);
 
 
 const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }) => {
@@ -100,8 +110,18 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     setAddModalOpen(true);
   }
 
-  const FlightInfo = ({ title, passengers }: { title: string, passengers: {name: string, seat: string}[] }) => {
+  const FlightInfo = ({ title, passengers }: { title: string, passengers: Passenger[] }) => {
     const [flight, time] = title.split(' ');
+    
+    const Avatar = ({ type }: { type: Passenger['avatar'] }) => {
+        const iconProps = { className: "w-3 h-3 text-black dark:text-white" };
+        switch (type) {
+            case 'male': return <PersonStanding {...iconProps} />;
+            case 'female': return <Woman {...iconProps} />;
+            case 'child': return <Baby {...iconProps} />;
+            default: return <User {...iconProps} />;
+        }
+    };
     
     return (
         <div className="relative z-20 p-2 text-xs bg-card/60 rounded-2xl">
@@ -111,13 +131,13 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
             <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
-                {passengers.map((p, index) => (
+                {passengers.map((p) => (
                     <div key={p.name} className={cn(
                         "flex items-center gap-1.5",
                         (p.name === 'Lord Ren' || p.name === 'Master Sieng') && 'col-span-2',
                         p.name === 'Lord Ren' && 'col-span-2'
                     )}>
-                        <User className="w-3 h-3 text-black dark:text-white"/>
+                        <Avatar type={p.avatar} />
                         <span className="font-normal">{p.name}:</span>
                         <span>{p.seat}</span>
                     </div>

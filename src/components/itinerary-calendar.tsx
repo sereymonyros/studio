@@ -25,7 +25,7 @@ type ItineraryCalendarProps = {
   t: Translation;
 };
 
-const passengers = [
+const departurePassengers = [
     { name: 'Tony', seat: '31D' },
     { name: 'LyLy', seat: '31E' },
     { name: 'Benjamin', seat: '31B' },
@@ -38,6 +38,21 @@ const passengers = [
     { name: 'Nhok', seat: '15E' },
     { name: 'Master Sieng', seat: '15F' },
   ];
+
+const returnPassengers = [
+    { name: 'Tony', seat: '31D' },
+    { name: 'LyLy', seat: '31E' },
+    { name: 'Benjamin', seat: '31B' },
+    { name: 'Ryan', seat: '31C' },
+    { name: 'Vanna', seat: '31F' },
+    { name: 'Roth', seat: '#' },
+    { name: 'Mr.Ren', seat: '#' },
+    { name: 'Navin', seat: '#' },
+    { name: 'Lim', seat: '#' },
+    { name: 'Nhok', seat: '#' },
+    { name: 'Master Sieng', seat: '#' },
+];
+
 
 const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -96,7 +111,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
       return dayStr === `${year}-08-17` || dayStr === `${year}-08-18`;
   }
 
-  const FlightInfo = ({ title }: { title: string }) => (
+  const FlightInfo = ({ title, passengers }: { title: string, passengers: {name: string, seat: string}[] }) => (
     <div className="relative z-20 p-2 text-[10px] bg-card/60 rounded-2xl">
       <h4 className="font-bold flex items-center gap-2 mb-1 text-xs text-black dark:text-white">
         <Plane className="w-4 h-4 text-black dark:text-white" /> {title}
@@ -179,7 +194,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 </div>
                 
                 <div className="flex-grow space-y-1 mt-2 flex flex-col">
-                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 12-3PM"/></div>}
+                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 12-3PM" passengers={departurePassengers}/></div>}
 
                   {dayActivities.map(activity => (
                     <ItineraryItem 
@@ -194,7 +209,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     />
                   ))}
                   
-                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="PHX-SEA 2:00-5:00PM" /></div>}
+                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="PHX-SEA 2:00-5:00PM" passengers={returnPassengers} /></div>}
                 </div>
               </div>
             </div>

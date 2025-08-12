@@ -266,6 +266,19 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                   
                   {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="PHX-SEA 2:00-5:00PM" passengers={returnPassengers} /></div>}
                 </div>
+
+                {!isReadOnly && (
+                    <div className="relative z-20 mt-auto p-2">
+                        <Button
+                            variant="ghost"
+                            className="w-full bg-black/30 text-white hover:bg-black/50 hover:text-white rounded-2xl"
+                            onClick={() => openAddModal(day)}
+                        >
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            Add
+                        </Button>
+                    </div>
+                )}
               </div>
             </div>
           )

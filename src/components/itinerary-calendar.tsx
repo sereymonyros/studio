@@ -45,12 +45,12 @@ const returnPassengers = [
     { name: 'Benjamin', seat: '31B' },
     { name: 'Ryan', seat: '31C' },
     { name: 'Vanna', seat: '31F' },
-    { name: 'Roth', seat: '#' },
-    { name: 'Mr.Ren', seat: '#' },
-    { name: 'Navin', seat: '#' },
-    { name: 'Lim', seat: '#' },
-    { name: 'Nhok', seat: '#' },
-    { name: 'Master Sieng', seat: '#' },
+    { name: 'Roth', seat: 'N/A' },
+    { name: 'Mr.Ren', seat: 'N/A' },
+    { name: 'Navin', seat: 'N/A' },
+    { name: 'Lim', seat: 'N/A' },
+    { name: 'Nhok', seat: 'N/A' },
+    { name: 'Master Sieng', seat: 'N/A' },
 ];
 
 

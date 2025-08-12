@@ -82,6 +82,21 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 
   return (
     <div className="rounded-lg p-4 md:p-6 shadow-sm">
+      <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
+        <DialogContent className="bg-background">
+          <DialogHeader>
+            <DialogTitle>{t.form.addTitle} {selectedDate && format(selectedDate, 'PPP', { locale })}</DialogTitle>
+          </DialogHeader>
+          <ItineraryForm 
+            onSubmit={handleAddSubmit} 
+            onCancel={() => setAddModalOpen(false)}
+            activity={{ date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '' }}
+            lang={lang}
+            t={t.form}
+            isReadOnly={isReadOnly}
+          />
+        </DialogContent>
+      </Dialog>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
         {tripDays.map(day => {
           const dateKey = format(day, 'yyyy-MM-dd');
@@ -120,6 +135,14 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       <span className="font-bold">{format(day, 'd', { locale })}</span>
                       <span className="text-xs">{format(day, 'EEEE', { locale })}</span>
                   </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-white w-8 h-8 rounded-full hover:bg-white/20"
+                      onClick={() => openAddModal(day)}
+                    >
+                      <PlusCircle className="w-5 h-5" />
+                    </Button>
                 </div>
               </div>
               <div className="flex-grow space-y-1 mt-2 relative z-20 flex justify-center flex-col">

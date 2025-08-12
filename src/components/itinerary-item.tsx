@@ -109,6 +109,26 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                       <span className="ml-2 font-normal text-xs">{activity.time}</span>
                     </p>
                   </div>
+                    <div className="flex items-center pr-2">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="w-6 h-6 rounded-full hover:bg-white/20"
+                            onClick={openEditDialog}
+                            aria-label="Edit"
+                        >
+                            <Edit className="w-3.5 h-3.5" />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="w-6 h-6 rounded-full hover:bg-white/20 text-destructive"
+                            onClick={handleDelete}
+                            aria-label="Delete"
+                        >
+                            <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                    </div>
                 </CardContent>
               </Card>
             </div>
@@ -216,7 +236,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
         </DialogContent>
       </Dialog>
       
-      {!isAdmin && (
+      {!isReadOnly && (
          <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <DialogContent className="bg-background">
               <DialogHeader>
@@ -228,7 +248,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 onCancel={() => setIsEditing(false)}
                 lang={lang}
                 t={t}
-                isReadOnly={isAdmin}
+                isReadOnly={isReadOnly}
               />
             </DialogContent>
          </Dialog>

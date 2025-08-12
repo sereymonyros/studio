@@ -32,11 +32,11 @@ const departurePassengers = [
     { name: 'Ryan', seat: '31C' },
     { name: 'Vanna', seat: '31F' },
     { name: 'Roth', seat: '15A' },
-    { name: 'Lord Ren', seat: '15B' },
     { name: 'Navin', seat: '15C' },
     { name: 'Lim', seat: '15D' },
     { name: 'Nhok', seat: '15E' },
     { name: 'Master Sieng', seat: '15F' },
+    { name: 'Lord Ren', seat: '15B' },
   ];
 
 const returnPassengers = [
@@ -46,11 +46,11 @@ const returnPassengers = [
     { name: 'Ryan', seat: '31F' },
     { name: 'Vanna', seat: '31C' },
     { name: 'Roth', seat: 'N/A' },
-    { name: 'Lord Ren', seat: 'N/A' },
     { name: 'Navin', seat: 'N/A' },
     { name: 'Lim', seat: 'N/A' },
     { name: 'Nhok', seat: 'N/A' },
     { name: 'Master Sieng', seat: 'N/A' },
+    { name: 'Lord Ren', seat: 'N/A' },
 ];
 
 
@@ -106,10 +106,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         <Plane className="w-4 h-4 text-black dark:text-white" /> {title}
       </h4>
       <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
-        {passengers.map(p => (
+        {passengers.map((p, index) => (
           <div key={p.name} className={cn(
             "flex items-center gap-1.5",
-            (p.name === 'Lord Ren' || p.name === 'Master Sieng') && 'col-span-2'
+            (p.name === 'Lord Ren' || p.name === 'Master Sieng' || index === passengers.length - 1) && 'col-span-2'
           )}>
               <User className="w-3 h-3 text-black dark:text-white"/>
               <span className="font-normal">{p.name}:</span>
@@ -230,4 +230,6 @@ export default ItineraryCalendar;
 
     
     
+    
+
     

@@ -106,7 +106,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
           <div key={p.name} className="flex items-center gap-1.5">
               <User className="w-3 h-3"/>
               <span className="font-semibold text-white">{p.name}:</span>
-              <span className="text-white/70">{p.seat}</span>
+              <span className="text-white">{p.seat}</span>
           </div>
         ))}
       </div>

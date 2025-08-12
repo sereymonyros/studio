@@ -7,7 +7,7 @@ import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-
 import { enUS, km } from 'date-fns/locale';
 import ItineraryItem from './itinerary-item';
 import { Button } from '@/components/ui/button';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Plane, User } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
@@ -24,6 +24,20 @@ type ItineraryCalendarProps = {
   lang: Language;
   t: Translation;
 };
+
+const passengers = [
+    { name: 'Rithy', seat: '14A' },
+    { name: 'Sovan', seat: '14B' },
+    { name: 'Mesa', seat: '14C' },
+    { name: 'Maly', seat: '15A' },
+    { name: 'Pich', seat: '15B' },
+    { name: 'Vibol', seat: '15C' },
+    { name: 'Chanthou', seat: '16A' },
+    { name: 'Sokha', seat: '16B' },
+    { name: 'Nary', seat: '16C' },
+    { name: 'Sokun', seat: '17A' },
+    { name: 'Dara', seat: '17B' },
+  ];
 
 const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -105,6 +119,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
           const isGrandCanyon = isGrandCanyonDay(day);
 
           const backgroundImageSrc = dayBackgroundImages[dateKey];
+          const isFlightDay = dateKey === `${year}-08-15` || dateKey === `${year}-08-22`;
           
           return (
             <div 
@@ -135,7 +150,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                       <span className="font-bold">{format(day, 'd', { locale })}</span>
                       <span className="text-xs">{format(day, 'EEEE', { locale })}</span>
                   </div>
-                    {isAdmin && (
+                    {!isReadOnly && isAdmin && (
                       <Button
                         variant="ghost"
                         size="icon"
@@ -147,7 +162,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     )}
                 </div>
               </div>
-              <div className="flex-grow space-y-1 mt-2 relative z-20 flex justify-center flex-col">
+              <div className="flex-grow space-y-1 mt-2 relative z-20 flex flex-col justify-start">
                   {dayActivities.map(activity => (
                     <ItineraryItem 
                       key={activity.id}
@@ -161,6 +176,22 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     />
                   ))}
               </div>
+              {isFlightDay && (
+                  <div className="relative z-20 mt-auto p-2 text-white text-xs bg-black/30 rounded-2xl">
+                    <h4 className="font-bold flex items-center gap-2 mb-1">
+                      <Plane className="w-4 h-4" /> Flight Info
+                    </h4>
+                    <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+                      {passengers.map(p => (
+                        <div key={p.name} className="flex items-center gap-1.5">
+                            <User className="w-3 h-3"/>
+                            <span className="font-semibold">{p.name}:</span>
+                            <span>{p.seat}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
             </div>
           )
         })}
@@ -170,3 +201,5 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 }
 
 export default ItineraryCalendar;
+
+    

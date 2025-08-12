@@ -40,6 +40,15 @@ export async function getActivities(): Promise<Activity[]> {
       website: 'https://www.mattsbigbreakfast.com/',
       imageUrls: ['https://placehold.co/600x400.png']
     },
+     {
+      id: 'mock-home-1',
+      title: 'Sedona Home',
+      title_km: 'ផ្ទះនៅ Sedona',
+      date: '2024-08-15',
+      time: '18:00',
+      address: '123 Main St, Sedona, AZ',
+      code: '1234'
+    },
     {
       id: 'mock-3',
       title: 'Visit the Desert Botanical Garden',

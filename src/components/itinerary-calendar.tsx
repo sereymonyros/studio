@@ -7,7 +7,7 @@ import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-
 import { enUS, km } from 'date-fns/locale';
 import ItineraryItem from './itinerary-item';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Plane, User, CloudSun, PersonStanding, Baby } from 'lucide-react';
+import { PlusCircle, Plane, User, CloudSun } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
@@ -58,10 +58,6 @@ const returnPassengers: Passenger[] = [
     { name: 'Master Sieng', seat: 'N/A', avatar: 'male' },
     { name: 'Lord Ren', seat: 'N/A', avatar: 'male' },
 ];
-
-const Woman = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-);
 
 const useDailyRandomTemperature = (dateKey: string) => {
   const [temp, setTemp] = useState<number | null>(null);
@@ -144,14 +140,9 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   const FlightInfo = ({ title, passengers }: { title: string, passengers: Passenger[] }) => {
     const [flight, time] = title.split(' ');
     
-    const Avatar = ({ type }: { type: Passenger['avatar'] }) => {
+    const Avatar = () => {
         const iconProps = { className: "w-3 h-3 text-black dark:text-white" };
-        switch (type) {
-            case 'male': return <PersonStanding {...iconProps} />;
-            case 'female': return <Woman {...iconProps} />;
-            case 'child': return <Baby {...iconProps} />;
-            default: return <User {...iconProps} />;
-        }
+        return <User {...iconProps} />;
     };
     
     return (
@@ -168,7 +159,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                         (p.name === 'Lord Ren' || p.name === 'Master Sieng') && 'col-span-2',
                         p.name === 'Lord Ren' && 'col-span-2'
                     )}>
-                        <Avatar type={p.avatar} />
+                        <Avatar />
                         <span className="font-normal">{p.name}:</span>
                         <span>{p.seat}</span>
                     </div>

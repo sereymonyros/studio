@@ -26,17 +26,17 @@ type ItineraryCalendarProps = {
 };
 
 const passengers = [
-    { name: 'Rithy', seat: '14A' },
-    { name: 'Sovan', seat: '14B' },
-    { name: 'Mesa', seat: '14C' },
-    { name: 'Maly', seat: '15A' },
-    { name: 'Pich', seat: '15B' },
-    { name: 'Vibol', seat: '15C' },
-    { name: 'Chanthou', seat: '16A' },
-    { name: 'Sokha', seat: '16B' },
-    { name: 'Nary', seat: '16C' },
-    { name: 'Sokun', seat: '17A' },
-    { name: 'Dara', seat: '17B' },
+    { name: 'Tony', seat: '31D' },
+    { name: 'LyLy', seat: '31E' },
+    { name: 'Benjamin', seat: '31B' },
+    { name: 'Ryan', seat: '31C' },
+    { name: 'Vanna', seat: '31F' },
+    { name: 'Roth', seat: '15A' },
+    { name: 'Mr.Ren', seat: '15B' },
+    { name: 'Navin', seat: '15C' },
+    { name: 'Lim', seat: '15D' },
+    { name: 'Nhok', seat: '15E' },
+    { name: 'Master Sieng', seat: '15F' },
   ];
 
 const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivity, onUpdateActivity, onDeleteActivity, isReadOnly = false, isAdmin, lang, t }) => {
@@ -98,13 +98,13 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
 
   const FlightInfo = ({ title }: { title: string }) => (
     <div className="relative z-20 p-2 text-[10px] bg-black/30 rounded-2xl">
-      <h4 className="font-bold flex items-center gap-2 mb-1 text-xs text-white">
-        <Plane className="w-4 h-4" /> {title}
+      <h4 className="font-bold flex items-center gap-2 mb-1 text-xs text-white dark:text-white">
+        <Plane className="w-4 h-4 text-white dark:text-white" /> {title}
       </h4>
-      <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-white">
+      <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-white dark:text-white">
         {passengers.map(p => (
           <div key={p.name} className="flex items-center gap-1.5">
-              <User className="w-3 h-3"/>
+              <User className="w-3 h-3 text-white dark:text-white"/>
               <span className="font-semibold">{p.name}:</span>
               <span>{p.seat}</span>
           </div>

@@ -97,14 +97,14 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   }
 
   const FlightInfo = ({ title }: { title: string }) => (
-    <div className="relative z-20 p-2 text-[10px] bg-black/30 rounded-2xl">
-      <h4 className="font-bold flex items-center gap-2 mb-1 text-xs text-white dark:text-white">
-        <Plane className="w-4 h-4 text-white dark:text-white" /> {title}
+    <div className="relative z-20 p-2 text-[10px] bg-card/60 rounded-2xl">
+      <h4 className="font-bold flex items-center gap-2 mb-1 text-xs text-black dark:text-white">
+        <Plane className="w-4 h-4 text-black dark:text-white" /> {title}
       </h4>
-      <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-white dark:text-white">
+      <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white">
         {passengers.map(p => (
           <div key={p.name} className="flex items-center gap-1.5">
-              <User className="w-3 h-3 text-white dark:text-white"/>
+              <User className="w-3 h-3 text-black dark:text-white"/>
               <span className="font-semibold">{p.name}:</span>
               <span>{p.seat}</span>
           </div>

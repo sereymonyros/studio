@@ -169,7 +169,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     );
 };
 
-  const Weather = ({ dateKey }: { dateKey: string }) => {
+const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Translation }) => {
     const tempF = useDailyRandomTemperature(dateKey);
     const tempC = tempF ? Math.round(((tempF - 32) * 5) / 9) : null;
     
@@ -180,8 +180,8 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         <div className="flex items-start gap-1">
           <CloudSun className="w-5 h-5 mt-0.5" />
           <div>
-            <div className="font-bold text-lg leading-none">{tempF}°F</div>
-            <div className="font-bold text-xs leading-none">{tempC}°C</div>
+            <div className="font-bold text-lg leading-none">{tempF}{t.weather.fahrenheit}</div>
+            <div className="font-bold text-xs leading-none">{tempC}{t.weather.celsius}</div>
           </div>
         </div>
       </div>
@@ -235,7 +235,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
               )}
 
               <div className="relative z-20 flex flex-col flex-grow">
-                <Weather dateKey={dateKey} />
+                <Weather dateKey={dateKey} lang={lang} t={t} />
                 <div className="flex justify-between items-start text-white p-2">
                     <div className="flex flex-col">
                       <span className="font-bold text-lg">{format(day, 'd', { locale })}</span>

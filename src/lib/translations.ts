@@ -15,6 +15,10 @@ export const translations = {
     suggestions: {
       title: "AI-Powered Suggestions"
     },
+    weather: {
+      fahrenheit: "°F",
+      celsius: "°C"
+    },
     form: {
       addTitle: "Add Activity on",
       editTitle: "Edit Activity",
@@ -82,6 +86,10 @@ export const translations = {
     },
     suggestions: {
       title: "ការណែនាំដោយ AI"
+    },
+     weather: {
+      fahrenheit: "°F",
+      celsius: "°C"
     },
     form: {
       addTitle: "បន្ថែមសកម្មភាពនៅលើ",

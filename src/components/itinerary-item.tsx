@@ -127,7 +127,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                 "hover:bg-card/100 focus:bg-card/100 border-white"
                  
               )}>
-                <CardContent className="px-2 py-1 flex items-center gap-2">
+                <CardContent className="px-2 py-1.5 flex items-center gap-2">
                   <div className="pl-1.5">
                     {getIconForActivity(activity)}
                   </div>

@@ -1,13 +1,13 @@
 
 "use client";
 
-import React, { useState, type FC } from 'react';
+import React, { useState, type FC, useMemo } from 'react';
 import type { Activity } from '@/lib/types';
 import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-fns';
 import { enUS, km } from 'date-fns/locale';
 import ItineraryItem from './itinerary-item';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Plane, User } from 'lucide-react';
+import { PlusCircle, Plane, User, CloudSun } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
@@ -66,7 +66,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   
   const locale = lang === 'km' ? km : enUS;
-  // The `lang` variable is a placeholder. Replace with the actual method of accessing the current language state.
+  
   const activitiesByDate = activities.reduce((acc, activity) => {
     const dateKey = activity.date;
     if (!acc[dateKey]) {
@@ -94,21 +94,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     // Add more dates and URLs as needed
   };
 
-
   const openAddModal = (date: Date) => {
     if (!isAdmin) return;
     setSelectedDate(date);
     setAddModalOpen(true);
-  }
-  
-  const isSedonaDay = (day: Date) => {
-      const dayStr = format(day, 'yyyy-MM-dd');
-      return dayStr === `${year}-08-15` || dayStr === `${year}-08-16`;
-  }
-
-  const isGrandCanyonDay = (day: Date) => {
-      const dayStr = format(day, 'yyyy-MM-dd');
-      return dayStr === `${year}-08-17` || dayStr === `${year}-08-18`;
   }
 
   const FlightInfo = ({ title, passengers }: { title: string, passengers: {name: string, seat: string}[] }) => (
@@ -127,6 +116,20 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
       </div>
     </div>
   );
+  
+  const dailyTemperatures = useMemo(() => {
+    const temps = new Map<string, { f: number, c: number }>();
+    tripDays.forEach(day => {
+      const dateKey = format(day, 'yyyy-MM-dd');
+      // Use date to create a stable "random" seed
+      const seed = day.getDate();
+      const tempF = 85 + (seed % 16); // Stable random between 85-100
+      const tempC = Math.round((tempF - 32) * 5 / 9);
+      temps.set(dateKey, { f: tempF, c: tempC });
+    });
+    return temps;
+  }, [tripDays]);
+
 
   return (
     <div className="rounded-lg p-4 md:p-6 shadow-sm">
@@ -149,6 +152,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         {tripDays.map(day => {
           const dateKey = format(day, 'yyyy-MM-dd');
           const dayActivities = (activitiesByDate[dateKey] || []).sort((a,b) => a.time.localeCompare(b.time));
+          const weather = dailyTemperatures.get(dateKey);
 
           const backgroundImageSrc = dayBackgroundImages[dateKey];
           const isStartFlightDay = dateKey === `${year}-08-15`;
@@ -162,7 +166,6 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 'bg-card'
               )}
             >             
-              {/* Render background image if available for this day */}
               {backgroundImageSrc && (
                 <>
                   <Image
@@ -171,25 +174,25 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     fill
                     className="object-cover z-0"
                   />
-                  <div className="absolute inset-0 bg-black/20 z-10"></div> {/* Optional: Add an overlay for better text readability */}
+                  <div className="absolute inset-0 bg-black/20 z-10"></div>
                 </>
               )}
 
               <div className="relative z-20 flex flex-col flex-grow">
-                <div className="flex justify-between items-center">
-                  <div className="flex flex-col text-white">
-                      <span className="font-bold">{format(day, 'd', { locale })}</span>
-                      <span className="text-xs">{format(day, 'EEEE', { locale })}</span>
-                  </div>
-                    {isAdmin && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-white w-8 h-8 rounded-full hover:bg-white/20"
-                        onClick={() => openAddModal(day)}
-                      >
-                        <PlusCircle className="w-5 h-5" />
-                      </Button>
+                <div className="flex justify-between items-start text-white p-2">
+                    <div className="flex flex-col">
+                      <span className="font-bold text-lg">{format(day, 'd', { locale })}</span>
+                      <span className="text-sm -mt-1">{format(day, 'EEEE', { locale })}</span>
+                    </div>
+                    
+                    {weather && (
+                       <div className="flex items-center gap-2 text-right">
+                         <CloudSun className="w-5 h-5" />
+                         <div className="flex flex-col text-xs">
+                           <span className="font-bold">{weather.f}°F</span>
+                           <span className="font-light">{weather.c}°C</span>
+                         </div>
+                       </div>
                     )}
                 </div>
                 

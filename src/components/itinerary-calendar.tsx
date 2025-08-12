@@ -194,7 +194,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     />
                   ))}
                   
-                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="Flight Info" /></div>}
+                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="PHX-SEA 2:00-5:00PM" /></div>}
                 </div>
               </div>
             </div>

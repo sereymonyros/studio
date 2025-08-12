@@ -239,7 +239,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                 <div className="flex justify-between items-start text-white p-2">
                     <div className="flex flex-col">
                       <span className="font-bold text-lg">{format(day, 'd', { locale })}</span>
-                      <span className="text-sm -mt-1">{format(day, 'EEEE', { locale })}</span>
+                      <span className="text-sm -mt-1 font-bold">{format(day, 'EEEE', { locale })}</span>
                     </div>
                 </div>
                 

@@ -34,16 +34,16 @@ type ItineraryCalendarProps = {
 
 const departurePassengers: Passenger[] = [
     { name: 'Tony', seat: '31D', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'LyLy', seat: '31E', avatar: 'female' },
+    { name: 'LyLy', seat: '31E', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
     { name: 'Benjamin', seat: '31B', avatar: 'child', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Ryan', seat: '31C', avatar: 'child' },
+    { name: 'Ryan', seat: '31C', avatar: 'child', boardingPassUrl: 'https://placehold.co/400x600.png' },
     { name: 'Vanna', seat: '31F', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Roth', seat: '30E', avatar: 'male' },
-    { name: 'Navin', seat: '30F', avatar: 'male' },
-    { name: 'Lim', seat: '26D', avatar: 'female' },
-    { name: 'Nhok', seat: '30D', avatar: 'male' },
-    { name: 'Master Sieng', seat: '26C', avatar: 'male' },
-    { name: 'Lord Ren', seat: '26B', avatar: 'male' },
+    { name: 'Roth', seat: '30E', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Navin', seat: '30F', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Lim', seat: '26D', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Nhok', seat: '30D', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Master Sieng', seat: '26C', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Lord Ren', seat: '26B', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
   ];
 
 const returnPassengers: Passenger[] = [
@@ -154,7 +154,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         );
 
         if (!passenger.boardingPassUrl) {
-            return <button disabled className="cursor-not-allowed w-full">{content}</button>;
+            return content;
         }
 
         return (
@@ -327,3 +327,6 @@ export default ItineraryCalendar;
 
 
 
+
+
+    

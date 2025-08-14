@@ -39,10 +39,10 @@ const departurePassengers: Passenger[] = [
     { name: 'Vanna', seat: '31F', avatar: 'female' },
     { name: 'Roth', seat: '15A', avatar: 'male' },
     { name: 'Navin', seat: '15C', avatar: 'male' },
-    { name: 'Lim', seat: '15D', avatar: 'female' },
+    { name: 'Lim', seat: '26D', avatar: 'female' },
     { name: 'Nhok', seat: '15E', avatar: 'male' },
-    { name: 'Master Sieng', seat: '15F', avatar: 'male' },
-    { name: 'Lord Ren', seat: '15B', avatar: 'male' },
+    { name: 'Master Sieng', seat: '26C', avatar: 'male' },
+    { name: 'Lord Ren', seat: '26B', avatar: 'male' },
   ];
 
 const returnPassengers: Passenger[] = [

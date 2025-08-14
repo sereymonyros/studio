@@ -50,7 +50,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
     if (!isNaN(activityDate.getTime())) {
       formattedTime = format(activityDate, "p", { locale });
       formattedDate = format(activityDate, "PPPP", { locale });
-      console.log("Time: ", formattedTime);
     }
   } catch (e) {
     console.error("Error formatting date:", e);
@@ -98,18 +97,43 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                   "hover:bg-card/100 focus:bg-card/100 border-white"
                    
                 )}>
-                  <CardContent className="px-2 py-2 flex items-center gap-2">
-                    <div className="pl-1.5">
-                      {getIconForActivity(activity)}
+                  <CardContent className="px-2 py-2 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 flex-grow">
+                      <div className="pl-1.5">
+                        {getIconForActivity(activity)}
+                      </div>
+                      <div className="flex-grow flex items-baseline gap-2">
+                          <p className={cn(
+                            "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
+                          )}>
+                            {displayTitle}
+                          </p>
+                          <span className="text-xs font-normal text-black/60 dark:text-white/60">{activity.time}</span>
+                      </div>
                     </div>
-                    <div className="flex-grow flex items-baseline gap-2">
-                        <p className={cn(
-                          "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
-                        )}>
-                          {displayTitle}
-                        </p>
-                        <span className="text-xs font-normal text-black/60 dark:text-white/60">{activity.time}</span>
-                    </div>
+                    
+                    {isAdmin && !isReadOnly && (
+                      <div className="flex items-center pr-1">
+                          <Button
+                              variant="ghost"
+                              size="icon"
+                              className="w-6 h-6 rounded-full hover:bg-white/20"
+                              onClick={openEditDialog}
+                              aria-label="Edit"
+                          >
+                              <Edit className="w-3.5 h-3.5 text-white" />
+                          </Button>
+                          <Button
+                              variant="ghost"
+                              size="icon"
+                              className="w-6 h-6 rounded-full hover:bg-white/20 text-destructive"
+                              onClick={handleDelete}
+                              aria-label="Delete"
+                          >
+                              <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                          </Button>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
@@ -188,8 +212,8 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-primary hover:underline"
-  >
-   {activity.websiteText}
+                      >
+                       {activity.websiteText}
                       </a>
                   </div>
                 )}      
@@ -216,29 +240,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
             </div>
           </DialogContent>
         </Dialog>
-        
-        {isAdmin && !isReadOnly && (
-          <div className="absolute top-1/2 -translate-y-1/2 right-2 flex items-center pr-2 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-              <Button
-                  variant="ghost"
-                  size="icon"
-                  className="w-6 h-6 rounded-full hover:bg-white/20"
-                  onClick={openEditDialog}
-                  aria-label="Edit"
-              >
-                  <Edit className="w-3.5 h-3.5 text-white" />
-              </Button>
-              <Button
-                  variant="ghost"
-                  size="icon"
-                  className="w-6 h-6 rounded-full hover:bg-white/20 text-destructive"
-                  onClick={handleDelete}
-                  aria-label="Delete"
-              >
-                  <Trash2 className="w-3.5 h-3.5 text-red-400" />
-              </Button>
-          </div>
-        )}
       </div>
       
       {isAdmin && (

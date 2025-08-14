@@ -185,7 +185,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     };
     
     const InfoRow = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) => (
-        <div className="flex items-center gap-1.5 text-black dark:text-white">
+        <div className="flex items-center gap-1.5 text-muted-foreground">
             {icon}
             <span className="font-normal">{label}</span>
             <span>{value}</span>
@@ -199,7 +199,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span>{flight}</span>
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
-             <div className="text-[12px] space-y-1 mb-2 px-2">
+             <div className="text-xs space-y-1 mb-2 px-2">
                 <InfoRow icon={<Ticket className="w-3 h-3"/>} label="" value="Frontier: 3974" />
                 <InfoRow icon={<FileCheck className="w-3 h-3"/>} label="" value="NU: 6650800271NU" />
                 <InfoRow icon={<Car className="w-3 h-3"/>} label="" value="Avis: 40074622US0" />
@@ -351,3 +351,6 @@ export default ItineraryCalendar;
 
 
 
+
+
+    

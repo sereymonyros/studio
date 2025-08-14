@@ -135,7 +135,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     setAddModalOpen(true);
   }
 
-  const FlightInfo = ({ title, passengers, boardingPassUrl }: { title: string, passengers: Passenger[], boardingPassUrl: string }) => {
+  const FlightInfo = ({ title, passengers }: { title: string, passengers: Passenger[] }) => {
     const [flight, time] = title.split(' ');
     
     const Avatar = () => {
@@ -143,6 +143,33 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         return <User {...iconProps} />;
     };
     
+    const PassengerItem = ({ passenger }: { passenger: Passenger }) => (
+      <Dialog>
+        <DialogTrigger asChild>
+          <button className="flex items-center gap-1.5 text-left hover:bg-white/20 p-1 rounded-md transition-colors w-full">
+            <Avatar />
+            <span className="font-normal">{passenger.name}:</span>
+            <span>{passenger.seat}</span>
+          </button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Boarding Pass: {passenger.name}</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Image
+              src={`https://placehold.co/400x600.png`}
+              alt={`Boarding pass for ${passenger.name}`}
+              width={400}
+              height={600}
+              className="rounded-lg mx-auto"
+              data-ai-hint="boarding pass"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+
     return (
         <div className="relative z-20 p-2 text-xs bg-card/60 rounded-[35px]">
             <h4 className="font-bold flex items-center justify-center gap-2 mb-2 text-black dark:text-white text-base text-center">
@@ -152,34 +179,16 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
             </h4>
             <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
                 {passengers.slice(0, -2).map((p) => (
-                    <div key={p.name} className="flex items-center gap-1.5">
-                        <Avatar />
-                        <span className="font-normal">{p.name}:</span>
-                        <span>{p.seat}</span>
-                    </div>
+                    <PassengerItem key={p.name} passenger={p} />
                 ))}
             </div>
             <div className="grid grid-cols-1 pt-1.5 pb-1.5">
                 {passengers.slice(-2).map((p) => (
-                    <div key={p.name} className="flex items-center justify-center gap-1.5">
-                        <Avatar />
-                        <span className="font-normal">{p.name}:</span>
-                        <span>{p.seat}</span>
-                    </div>
+                     <div key={p.name} className="flex justify-center">
+                        <PassengerItem passenger={p} />
+                     </div>
                 ))}
             </div>
-             {boardingPassUrl && (
-                <div className="mt-2">
-                    <Button
-                        variant="ghost"
-                        className="w-full bg-black/30 text-white hover:bg-black/50 hover:text-white rounded-2xl text-xs h-8"
-                        onClick={() => window.open(boardingPassUrl, '_blank')}
-                    >
-                        <Ticket className="mr-2 h-3.5 w-3.5" />
-                        Boarding Passes
-                    </Button>
-                </div>
-            )}
         </div>
     );
 };
@@ -259,7 +268,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                 </div>
                 
                 <div className="flex-grow space-y-2 mt-2 flex flex-col justify-center">
-                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 11:00-3:00PM" passengers={departurePassengers} boardingPassUrl="https://example.com/departure-boarding-passes"/></div>}
+                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 11:00-3:00PM" passengers={departurePassengers} /></div>}
 
                   {dayActivities.map(activity => (
                     <ItineraryItem 
@@ -274,7 +283,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                     />
                   ))}
                   
-                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="PHX-SEA 2:00-5:00PM" passengers={returnPassengers} boardingPassUrl="https://example.com/return-boarding-passes" /></div>}
+                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="PHX-SEA 2:00-5:00PM" passengers={returnPassengers} /></div>}
                 </div>
 
                 {!isReadOnly && (

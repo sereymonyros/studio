@@ -47,17 +47,17 @@ const departurePassengers: Passenger[] = [
   ];
 
 const returnPassengers: Passenger[] = [
-    { name: 'Tony', seat: '31E', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/tony.jpeg?alt=media&token=c21d1bfe-a57b-4296-b487-a2f946d8a2d8' },
-    { name: 'LyLy', seat: '31B', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Benjamin', seat: '31D', avatar: 'child', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Ryan', seat: '31F', avatar: 'child', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Vanna', seat: '31C', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/vanna.jpeg?alt=media&token=5f96dadd-9d57-4286-a274-56bca685b5dd' },
-    { name: 'Roth', seat: '30E', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Navin', seat: '30B', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Lim', seat: '30A', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Nhok', seat: '30E', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Master Lee', seat: '30D', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Lord Ren', seat: '3C', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Tony', seat: '31E', avatar: 'male' },
+    { name: 'LyLy', seat: '31B', avatar: 'female' },
+    { name: 'Benjamin', seat: '31D', avatar: 'child' },
+    { name: 'Ryan', seat: '31F', avatar: 'child' },
+    { name: 'Vanna', seat: '31C', avatar: 'female' },
+    { name: 'Roth', seat: '30E', avatar: 'male' },
+    { name: 'Navin', seat: '30B', avatar: 'male' },
+    { name: 'Lim', seat: '30A', avatar: 'female' },
+    { name: 'Nhok', seat: '30E', avatar: 'male' },
+    { name: 'Master Lee', seat: '30D', avatar: 'male' },
+    { name: 'Lord Ren', seat: '3C', avatar: 'male' },
 ];
 
 const useDailyRandomTemperature = (dateKey: string) => {
@@ -144,32 +144,42 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         return <User {...iconProps} />;
     };
     
-    const PassengerItem = ({ passenger }: { passenger: Passenger }) => (
-      <Dialog>
-        <DialogTrigger asChild>
-          <button className="flex items-center gap-1.5 text-left hover:bg-white/20 p-1 rounded-md transition-colors w-full">
-            <Avatar />
-            <span className="font-normal">{passenger.name}:</span>
-            <span>{passenger.seat}</span>
-          </button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Boarding Pass: {passenger.name}</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <Image
-              src={passenger.boardingPassUrl || `https://placehold.co/400x600.png`}
-              alt={`Boarding pass for ${passenger.name}`}
-              width={400}
-              height={600}
-              className="rounded-lg mx-auto"
-              data-ai-hint="boarding pass"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
+    const PassengerItem = ({ passenger }: { passenger: Passenger }) => {
+        const content = (
+            <div className="flex items-center gap-1.5 text-left hover:bg-white/20 p-1 rounded-md transition-colors w-full">
+                <Avatar />
+                <span className="font-normal">{passenger.name}:</span>
+                <span>{passenger.seat}</span>
+            </div>
+        );
+
+        if (!passenger.boardingPassUrl) {
+            return <button disabled className="cursor-not-allowed w-full">{content}</button>;
+        }
+
+        return (
+            <Dialog>
+                <DialogTrigger asChild>
+                    <button className="w-full">{content}</button>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Boarding Pass: {passenger.name}</DialogTitle>
+                    </DialogHeader>
+                    <div className="py-4">
+                        <Image
+                            src={passenger.boardingPassUrl}
+                            alt={`Boarding pass for ${passenger.name}`}
+                            width={400}
+                            height={600}
+                            className="rounded-lg mx-auto"
+                            data-ai-hint="boarding pass"
+                        />
+                    </div>
+                </DialogContent>
+            </Dialog>
+        );
+    };
 
     return (
         <div className="relative z-20 p-2 text-xs bg-card/60 rounded-[35px]">
@@ -313,3 +323,4 @@ export default ItineraryCalendar;
     
 
     
+

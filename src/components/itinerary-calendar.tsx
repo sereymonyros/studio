@@ -7,7 +7,7 @@ import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-
 import { enUS, km } from 'date-fns/locale';
 import ItineraryItem from './itinerary-item';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Plane, User, CloudSun } from 'lucide-react';
+import { PlusCircle, Plane, User, CloudSun, Ticket } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
@@ -63,13 +63,12 @@ const useDailyRandomTemperature = (dateKey: string) => {
   const [temp, setTemp] = useState<number | null>(null);
 
   useEffect(() => {
+    // This function now runs only on the client side
     const getStoredTemp = () => {
-      // Use the date part of the dateKey for daily uniqueness
       const todayStr = new Date().toISOString().split('T')[0];
       const storedData = localStorage.getItem(`weather_${dateKey}`);
       if (storedData) {
         const { temp, date } = JSON.parse(storedData);
-        // Check if the stored date is today's date
         if (date === todayStr) {
           return temp;
         }
@@ -81,7 +80,6 @@ const useDailyRandomTemperature = (dateKey: string) => {
     if (storedTemp) {
       setTemp(storedTemp);
     } else {
-      // Generate a new temperature if no valid one is stored for today
       const newTemp = Math.floor(Math.random() * (110 - 100 + 1)) + 100;
       localStorage.setItem(`weather_${dateKey}`, JSON.stringify({ temp: newTemp, date: new Date().toISOString().split('T')[0] }));
       setTemp(newTemp);
@@ -137,7 +135,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     setAddModalOpen(true);
   }
 
-  const FlightInfo = ({ title, passengers }: { title: string, passengers: Passenger[] }) => {
+  const FlightInfo = ({ title, passengers, boardingPassUrl }: { title: string, passengers: Passenger[], boardingPassUrl: string }) => {
     const [flight, time] = title.split(' ');
     
     const Avatar = () => {
@@ -170,6 +168,18 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     </div>
                 ))}
             </div>
+             {boardingPassUrl && (
+                <div className="mt-2">
+                    <Button
+                        variant="ghost"
+                        className="w-full bg-black/30 text-white hover:bg-black/50 hover:text-white rounded-2xl text-xs h-8"
+                        onClick={() => window.open(boardingPassUrl, '_blank')}
+                    >
+                        <Ticket className="mr-2 h-3.5 w-3.5" />
+                        Boarding Passes
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };
@@ -249,7 +259,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                 </div>
                 
                 <div className="flex-grow space-y-2 mt-2 flex flex-col justify-center">
-                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 11:00-3:00PM" passengers={departurePassengers}/></div>}
+                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 11:00-3:00PM" passengers={departurePassengers} boardingPassUrl="https://example.com/departure-boarding-passes"/></div>}
 
                   {dayActivities.map(activity => (
                     <ItineraryItem 
@@ -257,14 +267,14 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                       activity={activity} 
                       onUpdateActivity={onUpdateActivity}
                       onDeleteActivity={onDeleteActivity}
-                      isReadOnly={isReadOnly || !isAdmin}
+                      isReadOnly={!isAdmin}
                       isAdmin={isAdmin}
                       lang={lang}
                       t={t.form}
                     />
                   ))}
                   
-                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="PHX-SEA 2:00-5:00PM" passengers={returnPassengers} /></div>}
+                  {isEndFlightDay && <div className="mt-auto pt-2"><FlightInfo title="PHX-SEA 2:00-5:00PM" passengers={returnPassengers} boardingPassUrl="https://example.com/return-boarding-passes" /></div>}
                 </div>
 
                 {!isReadOnly && (

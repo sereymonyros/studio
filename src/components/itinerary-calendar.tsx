@@ -140,7 +140,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     const [flight, time] = title.split(' ');
     
     const Avatar = () => {
-        const iconProps = { className: "w-3 h-3 text-black dark:text-white group-hover:text-white dark:group-hover:text-black" };
+        const iconProps = { className: "w-3 h-3 text-black dark:text-white group-hover:text-white" };
         return <User {...iconProps} />;
     };
     

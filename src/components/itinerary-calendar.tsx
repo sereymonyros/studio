@@ -184,10 +184,9 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         );
     };
     
-    const InfoRow = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) => (
+    const InfoRow = ({ icon, value }: { icon: React.ReactNode, value: string }) => (
         <div className="flex items-center gap-1.5 text-muted-foreground">
             {icon}
-            <span className="font-normal">{label}</span>
             <span>{value}</span>
         </div>
     );
@@ -199,10 +198,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span>{flight}</span>
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
-             <div className="text-[10px] space-y-1 mb-2 px-2">
-                <InfoRow icon={<Ticket className="w-3 h-3"/>} label="" value="Frontier: 3974" />
-                <InfoRow icon={<FileCheck className="w-3 h-3"/>} label="" value="NU: 6650800271NU" />
-                <InfoRow icon={<Car className="w-3 h-3"/>} label="" value="Avis: 40074622US0" />
+             <div className="text-[10px] space-y-1 mb-2 flex flex-col items-center">
+                <InfoRow icon={<Ticket className="w-3 h-3"/>} value="Frontier: 3974" />
+                <InfoRow icon={<FileCheck className="w-3 h-3"/>} value="NU: 6650800271NU" />
+                <InfoRow icon={<Car className="w-3 h-3"/>} value="Avis: 40074622US0" />
             </div>
             <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
                 {passengers.slice(0, -2).map((p) => (
@@ -352,5 +351,7 @@ export default ItineraryCalendar;
 
 
 
+
+    
 
     

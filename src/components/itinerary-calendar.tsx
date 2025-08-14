@@ -7,7 +7,7 @@ import { format, startOfDay, eachDayOfInterval, isSameDay, isToday } from 'date-
 import { enUS, km } from 'date-fns/locale';
 import ItineraryItem from './itinerary-item';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Plane, User, CloudSun, Ticket } from 'lucide-react';
+import { PlusCircle, Plane, User, CloudSun, Ticket, Car, FileCheck } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ItineraryForm from './itinerary-form';
 import { cn } from '@/lib/utils';
@@ -140,7 +140,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     const [flight, time] = title.split(' ');
     
     const Avatar = () => {
-        const iconProps = { className: "w-3 h-3 text-black dark:text-white group-hover:text-white dark:group-hover:text-white" };
+        const iconProps = { className: "w-3 h-3 text-black dark:text-white group-hover:text-white dark:group-hover:text-black" };
         return <User {...iconProps} />;
     };
     
@@ -148,7 +148,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
         const content = (
             <div className={cn(
                 "group flex items-center gap-1.5 text-left p-1 rounded-md transition-colors w-full",
-                 passenger.boardingPassUrl && "hover:bg-black dark:hover:bg-white/20"
+                 passenger.boardingPassUrl && "hover:bg-black dark:hover:bg-white/20 hover:text-white dark:hover:text-white"
             )}>
                 <Avatar />
                 <span className="font-normal">{passenger.name}:</span>
@@ -183,6 +183,14 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
             </Dialog>
         );
     };
+    
+    const InfoRow = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) => (
+        <div className="flex items-center gap-1.5 text-black dark:text-white">
+            {icon}
+            <span className="font-normal">{label}:</span>
+            <span>{value}</span>
+        </div>
+    );
 
     return (
         <div className="relative z-20 p-2 text-xs bg-card/60 rounded-[35px]">
@@ -191,12 +199,17 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span>{flight}</span>
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
-            <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px] dark:hover:text-white hover:text-white">
+             <div className="text-[12px] space-y-1 mb-2 px-2">
+                <InfoRow icon={<Ticket className="w-3 h-3"/>} label="Flight" value="dummy" />
+                <InfoRow icon={<FileCheck className="w-3 h-3"/>} label="Confirmation" value="dummy" />
+                <InfoRow icon={<Car className="w-3 h-3"/>} label="Rental Car" value="dummy" />
+            </div>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
                 {passengers.slice(0, -2).map((p) => (
                     <PassengerItem key={p.name} passenger={p} />
                 ))}
             </div>
-            <div className="grid grid-cols-1 place-items-center justify-center pt-1.5 pb-1.5 text-black dark:text-white text-[12px] dark:hover:text-white hover:text-white">
+            <div className="grid grid-cols-1 place-items-center justify-center pt-1.5 pb-1.5 text-black dark:text-white text-[12px]">
                 {passengers.slice(-2).map((p) => (
                      <div key={p.name} className="flex justify-center">
                         <PassengerItem passenger={p} />
@@ -333,4 +346,5 @@ export default ItineraryCalendar;
 
 
     
+
 

@@ -51,12 +51,12 @@ const returnPassengers: Passenger[] = [
     { name: 'Benjamin', seat: '31D', avatar: 'child' },
     { name: 'Ryan', seat: '31F', avatar: 'child' },
     { name: 'Vanna', seat: '31C', avatar: 'female' },
-    { name: 'Roth', seat: 'N/A', avatar: 'male' },
-    { name: 'Navin', seat: 'N/A', avatar: 'male' },
-    { name: 'Lim', seat: 'N/A', avatar: 'female' },
-    { name: 'Nhok', seat: 'N/A', avatar: 'male' },
-    { name: 'Master Sieng', seat: 'N/A', avatar: 'male' },
-    { name: 'Lord Ren', seat: 'N/A', avatar: 'male' },
+    { name: 'Roth', seat: '30E', avatar: 'male' },
+    { name: 'Navin', seat: '30B', avatar: 'male' },
+    { name: 'Lim', seat: '30A', avatar: 'female' },
+    { name: 'Nhok', seat: '30E', avatar: 'male' },
+    { name: 'Master Lee', seat: '30D', avatar: 'male' },
+    { name: 'Lord Ren', seat: '3C', avatar: 'male' },
 ];
 
 const useDailyRandomTemperature = (dateKey: string) => {
@@ -257,7 +257,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                       activity={activity} 
                       onUpdateActivity={onUpdateActivity}
                       onDeleteActivity={onDeleteActivity}
-                      isReadOnly={isReadOnly}
+                      isReadOnly={isReadOnly || !isAdmin}
                       isAdmin={isAdmin}
                       lang={lang}
                       t={t.form}

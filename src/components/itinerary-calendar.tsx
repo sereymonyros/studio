@@ -257,7 +257,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                       activity={activity} 
                       onUpdateActivity={onUpdateActivity}
                       onDeleteActivity={onDeleteActivity}
-                      isReadOnly={!isAdmin}
+                      isReadOnly={isReadOnly}
                       isAdmin={isAdmin}
                       lang={lang}
                       t={t.form}
@@ -291,6 +291,3 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
 export default ItineraryCalendar;
 
     
-
-    
-

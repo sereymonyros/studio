@@ -33,11 +33,11 @@ type ItineraryCalendarProps = {
 };
 
 const departurePassengers: Passenger[] = [
-    { name: 'Tony', seat: '31D', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/tony.jpeg?alt=media&token=c21d1bfe-a57b-4296-b487-a2f946d8a2d8' },
+    { name: 'Tony', seat: '31D', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
     { name: 'LyLy', seat: '31E', avatar: 'female' },
-    { name: 'Benjamin', seat: '31B', avatar: 'child', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/benjamin.jpeg?alt=media&token=f6272d2b-7fd2-439e-a991-b63e349116b3' },
+    { name: 'Benjamin', seat: '31B', avatar: 'child', boardingPassUrl: 'https://placehold.co/400x600.png' },
     { name: 'Ryan', seat: '31C', avatar: 'child' },
-    { name: 'Vanna', seat: '31F', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/vanna.jpeg?alt=media&token=5f96dadd-9d57-4286-a274-56bca685b5dd' },
+    { name: 'Vanna', seat: '31F', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
     { name: 'Roth', seat: '30E', avatar: 'male' },
     { name: 'Navin', seat: '30F', avatar: 'male' },
     { name: 'Lim', seat: '26D', avatar: 'female' },
@@ -323,4 +323,5 @@ export default ItineraryCalendar;
     
 
     
+
 

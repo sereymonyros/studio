@@ -18,6 +18,7 @@ type Passenger = {
     name: string;
     seat: string;
     avatar: 'male' | 'female' | 'child';
+    boardingPassUrl?: string;
 };
 
 type ItineraryCalendarProps = {
@@ -32,7 +33,7 @@ type ItineraryCalendarProps = {
 };
 
 const departurePassengers: Passenger[] = [
-    { name: 'Tony', seat: '31D', avatar: 'male' },
+    { name: 'Tony', seat: '31D', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/tony.jpeg?alt=media&token=c21d1bfe-a57b-4296-b487-a2f946d8a2d8' },
     { name: 'LyLy', seat: '31E', avatar: 'female' },
     { name: 'Benjamin', seat: '31B', avatar: 'child' },
     { name: 'Ryan', seat: '31C', avatar: 'child' },
@@ -46,7 +47,7 @@ const departurePassengers: Passenger[] = [
   ];
 
 const returnPassengers: Passenger[] = [
-    { name: 'Tony', seat: '31E', avatar: 'male' },
+    { name: 'Tony', seat: '31E', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/tony.jpeg?alt=media&token=c21d1bfe-a57b-4296-b487-a2f946d8a2d8' },
     { name: 'LyLy', seat: '31B', avatar: 'female' },
     { name: 'Benjamin', seat: '31D', avatar: 'child' },
     { name: 'Ryan', seat: '31F', avatar: 'child' },
@@ -158,7 +159,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
           </DialogHeader>
           <div className="py-4">
             <Image
-              src={`https://placehold.co/400x600.png`}
+              src={passenger.boardingPassUrl || `https://placehold.co/400x600.png`}
               alt={`Boarding pass for ${passenger.name}`}
               width={400}
               height={600}

@@ -89,154 +89,157 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
 
   return (
     <>
-      <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
-        <DialogTrigger asChild>
-           <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
-              <Card className={cn(
-                "transition-all hover:shadow-md bg-card/60 border-0 rounded-3xl",
-                "hover:bg-card/100 focus:bg-card/100 border-white"
-                 
-              )}>
-                <CardContent className="px-2 py-2 flex items-center gap-2">
-                  <div className="pl-1.5">
-                    {getIconForActivity(activity)}
-                  </div>
-                  <div className="flex-grow flex items-baseline gap-2">
-                      <p className={cn(
-                        "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
-                      )}>
-                        {displayTitle}
-                      </p>
-                      <span className="text-xs font-normal text-black/60 dark:text-white/60">{activity.time}</span>
-                  </div>
-                  {isAdmin && (
-                    <div className="flex items-center pr-2 hidden">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="w-6 h-6 rounded-full hover:bg-white/20"
-                            onClick={openEditDialog}
-                            aria-label="Edit"
-                        >
-                            <Edit className="w-3.5 h-3.5" />
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="w-6 h-6 rounded-full hover:bg-white/20 text-destructive"
-                            onClick={handleDelete}
-                            aria-label="Delete"
-                        >
-                            <Trash2 className="w-3.5 h-3.5" />
-                        </Button>
+      <div className="group/item relative">
+        <Dialog open={isDetailViewOpen} onOpenChange={setDetailViewOpen}>
+          <DialogTrigger asChild>
+             <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
+                <Card className={cn(
+                  "transition-all hover:shadow-md bg-card/60 border-0 rounded-3xl",
+                  "hover:bg-card/100 focus:bg-card/100 border-white"
+                   
+                )}>
+                  <CardContent className="px-2 py-2 flex items-center gap-2">
+                    <div className="pl-1.5">
+                      {getIconForActivity(activity)}
                     </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-        </DialogTrigger>
-
-        <DialogContent className="bg-background">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-3">
-              {getIconForActivity(activity)}
-              {displayTitle}
-            </DialogTitle>
-          </DialogHeader>
-
-          {images && images.length > 0 && (
-            <div className="relative">
-              <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full rounded-lg object-cover aspect-video" />
-              {/* Add onClick handler to the image to go to the next slide */}
-              {images.length > 1 && ( // Only add click behavior if there's more than one image
-                <div onClick={nextSlide} className="absolute inset-0 cursor-pointer">
-                    {/* This div covers the image to make it clickable */}
-                </div>
-              )}
-
-              {/* Navigation buttons (only show if more than one image) */}
-              {images.length > 1 && (
-                <>
-                  <div className="absolute inset-y-0 left-0 flex items-center">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={prevSlide}
-                      className="rounded-full bg-black/20 text-white hover:bg-black/50"
-                    >
-                      &lt;
-                    </Button>
-                  </div>
-                  <div className="absolute inset-y-0 right-0 flex items-center">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={nextSlide}
-                      className="rounded-full bg-black/20 text-white hover:bg-black/50"
-                    >
-                      &gt;
-                    </Button>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-
-          {youtubeUrl && (
-            <div className="aspect-w-16 aspect-h-9">
-              <iframe
-                src={youtubeUrl}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full rounded-lg"
-              ></iframe>
-            </div>
-          )}
-
-
-          <div className="space-y-4 py-4">            
-              <div className="flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-muted-foreground"/>
-                  <span className="text-foreground">{activity.time}</span>
+                    <div className="flex-grow flex items-baseline gap-2">
+                        <p className={cn(
+                          "text-black/80 dark:text-white/80 font-bold font-headline text-sm",
+                        )}>
+                          {displayTitle}
+                        </p>
+                        <span className="text-xs font-normal text-black/60 dark:text-white/60">{activity.time}</span>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
-            
-              {activity.website && (
-                <div className="flex items-start gap-3">
-                    <Link className="w-5 h-5 text-muted-foreground mt-1"/>
-                    <a 
-                      href={activity.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
->
- {activity.websiteText}
-                    </a>
-                </div>
-              )}      
+          </DialogTrigger>
 
-                {activity.address && (
-                <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-muted-foreground mt-1"/>
-                     <a 
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.address)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      {activity.address}
-                    </a>
-                </div>
-              )}
-              {activity?.code && (
+          <DialogContent className="bg-background">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-3">
+                {getIconForActivity(activity)}
+                {displayTitle}
+              </DialogTitle>
+            </DialogHeader>
+
+            {images && images.length > 0 && (
+              <div className="relative">
+                <img src={images[currentSlide]} alt={`Image ${currentSlide + 1}`} className="w-full rounded-lg object-cover aspect-video" />
+                {/* Add onClick handler to the image to go to the next slide */}
+                {images.length > 1 && ( // Only add click behavior if there's more than one image
+                  <div onClick={nextSlide} className="absolute inset-0 cursor-pointer">
+                      {/* This div covers the image to make it clickable */}
+                  </div>
+                )}
+
+                {/* Navigation buttons (only show if more than one image) */}
+                {images.length > 1 && (
+                  <>
+                    <div className="absolute inset-y-0 left-0 flex items-center">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={prevSlide}
+                        className="rounded-full bg-black/20 text-white hover:bg-black/50"
+                      >
+                        &lt;
+                      </Button>
+                    </div>
+                    <div className="absolute inset-y-0 right-0 flex items-center">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={nextSlide}
+                        className="rounded-full bg-black/20 text-white hover:bg-black/50"
+                      >
+                        &gt;
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            {youtubeUrl && (
+              <div className="aspect-w-16 aspect-h-9">
+                <iframe
+                  src={youtubeUrl}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full rounded-lg"
+                ></iframe>
+              </div>
+            )}
+
+
+            <div className="space-y-4 py-4">            
                 <div className="flex items-center gap-3">
-                <Key className="w-5 h-5 text-muted-foreground"/>
-                <span className="text-foreground">{activity.code}</span>
+                    <Clock className="w-5 h-5 text-muted-foreground"/>
+                    <span className="text-foreground">{activity.time}</span>
+                </div>
+              
+                {activity.website && (
+                  <div className="flex items-start gap-3">
+                      <Link className="w-5 h-5 text-muted-foreground mt-1"/>
+                      <a 
+                        href={activity.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+  >
+   {activity.websiteText}
+                      </a>
+                  </div>
+                )}      
+
+                  {activity.address && (
+                  <div className="flex items-start gap-3">
+                      <MapPin className="w-5 h-5 text-muted-foreground mt-1"/>
+                       <a 
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.address)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        {activity.address}
+                      </a>
+                  </div>
+                )}
+                {activity?.code && (
+                  <div className="flex items-center gap-3">
+                  <Key className="w-5 h-5 text-muted-foreground"/>
+                  <span className="text-foreground">{activity.code}</span>
+              </div>
+                )}        
             </div>
-              )}        
+          </DialogContent>
+        </Dialog>
+        
+        {isAdmin && !isReadOnly && (
+          <div className="absolute top-1/2 -translate-y-1/2 right-2 flex items-center pr-2 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
+              <Button
+                  variant="ghost"
+                  size="icon"
+                  className="w-6 h-6 rounded-full hover:bg-white/20"
+                  onClick={openEditDialog}
+                  aria-label="Edit"
+              >
+                  <Edit className="w-3.5 h-3.5 text-white" />
+              </Button>
+              <Button
+                  variant="ghost"
+                  size="icon"
+                  className="w-6 h-6 rounded-full hover:bg-white/20 text-destructive"
+                  onClick={handleDelete}
+                  aria-label="Delete"
+              >
+                  <Trash2 className="w-3.5 h-3.5 text-red-400" />
+              </Button>
           </div>
-        </DialogContent>
-      </Dialog>
+        )}
+      </div>
       
       {isAdmin && (
          <Dialog open={isEditing} onOpenChange={setIsEditing}>

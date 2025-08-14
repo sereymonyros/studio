@@ -249,7 +249,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                 </div>
                 
                 <div className="flex-grow space-y-2 mt-2 flex flex-col justify-center">
-                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 12:00-3:00PM" passengers={departurePassengers}/></div>}
+                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 11:00-3:00PM" passengers={departurePassengers}/></div>}
 
                   {dayActivities.map(activity => (
                     <ItineraryItem 
@@ -293,3 +293,4 @@ export default ItineraryCalendar;
     
 
     
+

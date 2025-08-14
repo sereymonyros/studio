@@ -34,16 +34,16 @@ type ItineraryCalendarProps = {
 
 const departurePassengers: Passenger[] = [
     { name: 'Tony', seat: '31D', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/tony.jpeg?alt=media&token=c21d1bfe-a57b-4296-b487-a2f946d8a2d8' },
-    { name: 'LyLy', seat: '31E', avatar: 'female' },
-    { name: 'Benjamin', seat: '31B', avatar: 'child' },
-    { name: 'Ryan', seat: '31C', avatar: 'child' },
+    { name: 'LyLy', seat: '31E', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/lyly.jpeg?alt=media&token=0b724ea0-29af-4763-b4db-7fa7c09423b9' },
+    { name: 'Benjamin', seat: '31B', avatar: 'child', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/benjamin.jpeg?alt=media&token=f6272d2b-7fd2-439e-a991-b63e349116b3' },
+    { name: 'Ryan', seat: '31C', avatar: 'child', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/ryan.jpeg?alt=media&token=3b5e211b-49d3-43f8-945b-be488b489777' },
     { name: 'Vanna', seat: '31F', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/vanna.jpeg?alt=media&token=5f96dadd-9d57-4286-a274-56bca685b5dd' },
-    { name: 'Roth', seat: '30E', avatar: 'male' },
-    { name: 'Navin', seat: '30F', avatar: 'male' },
-    { name: 'Lim', seat: '26D', avatar: 'female' },
-    { name: 'Nhok', seat: '30D', avatar: 'male' },
-    { name: 'Master Sieng', seat: '26C', avatar: 'male' },
-    { name: 'Lord Ren', seat: '26B', avatar: 'male' },
+    { name: 'Roth', seat: '30E', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/roth.jpeg?alt=media&token=689c4f0d-7f22-4dfd-b671-670894a602ec' },
+    { name: 'Navin', seat: '30F', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/navin.jpeg?alt=media&token=315a5465-0efc-4049-9078-c58978271cdd' },
+    { name: 'Lim', seat: '26D', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/lim.jpeg?alt=media&token=9621c92e-b592-4999-8a94-4632e955c12f' },
+    { name: 'Nhok', seat: '30D', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/nhok.jpeg?alt=media&token=bfd43f71-63b7-4db7-865b-abad90f3318d' },
+    { name: 'Master Sieng', seat: '26C', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/sieng.jpeg?alt=media&token=e7813e71-716a-430b-87cb-5ebfbbd34451' },
+    { name: 'Lord Ren', seat: '26B', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/ren.jpeg?alt=media&token=1eba7300-b0dd-490a-998b-b180e28d3aac' },
   ];
 
 const returnPassengers: Passenger[] = [
@@ -309,5 +309,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
 }
 
 export default ItineraryCalendar;
+
+    
 
     

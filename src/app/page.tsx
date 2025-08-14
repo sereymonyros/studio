@@ -111,9 +111,9 @@ function ItineraryPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary/80 text-white-foreground py-6 px-4 md:px-8 shadow-md">
-        <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-center md:justify-between gap-4">
-          <div className="text-center md:text-left">
-            <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center justify-center md:justify-start gap-3">
+        <div className="w-full max-w-6xl mx-auto flex items-center justify-between gap-4">
+          <div className="text-left">
+            <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center justify-start gap-3">
               <Sunrise className="w-8 h-8"/>
               {t.header.title}
             </h1>

@@ -123,15 +123,6 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
                           >
                               <Edit className="w-3.5 h-3.5 text-white" />
                           </Button>
-                          <Button
-                              variant="ghost"
-                              size="icon"
-                              className="w-6 h-6 rounded-full hover:bg-white/20 text-destructive"
-                              onClick={handleDelete}
-                              aria-label="Delete"
-                          >
-                              <Trash2 className="w-3.5 h-3.5 text-red-400" />
-                          </Button>
                       </div>
                     )}
                   </CardContent>

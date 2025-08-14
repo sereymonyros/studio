@@ -192,7 +192,7 @@ export default function ItineraryForm({ activity, onSubmit, onCancel, lang, t, i
             control={form.control}
             name="time"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="flex flex-col">
                 <FormLabel>{t.fields.time.label}</FormLabel>
                 <FormControl>
                   <Input type="time" {...field} disabled={isReadOnly} />

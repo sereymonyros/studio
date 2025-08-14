@@ -120,10 +120,6 @@ function ItineraryPage() {
             <p className="mt-1 text-white-foreground/90">{t.header.description}</p>
           </div>
           <div className="flex items-center gap-4">
-
-            <Button variant="ghost" onClick={toggleLanguage} aria-label={t.header.toggleLang} className="font-bold">
-              {lang === 'en' ? 'ខ្មែរ' : 'EN'}
-            </Button>
             <ThemeToggle />
           </div>
         </div>
@@ -169,5 +165,3 @@ export default function Home() {
     </Suspense>
   )
 }
-
-    

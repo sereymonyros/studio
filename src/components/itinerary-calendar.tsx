@@ -187,7 +187,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     const InfoRow = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) => (
         <div className="flex items-center gap-1.5 text-black dark:text-white">
             {icon}
-            <span className="font-normal">{label}:</span>
+            <span className="font-normal">{label}</span>
             <span>{value}</span>
         </div>
     );
@@ -200,9 +200,9 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
              <div className="text-[12px] space-y-1 mb-2 px-2">
-                <InfoRow icon={<Ticket className="w-3 h-3"/>} label="Flight" value="Frontier: 3974" />
-                <InfoRow icon={<FileCheck className="w-3 h-3"/>} label="Confirmation" value="NU confirmation: 6650800271NU" />
-                <InfoRow icon={<Car className="w-3 h-3"/>} label="Rental Car" value="Avis: 40074622US0" />
+                <InfoRow icon={<Ticket className="w-3 h-3"/>} label="" value="Frontier: 3974" />
+                <InfoRow icon={<FileCheck className="w-3 h-3"/>} label="" value="NU confirmation: 6650800271NU" />
+                <InfoRow icon={<Car className="w-3 h-3"/>} label="" value="Avis: 40074622US0" />
             </div>
             <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
                 {passengers.slice(0, -2).map((p) => (
@@ -346,6 +346,7 @@ export default ItineraryCalendar;
 
 
     
+
 
 
 

@@ -140,13 +140,13 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     const [flight, time] = title.split(' ');
     
     const Avatar = () => {
-        const iconProps = { className: "w-3 h-3 text-black dark:text-white" };
+        const iconProps = { className: "w-3 h-3 text-black dark:text-white group-hover:text-white dark:group-hover:text-white" };
         return <User {...iconProps} />;
     };
     
     const PassengerItem = ({ passenger }: { passenger: Passenger }) => {
         const content = (
-            <div className="flex items-center gap-1.5 text-left hover:bg-white/20 p-1 rounded-md transition-colors w-full">
+            <div className="group flex items-center gap-1.5 text-left hover:bg-black dark:hover:bg-white/20 p-1 rounded-md transition-colors w-full">
                 <Avatar />
                 <span className="font-normal">{passenger.name}:</span>
                 <span>{passenger.seat}</span>
@@ -188,12 +188,12 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span>{flight}</span>
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
-            <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px] dark:hover:text-white hover:text-white">
                 {passengers.slice(0, -2).map((p) => (
                     <PassengerItem key={p.name} passenger={p} />
                 ))}
             </div>
-            <div className="grid grid-cols-1 place-items-center justify-center pt-1.5 pb-1.5">
+            <div className="grid grid-cols-1 place-items-center justify-center pt-1.5 pb-1.5 text-black dark:text-white text-[12px] dark:hover:text-white hover:text-white">
                 {passengers.slice(-2).map((p) => (
                      <div key={p.name} className="flex justify-center">
                         <PassengerItem passenger={p} />

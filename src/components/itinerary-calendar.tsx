@@ -146,7 +146,10 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
     
     const PassengerItem = ({ passenger }: { passenger: Passenger }) => {
         const content = (
-            <div className="group flex items-center gap-1.5 text-left hover:bg-black dark:hover:bg-white/20 p-1 rounded-md transition-colors w-full">
+            <div className={cn(
+                "group flex items-center gap-1.5 text-left p-1 rounded-md transition-colors w-full",
+                 passenger.boardingPassUrl && "hover:bg-black dark:hover:bg-white/20"
+            )}>
                 <Avatar />
                 <span className="font-normal">{passenger.name}:</span>
                 <span>{passenger.seat}</span>
@@ -162,7 +165,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <DialogTrigger asChild>
                     <button className="w-full">{content}</button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="bg-background">
                     <DialogHeader>
                         <DialogTitle>Boarding Pass: {passenger.name}</DialogTitle>
                     </DialogHeader>
@@ -330,3 +333,4 @@ export default ItineraryCalendar;
 
 
     
+

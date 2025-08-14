@@ -33,11 +33,11 @@ type ItineraryCalendarProps = {
 };
 
 const departurePassengers: Passenger[] = [
-    { name: 'Tony', seat: '31D', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Tony', seat: '31D', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/tony.jpeg?alt=media&token=c21d1bfe-a57b-4296-b487-a2f946d8a2d8' },
     { name: 'LyLy', seat: '31E', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Benjamin', seat: '31B', avatar: 'child', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Benjamin', seat: '31B', avatar: 'child', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/benjamin.jpeg?alt=media&token=f6272d2b-7fd2-439e-a991-b63e349116b3' },
     { name: 'Ryan', seat: '31C', avatar: 'child', boardingPassUrl: 'https://placehold.co/400x600.png' },
-    { name: 'Vanna', seat: '31F', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
+    { name: 'Vanna', seat: '31F', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/vanna.jpeg?alt=media&token=5f96dadd-9d57-4286-a274-56bca685b5dd' },
     { name: 'Roth', seat: '30E', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
     { name: 'Navin', seat: '30F', avatar: 'male', boardingPassUrl: 'https://placehold.co/400x600.png' },
     { name: 'Lim', seat: '26D', avatar: 'female', boardingPassUrl: 'https://placehold.co/400x600.png' },
@@ -193,7 +193,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                     <PassengerItem key={p.name} passenger={p} />
                 ))}
             </div>
-            <div className="grid grid-cols-1 pt-1.5 pb-1.5">
+            <div className="grid grid-cols-1 justify-center pt-1.5 pb-1.5">
                 {passengers.slice(-2).map((p) => (
                      <div key={p.name} className="flex justify-center">
                         <PassengerItem passenger={p} />

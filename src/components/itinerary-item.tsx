@@ -93,7 +93,7 @@ export default function ItineraryItem({ activity, onUpdateActivity, onDeleteActi
           <DialogTrigger asChild>
              <div className="cursor-pointer" onClick={() => setDetailViewOpen(true)}>
                 <Card className={cn(
-                  "transition-all hover:shadow-md bg-card/60 border-0 rounded-3xl",
+                  "transition-all hover:shadow-md bg-card/60 border-0 rounded-[35px]",
                   "hover:bg-card/100 focus:bg-card/100 border-white"
                    
                 )}>

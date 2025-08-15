@@ -198,7 +198,7 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span>{flight}</span>
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
-             <div className="text-[10px] space-y-1 mb-2 flex flex-col items-center pb-[20px]">
+             <div className="text-[10px] space-y-1 mb-2 flex flex-col items-start px-4 pb-[20px]">
                 <InfoRow icon={<Ticket className="w-3 h-3"/>} value="Frontier: 3974" />
                 <InfoRow icon={<FileCheck className="w-3 h-3"/>} value="NU: 6650800271NU" />
                 <InfoRow icon={<Car className="w-3 h-3"/>} value="Avis: 40074622US0" />
@@ -356,5 +356,7 @@ export default ItineraryCalendar;
     
 
     
+
+
 
 

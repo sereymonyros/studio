@@ -198,11 +198,13 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
                 <span>{flight}</span>
                 <span className="text-xs text-muted-foreground">{time}</span>
             </h4>
-             <div className="text-[10px] space-y-1 mb-2 flex flex-col items-start px-4 pb-[20px]">
-                <InfoRow icon={<Ticket className="w-3 h-3"/>} value="Frontier: 3974" />
-                <InfoRow icon={<FileCheck className="w-3 h-3"/>} value="NU: 6650800271NU" />
-                <InfoRow icon={<Car className="w-3 h-3"/>} value="Avis: 40074622US0" />
-                <InfoRow icon={<Car className="w-3 h-3"/>} value="Budget: 29239412US6" />
+            <div className="text-[10px] space-y-1 mb-2 flex flex-col items-center pb-[20px]">
+                <div className="flex flex-col items-start">
+                    <InfoRow icon={<Ticket className="w-3 h-3"/>} value="Frontier: 3974" />
+                    <InfoRow icon={<FileCheck className="w-3 h-3"/>} value="NU: 6650800271NU" />
+                    <InfoRow icon={<Car className="w-3 h-3"/>} value="Avis: 40074622US0" />
+                    <InfoRow icon={<Car className="w-3 h-3"/>} value="Budget: 29239412US6" />
+                </div>
             </div>
             <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white text-[12px]">
                 {passengers.slice(0, -2).map((p) => (
@@ -356,6 +358,7 @@ export default ItineraryCalendar;
     
 
     
+
 
 
 

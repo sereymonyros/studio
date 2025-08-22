@@ -47,17 +47,17 @@ const departurePassengers: Passenger[] = [
   ];
 
 const returnPassengers: Passenger[] = [
-    { name: 'Tony', seat: '31E', avatar: 'male' },
-    { name: 'LyLy', seat: '31B', avatar: 'female' },
+    { name: 'Tony', seat: '31E', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/tony.jpeg?alt=media&token=c8348e08-5e6c-4171-a738-22036f068893' },
+    { name: 'LyLy', seat: '31B', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/lyly.jpeg?alt=media&token=493b7605-f8d3-4dc9-9b18-725c87fa3d8f' },
     { name: 'Benjamin', seat: '31D', avatar: 'child', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/benjamin.jpeg?alt=media&token=640cd7df-9033-4721-90f8-f80880537ef6' },
-    { name: 'Ryan', seat: '31F', avatar: 'child' },
-    { name: 'Vanna', seat: '31C', avatar: 'female' },
-    { name: 'Roth', seat: '30E', avatar: 'male' },
-    { name: 'Navin', seat: '30B', avatar: 'male' },
-    { name: 'Lim', seat: '30A', avatar: 'female' },
-    { name: 'Nhok', seat: '30E', avatar: 'male' },
-    { name: 'Master Lee', seat: '30D', avatar: 'male' },
-    { name: 'Lord Ren', seat: '3C', avatar: 'male' },
+    { name: 'Ryan', seat: '31F', avatar: 'child', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/ryan.jpeg?alt=media&token=15989605-f51c-457c-b988-34e5023ee180' },
+    { name: 'Vanna', seat: '31C', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/benjamin.jpeg?alt=media&token=640cd7df-9033-4721-90f8-f80880537ef6' },
+    { name: 'Roth', seat: '30E', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/roth.jpeg?alt=media&token=7fb8f42a-66d3-4d73-a6f4-8066785712c0' },
+    { name: 'Navin', seat: '30B', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/navin.jpeg?alt=media&token=b1db0165-b6f6-46d6-82fb-28eb490953ff' },
+    { name: 'Lim', seat: '30A', avatar: 'female', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/lim.jpeg?alt=media&token=a0482dc7-c222-4ce6-80b5-b456fc45431e' },
+    { name: 'Nhok', seat: '30E', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/navin.jpeg?alt=media&token=b1db0165-b6f6-46d6-82fb-28eb490953ff' },
+    { name: 'Master Lee', seat: '30D', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/sieng.jpeg?alt=media&token=22f592f6-a01b-4171-96fb-b10ab907bd63' },
+    { name: 'Lord Ren', seat: '3C', avatar: 'male', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/ren.jpeg?alt=media&token=ed36b6db-d734-4c4a-aabf-d525d7c9941c' }
 ];
 
 const useDailyRandomTemperature = (dateKey: string) => {
@@ -200,9 +200,9 @@ const ItineraryCalendar: FC<ItineraryCalendarProps> = ({ activities, onAddActivi
             </h4>
             <div className="text-[10px] space-y-1 mb-2 flex flex-col items-center pb-[20px]">
                 <div className="flex flex-col items-start">
-                    <InfoRow icon={<Ticket className="w-3 h-3"/>} value="Frontier: 3974" />
-                    <InfoRow icon={<FileCheck className="w-3 h-3"/>} value="NU: 6650800271NU" />
-                    <InfoRow icon={<Car className="w-3 h-3"/>} value="Avis: 40074622US0" />
+                    <InfoRow icon={<Ticket className="w-3 h-3"/>} value="Frontier: F91723" />
+                    <InfoRow icon={<FileCheck className="w-3 h-3"/>} value="Terminal: 3" />
+                    <InfoRow icon={<Car className="w-3 h-3"/>} value="Gate: F2" />
                     <InfoRow icon={<Car className="w-3 h-3"/>} value="Budget: 29239412US6" />
                 </div>
             </div>
@@ -297,7 +297,7 @@ const Weather = ({ dateKey, lang, t }: { dateKey: string; lang: Language, t: Tra
                 </div>
                 
                 <div className="flex-grow space-y-2 mt-2 flex flex-col justify-center">
-                  {isStartFlightDay && <div className="mb-2"><FlightInfo title="SEA-PHX 11:00-3:00PM" passengers={departurePassengers} /></div>}
+                   <div className="mb-2"><FlightInfo title="SEA-PHX 11:00-3:00PM" passengers={departurePassengers} /></div>
 
                   {dayActivities.map(activity => (
                     <ItineraryItem 

@@ -49,7 +49,7 @@ const departurePassengers: Passenger[] = [
 const returnPassengers: Passenger[] = [
     { name: 'Tony', seat: '31E', avatar: 'male' },
     { name: 'LyLy', seat: '31B', avatar: 'female' },
-    { name: 'Benjamin', seat: '31D', avatar: 'child' },
+    { name: 'Benjamin', seat: '31D', avatar: 'child', boardingPassUrl: 'https://firebasestorage.googleapis.com/v0/b/astral-web-460708-r4.firebasestorage.app/o/benjamin.jpeg?alt=media&token=640cd7df-9033-4721-90f8-f80880537ef6' },
     { name: 'Ryan', seat: '31F', avatar: 'child' },
     { name: 'Vanna', seat: '31C', avatar: 'female' },
     { name: 'Roth', seat: '30E', avatar: 'male' },
@@ -358,6 +358,7 @@ export default ItineraryCalendar;
     
 
     
+
 
 
 
